@@ -1,0 +1,358 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+	/* Existing node colors */
+	--color-admission: #3b82f6;
+	--color-drug: #10b981;
+	--color-finding: #f59e0b;
+	--color-task: #8b5cf6;
+	--color-note: #6b7280;
+	--color-history: #06b6d4;
+	--color-canvas-bg: #0f172a;
+	--color-card-bg: #1e293b;
+
+	/* Cyberpunk Neon Palette */
+	--neon-cyan: #06b6d4;
+	--neon-cyan-glow: rgba(6, 182, 212, 0.6);
+	--neon-purple: #a855f7;
+	--neon-purple-glow: rgba(168, 85, 247, 0.6);
+	--neon-pink: #ec4899;
+	--neon-pink-glow: rgba(236, 72, 153, 0.6);
+	--neon-orange: #f97316;
+	--neon-orange-glow: rgba(249, 115, 22, 0.6);
+	--neon-green: #22c55e;
+	--neon-green-glow: rgba(34, 197, 94, 0.6);
+	--neon-blue: #3b82f6;
+	--neon-blue-glow: rgba(59, 130, 246, 0.6);
+	--neon-red: #ef4444;
+	--neon-red-glow: rgba(239, 68, 68, 0.6);
+	--neon-amber: #f59e0b;
+	--neon-amber-glow: rgba(245, 158, 11, 0.6);
+
+	/* Glass morphism backgrounds */
+	--bg-glass: rgba(15, 23, 42, 0.75);
+	--bg-glass-hover: rgba(30, 41, 59, 0.85);
+	--bg-glass-solid: rgba(15, 23, 42, 0.95);
+	--border-glass: rgba(71, 85, 105, 0.4);
+	--border-glow: rgba(59, 130, 246, 0.4);
+
+	/* Task category colors */
+	--task-lab: #a855f7;
+	--task-imaging: #06b6d4;
+	--task-consult: #22c55e;
+	--task-medication: #f59e0b;
+	--task-procedure: #f43f5e;
+	--task-documentation: #3b82f6;
+	--task-general: #64748b;
+
+	/* Priority colors */
+	--priority-urgent: #ef4444;
+	--priority-high: #f97316;
+	--priority-normal: #3b82f6;
+	--priority-low: #6b7280;
+}
+
+html,
+body {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	font-family:
+		-apple-system,
+		BlinkMacSystemFont,
+		'Segoe UI',
+		Roboto,
+		Oxygen,
+		Ubuntu,
+		Cantarell,
+		'Fira Sans',
+		'Droid Sans',
+		'Helvetica Neue',
+		sans-serif;
+	background-color: var(--color-canvas-bg);
+	color: #f8fafc;
+	font-size: 16px;
+	line-height: 1.5;
+}
+
+/* Ensure all interactive elements have minimum touch targets */
+button,
+a,
+[role='button'],
+input[type='checkbox'],
+input[type='radio'] {
+	min-height: 44px;
+	min-width: 44px;
+}
+
+/* Focus states for accessibility */
+:focus-visible {
+	outline: 2px solid #3b82f6;
+	outline-offset: 2px;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+	}
+}
+
+/* ============================================================================
+   Cyberpunk Animations - Global Styles
+   ============================================================================ */
+
+/* Glitch Eject Animation - Materialize Out */
+@keyframes glitch-eject {
+	0% {
+		transform: translate(0, 0) scale(1);
+		filter: blur(0) brightness(1);
+		clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+		opacity: 1;
+	}
+	5% {
+		filter: blur(2px) brightness(1.5);
+		clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%);
+	}
+	10% {
+		transform: translate(2px, -2px) scale(1.02);
+		clip-path: polygon(0 40%, 100% 40%, 100% 100%, 0 100%);
+	}
+	15% {
+		filter: blur(1px) brightness(1.2);
+		clip-path: polygon(0 20%, 100% 20%, 100% 70%, 0 70%);
+	}
+	20% {
+		transform: translate(-3px, 1px) scale(1);
+		filter: blur(3px) brightness(1.8);
+		clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+	}
+	30% {
+		transform: scale(0.95);
+		filter: blur(1px) brightness(1.3);
+	}
+	50% {
+		transform: scale(0.9);
+		filter: blur(0) brightness(1.1);
+		opacity: 0.9;
+	}
+	70% {
+		filter: blur(0) brightness(1);
+		transform: scale(0.95);
+	}
+	100% {
+		transform: scale(1);
+		filter: blur(0) brightness(1);
+		clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+		opacity: 1;
+	}
+}
+
+.node-glitch-eject {
+	animation: glitch-eject 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+	will-change: transform, filter, clip-path, opacity;
+}
+
+/* Glitch Return Animation - Dematerialize Back */
+@keyframes glitch-return {
+	0% {
+		transform: translate(0, 0) scale(1);
+		filter: blur(0) brightness(1);
+		opacity: 1;
+	}
+	10% {
+		filter: blur(1px) brightness(1.3);
+	}
+	20% {
+		transform: translate(2px, -1px) scale(0.98);
+		filter: blur(2px) brightness(1.5);
+		clip-path: polygon(0 0, 100% 0, 100% 40%, 0 40%);
+	}
+	30% {
+		clip-path: polygon(0 60%, 100% 60%, 100% 100%, 0 100%);
+		filter: blur(3px) brightness(2);
+	}
+	40% {
+		transform: scale(0.9);
+		clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+		filter: blur(2px) brightness(1.5);
+		opacity: 0.8;
+	}
+	60% {
+		transform: scale(0.8);
+		filter: blur(1px);
+		opacity: 0.5;
+	}
+	80% {
+		transform: scale(0.6);
+		opacity: 0.2;
+	}
+	100% {
+		transform: scale(0.3);
+		filter: blur(4px) brightness(2);
+		opacity: 0;
+	}
+}
+
+.node-glitch-return {
+	animation: glitch-return 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+	will-change: transform, filter, opacity;
+}
+
+/* Materialize Animation - Appears from nothing */
+@keyframes node-materialize {
+	0% {
+		transform: scale(0.3);
+		filter: blur(10px) brightness(2);
+		opacity: 0;
+	}
+	20% {
+		filter: blur(6px) brightness(1.8);
+		clip-path: polygon(0 0, 100% 0, 100% 30%, 0 30%);
+	}
+	40% {
+		transform: scale(0.8);
+		filter: blur(3px) brightness(1.4);
+		clip-path: polygon(0 70%, 100% 70%, 100% 100%, 0 100%);
+		opacity: 0.6;
+	}
+	60% {
+		clip-path: polygon(0 20%, 100% 20%, 100% 80%, 0 80%);
+		filter: blur(1px) brightness(1.2);
+		opacity: 0.8;
+	}
+	80% {
+		transform: scale(1.05);
+		filter: blur(0);
+		clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+	}
+	100% {
+		transform: scale(1);
+		filter: blur(0) brightness(1);
+		clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+		opacity: 1;
+	}
+}
+
+.node-materialize {
+	animation: node-materialize 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+	will-change: transform, filter, clip-path, opacity;
+}
+
+/* Dematerialize Animation - Fades to nothing */
+@keyframes node-dematerialize {
+	0% {
+		transform: scale(1);
+		filter: blur(0) brightness(1);
+		opacity: 1;
+	}
+	30% {
+		filter: blur(2px) brightness(1.5);
+		clip-path: polygon(0 0, 100% 0, 100% 50%, 0 50%);
+	}
+	50% {
+		transform: scale(0.9);
+		clip-path: polygon(0 50%, 100% 50%, 100% 100%, 0 100%);
+	}
+	70% {
+		filter: blur(5px) brightness(2);
+		opacity: 0.4;
+	}
+	100% {
+		transform: scale(0.5);
+		filter: blur(10px) brightness(3);
+		opacity: 0;
+	}
+}
+
+.node-dematerialize {
+	animation: node-dematerialize 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+	will-change: transform, filter, clip-path, opacity;
+}
+
+/* Digital Glow Effect */
+.digital-glow {
+	box-shadow:
+		0 0 5px var(--glow-color, rgba(59, 130, 246, 0.5)),
+		0 0 10px var(--glow-color, rgba(59, 130, 246, 0.3)),
+		0 0 20px var(--glow-color, rgba(59, 130, 246, 0.2));
+	animation: pulse-glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes pulse-glow {
+	0% {
+		box-shadow:
+			0 0 5px var(--glow-color, rgba(59, 130, 246, 0.5)),
+			0 0 10px var(--glow-color, rgba(59, 130, 246, 0.3)),
+			0 0 20px var(--glow-color, rgba(59, 130, 246, 0.2));
+	}
+	100% {
+		box-shadow:
+			0 0 10px var(--glow-color, rgba(59, 130, 246, 0.7)),
+			0 0 20px var(--glow-color, rgba(59, 130, 246, 0.5)),
+			0 0 30px var(--glow-color, rgba(59, 130, 246, 0.3));
+	}
+}
+
+/* Dragging state styles */
+.dragging,
+[draggable="true"]:active {
+	cursor: grabbing !important;
+	opacity: 0.8;
+}
+
+[draggable="true"] {
+	cursor: grab;
+}
+
+/* Resize handle global styling for svelte-flow - base styles only, no !important to allow component overrides */
+.svelte-flow__resize-control {
+	transition: all 0.2s ease;
+	z-index: 10;
+}
+
+.svelte-flow__resize-control:hover {
+	transform: scale(1.15);
+}
+
+/* Ensure nodes don't clip resize handles */
+.svelte-flow__node {
+	overflow: visible !important;
+}
+
+/* Disable hover transform during resize to prevent positioning issues */
+.svelte-flow__node.resizing {
+	transform: none !important;
+}
+
+/* Fix NodeResizer line positioning - ensure it wraps tightly around the node content */
+.svelte-flow .svelte-flow__node .svelte-flow__resize-control.line {
+	/* Reset any transforms that might offset the resize line */
+	box-sizing: border-box;
+}
+
+/* Ensure resize handles on right side align properly */
+.svelte-flow__resize-control.handle.right,
+.svelte-flow__resize-control.handle.bottom-right,
+.svelte-flow__resize-control.handle.top-right {
+	/* Adjust right handle positioning */
+	margin-right: -1px;
+}
+
+/* Ensure the resize control line wraps the node content properly */
+.svelte-flow__resize-control.line.right {
+	right: 0 !important;
+}
+
+.svelte-flow__resize-control.line.bottom {
+	bottom: 0 !important;
+}

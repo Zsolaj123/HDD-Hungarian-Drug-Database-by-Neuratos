@@ -1,0 +1,140 @@
+{
+  "meta": {
+    "version": "1.0.0",
+    "createdAt": "2025-12-18",
+    "description": "Default clinical specialty BNO groups for quick access"
+  },
+  "groups": [
+    {
+      "id": "ms-comorbidities",
+      "name": "SM + Komorbiditások",
+      "nameEn": "MS + Comorbidities",
+      "description": "Sclerosis multiplex és gyakori társbetegségek",
+      "icon": "Brain",
+      "codes": [
+        "G35", "G35H0", "G35H1", "G35H2", "G35H3",
+        "F32", "F33",
+        "G89",
+        "R25",
+        "N39",
+        "H46",
+        "G43", "G44"
+      ],
+      "isDefault": true,
+      "specialty": "neurology",
+      "sortOrder": 1
+    },
+    {
+      "id": "neurology",
+      "name": "Neurológiai",
+      "nameEn": "Neurological",
+      "description": "Az idegrendszer összes betegsége",
+      "icon": "Activity",
+      "codes": ["G*"],
+      "isDefault": true,
+      "specialty": "neurology",
+      "sortOrder": 2
+    },
+    {
+      "id": "cerebrovascular",
+      "name": "Cerebrovaszkuláris",
+      "nameEn": "Cerebrovascular",
+      "description": "Agyi érrendszeri betegségek (stroke, TIA)",
+      "icon": "Heart",
+      "codes": ["I60", "I61", "I62", "I63", "I64", "I65", "I66", "I67", "I68", "I69"],
+      "isDefault": true,
+      "specialty": "neurology",
+      "sortOrder": 3
+    },
+    {
+      "id": "autoimmune",
+      "name": "Autoimmun",
+      "nameEn": "Autoimmune",
+      "description": "Autoimmun és kötőszöveti betegségek",
+      "icon": "Shield",
+      "codes": [
+        "M05", "M06",
+        "M32", "M33", "M34", "M35",
+        "L40",
+        "K50", "K51"
+      ],
+      "isDefault": false,
+      "specialty": "rheumatology",
+      "sortOrder": 4
+    },
+    {
+      "id": "cardiac",
+      "name": "Kardiális",
+      "nameEn": "Cardiac",
+      "description": "Szív- és keringési betegségek",
+      "icon": "HeartPulse",
+      "codes": [
+        "I10", "I11", "I12", "I13", "I14", "I15",
+        "I20", "I21", "I22", "I23", "I24", "I25",
+        "I50"
+      ],
+      "isDefault": false,
+      "specialty": "cardiology",
+      "sortOrder": 5
+    },
+    {
+      "id": "diabetes",
+      "name": "Diabetes",
+      "nameEn": "Diabetes",
+      "description": "Diabetes mellitus és szövődményei",
+      "icon": "Droplet",
+      "codes": ["E10", "E11", "E12", "E13", "E14"],
+      "isDefault": false,
+      "specialty": "endocrinology",
+      "sortOrder": 6
+    },
+    {
+      "id": "psychiatric",
+      "name": "Pszichiátriai",
+      "nameEn": "Psychiatric",
+      "description": "Mentális és viselkedészavarok",
+      "icon": "Brain",
+      "codes": [
+        "F20", "F21", "F22", "F23", "F24", "F25",
+        "F30", "F31", "F32", "F33", "F34",
+        "F40", "F41", "F42", "F43", "F44", "F45", "F48"
+      ],
+      "isDefault": false,
+      "specialty": "psychiatry",
+      "sortOrder": 7
+    },
+    {
+      "id": "epilepsy",
+      "name": "Epilepszia",
+      "nameEn": "Epilepsy",
+      "description": "Epilepszia és görcsös betegségek",
+      "icon": "Zap",
+      "codes": ["G40", "G41"],
+      "isDefault": false,
+      "specialty": "neurology",
+      "sortOrder": 8
+    },
+    {
+      "id": "movement-disorders",
+      "name": "Mozgászavarok",
+      "nameEn": "Movement Disorders",
+      "description": "Parkinson-kór és egyéb mozgászavarok",
+      "icon": "Move",
+      "codes": ["G20", "G21", "G22", "G23", "G24", "G25", "G26"],
+      "isDefault": false,
+      "specialty": "neurology",
+      "sortOrder": 9
+    },
+    {
+      "id": "dementia",
+      "name": "Demencia",
+      "nameEn": "Dementia",
+      "description": "Kognitív hanyatlás és demenciák",
+      "icon": "Brain",
+      "codes": ["F00", "F01", "F02", "F03", "G30", "G31"],
+      "isDefault": false,
+      "specialty": "neurology",
+      "sortOrder": 10
+    }
+  ]
+}

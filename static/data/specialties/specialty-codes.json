@@ -1,0 +1,1633 @@
+{
+  "meta": {
+    "source": "NEAK pupha_kozos.mdb SZAKVKODOK",
+    "extractedAt": "2025-12-19T01:08:21.348Z",
+    "totalSpecialties": 152,
+    "description": "Medical specialty codes for drug prescribing eligibility"
+  },
+  "specialties": {
+    "1": {
+      "id": "1",
+      "code": 0,
+      "name": "Megkötés nélkül",
+      "shortName": "Megkötés",
+      "category": "general",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "54215": {
+      "id": "54215",
+      "code": 131,
+      "name": "Anaesthesiológia-intenzív terápia",
+      "shortName": "Aneszteziológia",
+      "category": "emergency",
+      "icon": "Syringe",
+      "equivalentId": null
+    },
+    "54216": {
+      "id": "54216",
+      "code": 208,
+      "name": "Arc-állcsont-szájsebészet",
+      "shortName": "Szájsebészet",
+      "category": "surgery",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "54217": {
+      "id": "54217",
+      "code": 134,
+      "name": "Belgyógyászat",
+      "shortName": "Belgyógyászat",
+      "category": "internal",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "54218": {
+      "id": "54218",
+      "code": 135,
+      "name": "Bőrgyógyászat",
+      "shortName": "Bőrgyógyászat",
+      "category": "dermatology",
+      "icon": "Scan",
+      "equivalentId": null
+    },
+    "54219": {
+      "id": "54219",
+      "code": 136,
+      "name": "Csecsemő-gyermekgyógyászat",
+      "shortName": "Gyermekgyógyászat",
+      "category": "pediatrics",
+      "icon": "Baby",
+      "equivalentId": null
+    },
+    "54220": {
+      "id": "54220",
+      "code": 1059,
+      "name": "Fizikális medicina",
+      "shortName": "Fizikális",
+      "category": "rehabilitation",
+      "icon": "Stethoscope",
+      "equivalentId": 252
+    },
+    "54221": {
+      "id": "54221",
+      "code": 1073,
+      "name": "Foglalkozás-orvostan (üzemorvostan)",
+      "shortName": "Foglalkozás-orvostan",
+      "category": "general",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "54222": {
+      "id": "54222",
+      "code": 6,
+      "name": "Fül-orr-gégegyógyászat",
+      "shortName": "Fül-orr-gége",
+      "category": "otolaryngology",
+      "icon": "Ear",
+      "equivalentId": null
+    },
+    "54223": {
+      "id": "54223",
+      "code": 7,
+      "name": "Gastroenterológia",
+      "shortName": "Gastroenterológia",
+      "category": "internal",
+      "icon": "Utensils",
+      "equivalentId": null
+    },
+    "54224": {
+      "id": "54224",
+      "code": 191,
+      "name": "Geriátria",
+      "shortName": "Geriátria",
+      "category": "internal",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "54225": {
+      "id": "54225",
+      "code": 189,
+      "name": "Gyermek- és ifjúsági pszichiátria",
+      "shortName": "Gyermek-",
+      "category": "psychiatry",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "54226": {
+      "id": "54226",
+      "code": 12,
+      "name": "Gyermeksebészet",
+      "shortName": "Gyermeksebészet",
+      "category": "pediatrics",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "54227": {
+      "id": "54227",
+      "code": 58,
+      "name": "Háziorvostan",
+      "shortName": "Háziorvostan",
+      "category": "general",
+      "icon": "Home",
+      "equivalentId": null
+    },
+    "54229": {
+      "id": "54229",
+      "code": 59,
+      "name": "Honvédorvostan-katasztrófaorvostan",
+      "shortName": "Katasztrófaorvostan",
+      "category": "other",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "54230": {
+      "id": "54230",
+      "code": 16,
+      "name": "Idegsebészet",
+      "shortName": "Idegsebészet",
+      "category": "neurology",
+      "icon": "Brain",
+      "equivalentId": null
+    },
+    "54231": {
+      "id": "54231",
+      "code": 14,
+      "name": "Igazságügyi orvostan",
+      "shortName": "Igazságügyi",
+      "category": "pathology",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "54232": {
+      "id": "54232",
+      "code": 194,
+      "name": "Infektológia",
+      "shortName": "Infektológia",
+      "category": "internal",
+      "icon": "Bug",
+      "equivalentId": null
+    },
+    "54233": {
+      "id": "54233",
+      "code": 19,
+      "name": "Kardiológia",
+      "shortName": "Kardiológia",
+      "category": "cardiology",
+      "icon": "Heart",
+      "equivalentId": null
+    },
+    "54234": {
+      "id": "54234",
+      "code": 185,
+      "name": "Megelőző orvostan és népegészségtan (általános orvos)",
+      "shortName": "Népegészségtan",
+      "category": "general",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "54235": {
+      "id": "54235",
+      "code": 31,
+      "name": "Neurológia",
+      "shortName": "Neurológia",
+      "category": "neurology",
+      "icon": "Brain",
+      "equivalentId": null
+    },
+    "54236": {
+      "id": "54236",
+      "code": 1093,
+      "name": "Nukleáris medicina",
+      "shortName": "Nukleáris",
+      "category": "radiology",
+      "icon": "Atom",
+      "equivalentId": 143
+    },
+    "54237": {
+      "id": "54237",
+      "code": 206,
+      "name": "Ortopédia-traumatológia",
+      "shortName": "Ortopédia",
+      "category": "surgery",
+      "icon": "Bone",
+      "equivalentId": null
+    },
+    "54238": {
+      "id": "54238",
+      "code": 182,
+      "name": "Orvosi laboratóriumi diagnosztika",
+      "shortName": "Labordiagnosztika",
+      "category": "laboratory",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "54239": {
+      "id": "54239",
+      "code": 35,
+      "name": "Orvosi mikrobiológia (általános orvos)",
+      "shortName": "Mikrobiológia",
+      "category": "general",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "54240": {
+      "id": "54240",
+      "code": 1067,
+      "name": "Oxyológia és sürgősségi orvostan",
+      "shortName": "Sürgősségi",
+      "category": "emergency",
+      "icon": "Ambulance",
+      "equivalentId": null
+    },
+    "54241": {
+      "id": "54241",
+      "code": 193,
+      "name": "Patológia",
+      "shortName": "Patológia",
+      "category": "pathology",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "54242": {
+      "id": "54242",
+      "code": 38,
+      "name": "Pszichiátria",
+      "shortName": "Pszichiátria",
+      "category": "psychiatry",
+      "icon": "Brain",
+      "equivalentId": null
+    },
+    "54243": {
+      "id": "54243",
+      "code": 39,
+      "name": "Radiológia",
+      "shortName": "Radiológia",
+      "category": "radiology",
+      "icon": "ScanLine",
+      "equivalentId": null
+    },
+    "54244": {
+      "id": "54244",
+      "code": 40,
+      "name": "Repülőorvostan",
+      "shortName": "Repülőorvostan",
+      "category": "general",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "54245": {
+      "id": "54245",
+      "code": 41,
+      "name": "Reumatológia",
+      "shortName": "Reumatológia",
+      "category": "internal",
+      "icon": "Shield",
+      "equivalentId": null
+    },
+    "54246": {
+      "id": "54246",
+      "code": 42,
+      "name": "Sebészet",
+      "shortName": "Sebészet",
+      "category": "surgery",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "54247": {
+      "id": "54247",
+      "code": 32,
+      "name": "Sugártherápia",
+      "shortName": "Sugártherápia",
+      "category": "radiology",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "54248": {
+      "id": "54248",
+      "code": 46,
+      "name": "Szemészet",
+      "shortName": "Szemészet",
+      "category": "ophthalmology",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "54249": {
+      "id": "54249",
+      "code": 47,
+      "name": "Szívsebészet",
+      "shortName": "Szívsebészet",
+      "category": "cardiology",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "54250": {
+      "id": "54250",
+      "code": 48,
+      "name": "Szülészet-nőgyógyászat",
+      "shortName": "Szülészet-nőgyógyászat",
+      "category": "ophthalmology",
+      "icon": "Eye",
+      "equivalentId": null
+    },
+    "54251": {
+      "id": "54251",
+      "code": 50,
+      "name": "Transfuziológia",
+      "shortName": "Transfuziológia",
+      "category": "obstetrics",
+      "icon": "Pill",
+      "equivalentId": null
+    },
+    "54252": {
+      "id": "54252",
+      "code": 53,
+      "name": "Tüdőgyógyászat",
+      "shortName": "Tüdőgyógyászat",
+      "category": "internal",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "54253": {
+      "id": "54253",
+      "code": 54,
+      "name": "Urológia",
+      "shortName": "Urológia",
+      "category": "surgery",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "54254": {
+      "id": "54254",
+      "code": 56,
+      "name": "Addiktológia",
+      "shortName": "Addiktológia",
+      "category": "psychiatry",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "54255": {
+      "id": "54255",
+      "code": 21,
+      "name": "Allergológia és klinikai immunológia",
+      "shortName": "Allergológia",
+      "category": "internal",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "54256": {
+      "id": "54256",
+      "code": 214,
+      "name": "Andrológia",
+      "shortName": "Andrológia",
+      "category": "other",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "54257": {
+      "id": "54257",
+      "code": 132,
+      "name": "Audiológia",
+      "shortName": "Audiológia",
+      "category": "otolaryngology",
+      "icon": "Scale",
+      "equivalentId": null
+    },
+    "54258": {
+      "id": "54258",
+      "code": 174,
+      "name": "Cytopatológia",
+      "shortName": "Cytopatológia",
+      "category": "pathology",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "54259": {
+      "id": "54259",
+      "code": 137,
+      "name": "Csecsemő- és gyermek fül-orr-gégegyógyászat",
+      "shortName": "Csecsemő-",
+      "category": "pediatrics",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "54260": {
+      "id": "54260",
+      "code": 1084,
+      "name": "Csecsemő- és gyermekgyógyászati intenzív terápia",
+      "shortName": "Csecsemő-",
+      "category": "pediatrics",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "54261": {
+      "id": "54261",
+      "code": 138,
+      "name": "Csecsemő és gyermek kardiológia",
+      "shortName": "Csecsemő",
+      "category": "cardiology",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "54262": {
+      "id": "54262",
+      "code": 213,
+      "name": "Egészségbiztosítás",
+      "shortName": "Egészségbiztosítás",
+      "category": "other",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "54263": {
+      "id": "54263",
+      "code": 139,
+      "name": "Endokrinológia",
+      "shortName": "Endokrinológia",
+      "category": "internal",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "54264": {
+      "id": "54264",
+      "code": 1,
+      "name": "Érsebészet",
+      "shortName": "Érsebészet",
+      "category": "cardiology",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "54265": {
+      "id": "54265",
+      "code": 57,
+      "name": "Fizioterápia",
+      "shortName": "Fizioterápia",
+      "category": "rehabilitation",
+      "icon": "Stethoscope",
+      "equivalentId": 252
+    },
+    "54266": {
+      "id": "54266",
+      "code": 5,
+      "name": "Foniátria",
+      "shortName": "Foniátria",
+      "category": "other",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "54267": {
+      "id": "54267",
+      "code": 175,
+      "name": "Gyermek gasztroenterológia",
+      "shortName": "Gyermek",
+      "category": "internal",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "54268": {
+      "id": "54268",
+      "code": 8,
+      "name": "Gyermekneurológia",
+      "shortName": "Gyermekneurológia",
+      "category": "neurology",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "54269": {
+      "id": "54269",
+      "code": 9,
+      "name": "Gyermeknőgyógyászat",
+      "shortName": "Gyermeknőgyógyászat",
+      "category": "pediatrics",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "54270": {
+      "id": "54270",
+      "code": 176,
+      "name": "Gyermekradiológia",
+      "shortName": "Gyermekradiológia",
+      "category": "pediatrics",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "54271": {
+      "id": "54271",
+      "code": 177,
+      "name": "Gyermekszemészet",
+      "shortName": "Gyermekszemészet",
+      "category": "pediatrics",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "54272": {
+      "id": "54272",
+      "code": 11,
+      "name": "Gyermektüdőgyógyászat",
+      "shortName": "Gyermektüdőgyógyászat",
+      "category": "internal",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "54273": {
+      "id": "54273",
+      "code": 13,
+      "name": "Haematológia",
+      "shortName": "Haematológia",
+      "category": "internal",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "54274": {
+      "id": "54274",
+      "code": 15,
+      "name": "Igazságügyi pszichiátria (igazságügyi elmeorvostan)",
+      "shortName": "Igazságügyi",
+      "category": "psychiatry",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "54275": {
+      "id": "54275",
+      "code": 1090,
+      "name": "Intenzív terápia",
+      "shortName": "Intenzív",
+      "category": "emergency",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "54276": {
+      "id": "54276",
+      "code": 17,
+      "name": "Iskolaegészségtan és ifjúságvédelem",
+      "shortName": "Iskolaegészségtan",
+      "category": "other",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "54277": {
+      "id": "54277",
+      "code": 60,
+      "name": "Kézsebészet",
+      "shortName": "Kézsebészet",
+      "category": "surgery",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "54278": {
+      "id": "54278",
+      "code": 20,
+      "name": "Klinikai farmakológia",
+      "shortName": "Klinikai",
+      "category": "laboratory",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "54279": {
+      "id": "54279",
+      "code": 178,
+      "name": "Klinikai genetika",
+      "shortName": "Klinikai",
+      "category": "other",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "54280": {
+      "id": "54280",
+      "code": 1055,
+      "name": "Klinikai neurofiziológia",
+      "shortName": "Klinikai",
+      "category": "neurology",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "54281": {
+      "id": "54281",
+      "code": 23,
+      "name": "Klinikai onkológia",
+      "shortName": "Klinikai",
+      "category": "internal",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "54282": {
+      "id": "54282",
+      "code": 179,
+      "name": "Laboratóriumi haematológia és immunológia",
+      "shortName": "Laboratóriumi",
+      "category": "internal",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "54283": {
+      "id": "54283",
+      "code": 27,
+      "name": "Mellkassebészet",
+      "shortName": "Mellkassebészet",
+      "category": "surgery",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "54284": {
+      "id": "54284",
+      "code": 180,
+      "name": "Molekuláris genetikai diagnosztika",
+      "shortName": "Molekuláris",
+      "category": "other",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "54285": {
+      "id": "54285",
+      "code": 181,
+      "name": "Munkahigiéné (általános orvos)",
+      "shortName": "Munkahigiéné",
+      "category": "general",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "54286": {
+      "id": "54286",
+      "code": 30,
+      "name": "Nephrológia",
+      "shortName": "Nephrológia",
+      "category": "internal",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "54287": {
+      "id": "54287",
+      "code": 29,
+      "name": "Neonatológia",
+      "shortName": "Neonatológia",
+      "category": "pediatrics",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "54288": {
+      "id": "54288",
+      "code": 89,
+      "name": "Neuropatológia",
+      "shortName": "Neuropatológia",
+      "category": "neurology",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "54289": {
+      "id": "54289",
+      "code": 90,
+      "name": "Neuroradiológia",
+      "shortName": "Neuroradiológia",
+      "category": "neurology",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "54290": {
+      "id": "54290",
+      "code": 1052,
+      "name": "Orvosi rehabilitáció (csecsemő- gyermekgyógyászat)",
+      "shortName": "Orvosi",
+      "category": "pediatrics",
+      "icon": "Stethoscope",
+      "equivalentId": 252
+    },
+    "54291": {
+      "id": "54291",
+      "code": 1046,
+      "name": "Orvosi rehabilitáció (pszichiátria szakterület megjelölésével)",
+      "shortName": "Orvosi",
+      "category": "psychiatry",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "54292": {
+      "id": "54292",
+      "code": 37,
+      "name": "Plasztikai (égési) sebészet",
+      "shortName": "Plasztikai",
+      "category": "surgery",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "54293": {
+      "id": "54293",
+      "code": 62,
+      "name": "Pszichoterápia",
+      "shortName": "Pszichoterápia",
+      "category": "other",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "54294": {
+      "id": "54294",
+      "code": 43,
+      "name": "Sportorvostan",
+      "shortName": "Sportorvostan",
+      "category": "general",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "54295": {
+      "id": "54295",
+      "code": 1081,
+      "name": "Sugáregészségtan (általános orvos)",
+      "shortName": "Sugáregészségtan",
+      "category": "radiology",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "54296": {
+      "id": "54296",
+      "code": 52,
+      "name": "Trópusi betegségek",
+      "shortName": "Trópusi",
+      "category": "other",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "54298": {
+      "id": "54298",
+      "code": 10040,
+      "name": "Kijelölt szakorvos",
+      "shortName": "Kijelölt",
+      "category": "other",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "69956": {
+      "id": "69956",
+      "code": 1062,
+      "name": "fogorvos",
+      "shortName": "fogorvos",
+      "category": "other",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "69957": {
+      "id": "69957",
+      "code": 64,
+      "name": "Fog- és szájbetegségek (fogorvos)",
+      "shortName": "Fog-",
+      "category": "other",
+      "icon": "Stethoscope",
+      "equivalentId": 215
+    },
+    "69958": {
+      "id": "69958",
+      "code": 67,
+      "name": "Szájsebészet (fogorvos)",
+      "shortName": "Szájsebészet",
+      "category": "surgery",
+      "icon": "Stethoscope",
+      "equivalentId": 187
+    },
+    "69959": {
+      "id": "69959",
+      "code": 188,
+      "name": "Parodontológia",
+      "shortName": "Parodontológia",
+      "category": "other",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "69960": {
+      "id": "69960",
+      "code": 215,
+      "name": "Konzerváló fogászat és fogpótlástan",
+      "shortName": "Konzerváló",
+      "category": "other",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "69961": {
+      "id": "69961",
+      "code": 1001,
+      "name": "Gyermekfogászat",
+      "shortName": "Gyermekfogászat",
+      "category": "pediatrics",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "69962": {
+      "id": "69962",
+      "code": 66,
+      "name": "Fogszabályozás (fogorvos)",
+      "shortName": "Fogszabályozás",
+      "category": "other",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "69963": {
+      "id": "69963",
+      "code": 187,
+      "name": "Dento alveoláris sebészet",
+      "shortName": "Dento",
+      "category": "surgery",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "69964": {
+      "id": "69964",
+      "code": 133,
+      "name": "Általános orvostan",
+      "shortName": "Általános",
+      "category": "general",
+      "icon": "Stethoscope",
+      "equivalentId": 58
+    },
+    "69965": {
+      "id": "69965",
+      "code": 1061,
+      "name": "általános orvos",
+      "shortName": "általános",
+      "category": "general",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "71457": {
+      "id": "71457",
+      "code": 10041,
+      "name": "Illetékes szakorvos",
+      "shortName": "Illetékes",
+      "category": "other",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "75385": {
+      "id": "75385",
+      "code": 1069,
+      "name": "Aneszteziológia",
+      "shortName": "Aneszteziológia",
+      "category": "emergency",
+      "icon": "Stethoscope",
+      "equivalentId": 131
+    },
+    "75386": {
+      "id": "75386",
+      "code": 1082,
+      "name": "Baleseti sebészet (traumatológia)",
+      "shortName": "Baleseti",
+      "category": "surgery",
+      "icon": "Stethoscope",
+      "equivalentId": 51
+    },
+    "75387": {
+      "id": "75387",
+      "code": 1066,
+      "name": "Belbetegségek",
+      "shortName": "Belbetegségek",
+      "category": "other",
+      "icon": "Stethoscope",
+      "equivalentId": 134
+    },
+    "75388": {
+      "id": "75388",
+      "code": 1083,
+      "name": "Bőr-, nemibetegségek és kozmetológia",
+      "shortName": "Bőr-,",
+      "category": "dermatology",
+      "icon": "Stethoscope",
+      "equivalentId": 135
+    },
+    "75389": {
+      "id": "75389",
+      "code": 225,
+      "name": "Bőrgyógyászat (bőr-, nemibetegségek és kozmetológia)",
+      "shortName": "Bőrgyógyászat",
+      "category": "dermatology",
+      "icon": "Stethoscope",
+      "equivalentId": 135
+    },
+    "75390": {
+      "id": "75390",
+      "code": 1077,
+      "name": "Csecsemő- és gyermekbetegségek",
+      "shortName": "Csecsemő-",
+      "category": "pediatrics",
+      "icon": "Stethoscope",
+      "equivalentId": 136
+    },
+    "75391": {
+      "id": "75391",
+      "code": 165,
+      "name": "Egészségügyi szervezés",
+      "shortName": "Egészségügyi",
+      "category": "other",
+      "icon": "Stethoscope",
+      "equivalentId": 49
+    },
+    "75392": {
+      "id": "75392",
+      "code": 2,
+      "name": "Fertőző betegségek (higiénikus orvos)",
+      "shortName": "Fertőző",
+      "category": "other",
+      "icon": "Stethoscope",
+      "equivalentId": 194
+    },
+    "75393": {
+      "id": "75393",
+      "code": 3,
+      "name": "Fertőző betegségek (általános orvos)",
+      "shortName": "Fertőző",
+      "category": "general",
+      "icon": "Stethoscope",
+      "equivalentId": 194
+    },
+    "75394": {
+      "id": "75394",
+      "code": 4,
+      "name": "Fog- és szájbetegségek (általános orvos)",
+      "shortName": "Fog-",
+      "category": "general",
+      "icon": "Stethoscope",
+      "equivalentId": 215
+    },
+    "75395": {
+      "id": "75395",
+      "code": 1086,
+      "name": "Fogászati anaesthesiológia",
+      "shortName": "Fogászati",
+      "category": "emergency",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "75396": {
+      "id": "75396",
+      "code": 209,
+      "name": "Foglalkozásorvostan",
+      "shortName": "Foglalkozásorvostan",
+      "category": "general",
+      "icon": "Stethoscope",
+      "equivalentId": 1073
+    },
+    "75397": {
+      "id": "75397",
+      "code": 212,
+      "name": "Fogszabályozás (általános orvos)",
+      "shortName": "Fogszabályozás",
+      "category": "general",
+      "icon": "Stethoscope",
+      "equivalentId": 66
+    },
+    "75398": {
+      "id": "75398",
+      "code": 1087,
+      "name": "Fül-,orr-,torok- és gégebetegségek",
+      "shortName": "Fül-,orr-,torok-",
+      "category": "otolaryngology",
+      "icon": "Stethoscope",
+      "equivalentId": 6
+    },
+    "75399": {
+      "id": "75399",
+      "code": 231,
+      "name": "Gyermekfogászat és fogszabályozás",
+      "shortName": "Gyermekfogászat",
+      "category": "pediatrics",
+      "icon": "Stethoscope",
+      "equivalentId": 66
+    },
+    "75400": {
+      "id": "75400",
+      "code": 1095,
+      "name": "Gyermekpszichiátria és neurológia",
+      "shortName": "Gyermekpszichiátria",
+      "category": "neurology",
+      "icon": "Stethoscope",
+      "equivalentId": 189
+    },
+    "75401": {
+      "id": "75401",
+      "code": 10,
+      "name": "Gyermekpszichiátria",
+      "shortName": "Gyermekpszichiátria",
+      "category": "psychiatry",
+      "icon": "Stethoscope",
+      "equivalentId": 189
+    },
+    "75402": {
+      "id": "75402",
+      "code": 1088,
+      "name": "Húgy-és ivarszervi bántalmak (urológia)",
+      "shortName": "Húgy-és",
+      "category": "surgery",
+      "icon": "Stethoscope",
+      "equivalentId": 54
+    },
+    "75403": {
+      "id": "75403",
+      "code": 1089,
+      "name": "Igazságügyi elmeorvostan",
+      "shortName": "Igazságügyi",
+      "category": "pathology",
+      "icon": "Stethoscope",
+      "equivalentId": 15
+    },
+    "75404": {
+      "id": "75404",
+      "code": 18,
+      "name": "Izotópdiagnosztika",
+      "shortName": "Izotópdiagnosztika",
+      "category": "other",
+      "icon": "Stethoscope",
+      "equivalentId": 143
+    },
+    "75405": {
+      "id": "75405",
+      "code": 1091,
+      "name": "Klinikai immunológia és allergológia",
+      "shortName": "Klinikai",
+      "category": "internal",
+      "icon": "Stethoscope",
+      "equivalentId": 21
+    },
+    "75406": {
+      "id": "75406",
+      "code": 72,
+      "name": "Klinikai laboratóriumi vizsgálatok (higiénikus orvos)",
+      "shortName": "Klinikai",
+      "category": "laboratory",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "75407": {
+      "id": "75407",
+      "code": 22,
+      "name": "Klinikai laboratóriumi vizsgálatok (általános orvos)",
+      "shortName": "Klinikai",
+      "category": "general",
+      "icon": "Stethoscope",
+      "equivalentId": 182
+    },
+    "75408": {
+      "id": "75408",
+      "code": 24,
+      "name": "Kórbonctan-kórszövettan",
+      "shortName": "Kórbonctan-kórszövettan",
+      "category": "other",
+      "icon": "Stethoscope",
+      "equivalentId": 193
+    },
+    "75409": {
+      "id": "75409",
+      "code": 1092,
+      "name": "Kórbontani és kórszövettani vizsgálatok",
+      "shortName": "Kórbontani",
+      "category": "other",
+      "icon": "Stethoscope",
+      "equivalentId": 193
+    },
+    "75410": {
+      "id": "75410",
+      "code": 69,
+      "name": "Közegészségtan-járványtan (higiénikus orvos)",
+      "shortName": "Közegészségtan-járványtan",
+      "category": "other",
+      "icon": "Stethoscope",
+      "equivalentId": 185
+    },
+    "75411": {
+      "id": "75411",
+      "code": 25,
+      "name": "Közegészségtan-járványtan (általános orvos)",
+      "shortName": "Közegészségtan-járványtan",
+      "category": "general",
+      "icon": "Stethoscope",
+      "equivalentId": 185
+    },
+    "75412": {
+      "id": "75412",
+      "code": 26,
+      "name": "Közegészségügyi-járványügyi laboratóriumi vizsgálatok (általános orvos)",
+      "shortName": "Közegészségügyi-járványügyi",
+      "category": "general",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "75413": {
+      "id": "75413",
+      "code": 70,
+      "name": "Közegészségügyi-járványügyi laboratóriumi vizsgálatok (higiénikus orvos)",
+      "shortName": "Közegészségügyi-járványügyi",
+      "category": "laboratory",
+      "icon": "Stethoscope",
+      "equivalentId": 26
+    },
+    "75414": {
+      "id": "75414",
+      "code": 1096,
+      "name": "Megelőző orvostan és népegészségtan (higiénikus orvos)",
+      "shortName": "Megelőző",
+      "category": "other",
+      "icon": "Stethoscope",
+      "equivalentId": 185
+    },
+    "75415": {
+      "id": "75415",
+      "code": 28,
+      "name": "Mozgásszervi rehabilitáció",
+      "shortName": "Mozgásszervi",
+      "category": "rehabilitation",
+      "icon": "Stethoscope",
+      "equivalentId": 1059
+    },
+    "75416": {
+      "id": "75416",
+      "code": 1099,
+      "name": "Munkahigiéné (higiénikus orvos)",
+      "shortName": "Munkahigiéné",
+      "category": "other",
+      "icon": "Stethoscope",
+      "equivalentId": 181
+    },
+    "75417": {
+      "id": "75417",
+      "code": 143,
+      "name": "Nukleáris medicina (izotópdiagnosztika)",
+      "shortName": "Nukleáris",
+      "category": "radiology",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "75418": {
+      "id": "75418",
+      "code": 217,
+      "name": "Onkoradiológia",
+      "shortName": "Onkoradiológia",
+      "category": "internal",
+      "icon": "Stethoscope",
+      "equivalentId": 32
+    },
+    "75419": {
+      "id": "75419",
+      "code": 33,
+      "name": "Ortopédia",
+      "shortName": "Ortopédia",
+      "category": "surgery",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "75420": {
+      "id": "75420",
+      "code": 230,
+      "name": "Orvosi laboratóriumi vizsgálatok",
+      "shortName": "Orvosi",
+      "category": "laboratory",
+      "icon": "Stethoscope",
+      "equivalentId": 182
+    },
+    "75421": {
+      "id": "75421",
+      "code": 1097,
+      "name": "Orvosi mikrobiológia (higiénikus orvos)",
+      "shortName": "Orvosi",
+      "category": "laboratory",
+      "icon": "Stethoscope",
+      "equivalentId": 35
+    },
+    "75422": {
+      "id": "75422",
+      "code": 252,
+      "name": "Orvosi rehabilitáció",
+      "shortName": "Orvosi",
+      "category": "rehabilitation",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "75423": {
+      "id": "75423",
+      "code": 1065,
+      "name": "Orvosi rehabilitáció (geriátria)",
+      "shortName": "Orvosi",
+      "category": "internal",
+      "icon": "Stethoscope",
+      "equivalentId": 252
+    },
+    "75424": {
+      "id": "75424",
+      "code": 298,
+      "name": "Orvosi rehabilitáció (kardiológia)",
+      "shortName": "Orvosi",
+      "category": "cardiology",
+      "icon": "Stethoscope",
+      "equivalentId": 252
+    },
+    "75425": {
+      "id": "75425",
+      "code": 1051,
+      "name": "Orvosi rehabilitáció (tüdőgyógyászat)",
+      "shortName": "Orvosi",
+      "category": "internal",
+      "icon": "Stethoscope",
+      "equivalentId": 252
+    },
+    "75426": {
+      "id": "75426",
+      "code": 36,
+      "name": "Oxyológia (mentőorvostan)",
+      "shortName": "Oxyológia",
+      "category": "emergency",
+      "icon": "Stethoscope",
+      "equivalentId": 1067
+    },
+    "75427": {
+      "id": "75427",
+      "code": 216,
+      "name": "Reumatológia és fizikoterápia",
+      "shortName": "Reumatológia",
+      "category": "internal",
+      "icon": "Stethoscope",
+      "equivalentId": 41
+    },
+    "75428": {
+      "id": "75428",
+      "code": 254,
+      "name": "Röntgenológia",
+      "shortName": "Röntgenológia",
+      "category": "radiology",
+      "icon": "Stethoscope",
+      "equivalentId": 39
+    },
+    "75429": {
+      "id": "75429",
+      "code": 44,
+      "name": "Sugárbiológia-sugáregészségügy",
+      "shortName": "Sugárbiológia-sugáregészségügy",
+      "category": "radiology",
+      "icon": "Stethoscope",
+      "equivalentId": 1081
+    },
+    "75430": {
+      "id": "75430",
+      "code": 1098,
+      "name": "Sugáregészségtan (higiénés orvos)",
+      "shortName": "Sugáregészségtan",
+      "category": "radiology",
+      "icon": "Stethoscope",
+      "equivalentId": 1081
+    },
+    "75431": {
+      "id": "75431",
+      "code": 184,
+      "name": "Sürgősségi orvostan",
+      "shortName": "Sürgősségi",
+      "category": "emergency",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "75432": {
+      "id": "75432",
+      "code": 45,
+      "name": "Szájsebészet (általános orvos)",
+      "shortName": "Szájsebészet",
+      "category": "surgery",
+      "icon": "Stethoscope",
+      "equivalentId": 187
+    },
+    "75433": {
+      "id": "75433",
+      "code": 1071,
+      "name": "Szembetegségek",
+      "shortName": "Szembetegségek",
+      "category": "ophthalmology",
+      "icon": "Stethoscope",
+      "equivalentId": 46
+    },
+    "75434": {
+      "id": "75434",
+      "code": 74,
+      "name": "Társadalomorvostan (higiénikus orvos)",
+      "shortName": "Társadalomorvostan",
+      "category": "other",
+      "icon": "Stethoscope",
+      "equivalentId": 49
+    },
+    "75435": {
+      "id": "75435",
+      "code": 68,
+      "name": "Társadalomorvostan (fogorvos)",
+      "shortName": "Társadalomorvostan",
+      "category": "other",
+      "icon": "Stethoscope",
+      "equivalentId": 49
+    },
+    "75436": {
+      "id": "75436",
+      "code": 49,
+      "name": "Társadalomorvostan (általános orvos)",
+      "shortName": "Társadalomorvostan",
+      "category": "general",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "75437": {
+      "id": "75437",
+      "code": 51,
+      "name": "Traumatológia",
+      "shortName": "Traumatológia",
+      "category": "surgery",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "75438": {
+      "id": "75438",
+      "code": 1094,
+      "name": "Tüdőbetegségek és gümőkóros megbetegedések",
+      "shortName": "Tüdőbetegségek",
+      "category": "internal",
+      "icon": "Stethoscope",
+      "equivalentId": 53
+    },
+    "75439": {
+      "id": "75439",
+      "code": 248,
+      "name": "Tüdősebészet",
+      "shortName": "Tüdősebészet",
+      "category": "internal",
+      "icon": "Stethoscope",
+      "equivalentId": 27
+    },
+    "75440": {
+      "id": "75440",
+      "code": 55,
+      "name": "Üzemorvostan",
+      "shortName": "Üzemorvostan",
+      "category": "general",
+      "icon": "Stethoscope",
+      "equivalentId": 1073
+    },
+    "75441": {
+      "id": "75441",
+      "code": 1063,
+      "name": "higiénikus",
+      "shortName": "higiénikus",
+      "category": "other",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    },
+    "86313": {
+      "id": "86313",
+      "code": 10042,
+      "name": "Gyermek hemato-onkológia",
+      "shortName": "Gyermek",
+      "category": "internal",
+      "icon": "Stethoscope",
+      "equivalentId": null
+    }
+  },
+  "prescriberCategories": [
+    {
+      "id": 0,
+      "name": "Megkötés nélkül",
+      "description": "írhat"
+    },
+    {
+      "id": 1,
+      "name": "Fekvőbeteg gyógyintézet",
+      "description": "javasolhat és írhat"
+    },
+    {
+      "id": 2,
+      "name": "Járóbeteg szakrendelés",
+      "description": "írhat"
+    },
+    {
+      "id": 3,
+      "name": "Kijelölt intézmény",
+      "description": "írhat"
+    },
+    {
+      "id": 4,
+      "name": "Járóbeteg szakrendelés/Fekvőbeteg gyógyintézet",
+      "description": "javasolhat és írhat"
+    },
+    {
+      "id": 5,
+      "name": "Háziorvos",
+      "description": "javaslatra írhat"
+    },
+    {
+      "id": 6,
+      "name": "Kijelölt intézmény szakorvosa",
+      "description": "írhat"
+    },
+    {
+      "id": 7,
+      "name": "Diabetológiai szakellátóhely",
+      "description": "javasolhat és írhat"
+    },
+    {
+      "id": 8,
+      "name": "Menopauza és osteoporózis járóbeteg-szakrendelés",
+      "description": "javasolhat és írhat"
+    },
+    {
+      "id": 9,
+      "name": "Fekvőbeteg gyógyintézeti háttérrel rendelkező járóbeteg szakr.",
+      "description": "javasolhat és írhat"
+    },
+    {
+      "id": 10,
+      "name": "Gyermek- és ifjúságpszichiátriai járóbeteg szakrendelés",
+      "description": "írhat"
+    },
+    {
+      "id": 11,
+      "name": "II. és III. progresszivitási szintű fekvőbeteg gyógyintézet",
+      "description": "javasolhat és írhat"
+    },
+    {
+      "id": 12,
+      "name": "III. progresszivitási szintű fekvőbeteg gyógyintézet",
+      "description": "javasolhat és írhat"
+    }
+  ],
+  "categoryGroups": {
+    "general": [
+      1,
+      54221,
+      54227,
+      54234,
+      54239,
+      54244,
+      54285,
+      54294,
+      69964,
+      69965,
+      75393,
+      75394,
+      75396,
+      75397,
+      75407,
+      75411,
+      75412,
+      75436,
+      75440
+    ],
+    "emergency": [
+      54215,
+      54240,
+      54275,
+      75385,
+      75395,
+      75426,
+      75431
+    ],
+    "surgery": [
+      54216,
+      54237,
+      54246,
+      54253,
+      54277,
+      54283,
+      54292,
+      69958,
+      69963,
+      75386,
+      75402,
+      75419,
+      75432,
+      75437
+    ],
+    "internal": [
+      54217,
+      54223,
+      54224,
+      54232,
+      54245,
+      54252,
+      54255,
+      54263,
+      54267,
+      54272,
+      54273,
+      54281,
+      54282,
+      54286,
+      75405,
+      75418,
+      75423,
+      75425,
+      75427,
+      75438,
+      75439,
+      86313
+    ],
+    "dermatology": [
+      54218,
+      75388,
+      75389
+    ],
+    "pediatrics": [
+      54219,
+      54226,
+      54259,
+      54260,
+      54269,
+      54270,
+      54271,
+      54287,
+      54290,
+      69961,
+      75390,
+      75399
+    ],
+    "rehabilitation": [
+      54220,
+      54265,
+      75415,
+      75422
+    ],
+    "otolaryngology": [
+      54222,
+      54257,
+      75398
+    ],
+    "psychiatry": [
+      54225,
+      54242,
+      54254,
+      54274,
+      54291,
+      75401
+    ],
+    "other": [
+      54229,
+      54256,
+      54262,
+      54266,
+      54276,
+      54279,
+      54284,
+      54293,
+      54296,
+      54298,
+      69956,
+      69957,
+      69959,
+      69960,
+      69962,
+      71457,
+      75387,
+      75391,
+      75392,
+      75404,
+      75408,
+      75409,
+      75410,
+      75414,
+      75416,
+      75434,
+      75435,
+      75441
+    ],
+    "neurology": [
+      54230,
+      54235,
+      54268,
+      54280,
+      54288,
+      54289,
+      75400
+    ],
+    "pathology": [
+      54231,
+      54241,
+      54258,
+      75403
+    ],
+    "cardiology": [
+      54233,
+      54249,
+      54261,
+      54264,
+      75424
+    ],
+    "radiology": [
+      54236,
+      54243,
+      54247,
+      54295,
+      75417,
+      75428,
+      75429,
+      75430
+    ],
+    "laboratory": [
+      54238,
+      54278,
+      75406,
+      75413,
+      75420,
+      75421
+    ],
+    "ophthalmology": [
+      54248,
+      54250,
+      75433
+    ],
+    "obstetrics": [
+      54251
+    ]
+  }
+}

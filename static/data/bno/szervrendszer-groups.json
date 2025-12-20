@@ -1,0 +1,224 @@
+{
+  "meta": {
+    "source": "Custom Hungarian organ system grouping for ICD-10",
+    "createdAt": "2025-12-19",
+    "description": "Szervrendszer-alapú BNO kód csoportosítás a könnyebb navigációhoz"
+  },
+  "organSystems": [
+    {
+      "id": "idegrendszer",
+      "name": "Idegrendszer",
+      "nameEn": "Nervous System",
+      "icon": "Brain",
+      "color": "#8b5cf6",
+      "chapters": ["G"],
+      "codeRanges": ["G00-G99"],
+      "description": "Neurológiai betegségek, beleértve a sclerosis multiplexet",
+      "subgroups": [
+        { "id": "sm", "name": "Sclerosis multiplex", "codes": ["G35"], "priority": 1 },
+        { "id": "epilepsia", "name": "Epilepszia", "codes": ["G40", "G41"], "priority": 2 },
+        { "id": "parkinson", "name": "Parkinson-kór", "codes": ["G20", "G21", "G22", "G23", "G24", "G25", "G26"], "priority": 3 },
+        { "id": "demencia", "name": "Demencia és kognitív zavarok", "codes": ["G30", "G31"], "priority": 4 },
+        { "id": "fejfajas", "name": "Fejfájás és migrén", "codes": ["G43", "G44"], "priority": 5 },
+        { "id": "neuropathia", "name": "Neuropathiák", "codes": ["G60", "G61", "G62", "G63", "G64", "G65"], "priority": 6 },
+        { "id": "myasthenia", "name": "Izombetegségek", "codes": ["G70", "G71", "G72", "G73"], "priority": 7 },
+        { "id": "hydrocephalus", "name": "Egyéb idegrendszeri", "codes": ["G91", "G93", "G95"], "priority": 8 }
+      ]
+    },
+    {
+      "id": "keringes",
+      "name": "Keringési rendszer",
+      "nameEn": "Circulatory System",
+      "icon": "Heart",
+      "color": "#ef4444",
+      "chapters": ["I"],
+      "codeRanges": ["I00-I99"],
+      "description": "Szív- és érrendszeri betegségek",
+      "subgroups": [
+        { "id": "hypertonia", "name": "Magas vérnyomás", "codes": ["I10", "I11", "I12", "I13", "I14", "I15"], "priority": 1 },
+        { "id": "ischaemia", "name": "Ischaemiás szívbetegség", "codes": ["I20", "I21", "I22", "I23", "I24", "I25"], "priority": 2 },
+        { "id": "szivelegtelenseg", "name": "Szívelégtelenség", "codes": ["I50"], "priority": 3 },
+        { "id": "stroke", "name": "Stroke és cerebrovascularis", "codes": ["I60", "I61", "I62", "I63", "I64", "I65", "I66", "I67", "I68", "I69"], "priority": 4 },
+        { "id": "arythmia", "name": "Ritmuszavarok", "codes": ["I44", "I45", "I46", "I47", "I48", "I49"], "priority": 5 },
+        { "id": "thrombosis", "name": "Véna trombózis", "codes": ["I80", "I81", "I82"], "priority": 6 },
+        { "id": "pulmonalis", "name": "Pulmonalis embolia", "codes": ["I26"], "priority": 7 }
+      ]
+    },
+    {
+      "id": "emesztes",
+      "name": "Emésztőrendszer",
+      "nameEn": "Digestive System",
+      "icon": "Utensils",
+      "color": "#f59e0b",
+      "chapters": ["K"],
+      "codeRanges": ["K00-K95"],
+      "description": "Emésztőrendszeri és máj betegségek",
+      "subgroups": [
+        { "id": "ibd", "name": "Gyulladásos bélbetegség", "codes": ["K50", "K51"], "priority": 1 },
+        { "id": "reflux", "name": "GERD és reflux", "codes": ["K21"], "priority": 2 },
+        { "id": "fekely", "name": "Peptikus fekély", "codes": ["K25", "K26", "K27", "K28"], "priority": 3 },
+        { "id": "hepatitis", "name": "Májbetegségek", "codes": ["K70", "K71", "K72", "K73", "K74", "K75", "K76", "K77"], "priority": 4 },
+        { "id": "pancreatitis", "name": "Hasnyálmirigy", "codes": ["K85", "K86", "K87"], "priority": 5 },
+        { "id": "ibs", "name": "IBS és funkcionális", "codes": ["K58", "K59"], "priority": 6 }
+      ]
+    },
+    {
+      "id": "mozgas",
+      "name": "Mozgásszervrendszer",
+      "nameEn": "Musculoskeletal System",
+      "icon": "Bone",
+      "color": "#06b6d4",
+      "chapters": ["M"],
+      "codeRanges": ["M00-M99"],
+      "description": "Csont-, ízületi és kötőszöveti betegségek",
+      "subgroups": [
+        { "id": "ra", "name": "Rheumatoid arthritis", "codes": ["M05", "M06"], "priority": 1 },
+        { "id": "sle", "name": "Szisztémás lupus (SLE)", "codes": ["M32"], "priority": 2 },
+        { "id": "spondylitis", "name": "Spondylitis ankylopoetica", "codes": ["M45", "M46"], "priority": 3 },
+        { "id": "osteoarthritis", "name": "Osteoarthritis", "codes": ["M15", "M16", "M17", "M18", "M19"], "priority": 4 },
+        { "id": "osteoporosis", "name": "Osteoporosis", "codes": ["M80", "M81", "M82"], "priority": 5 },
+        { "id": "fibromyalgia", "name": "Fibromyalgia", "codes": ["M79"], "priority": 6 },
+        { "id": "sjogren", "name": "Sjögren-szindróma", "codes": ["M35"], "priority": 7 }
+      ]
+    },
+    {
+      "id": "endokrin",
+      "name": "Endokrin rendszer",
+      "nameEn": "Endocrine System",
+      "icon": "Droplet",
+      "color": "#10b981",
+      "chapters": ["E"],
+      "codeRanges": ["E00-E90"],
+      "description": "Hormonális és anyagcsere betegségek",
+      "subgroups": [
+        { "id": "diabetes1", "name": "1-es típusú diabetes", "codes": ["E10"], "priority": 1 },
+        { "id": "diabetes2", "name": "2-es típusú diabetes", "codes": ["E11"], "priority": 2 },
+        { "id": "diabetes-egyeb", "name": "Egyéb diabetes", "codes": ["E12", "E13", "E14"], "priority": 3 },
+        { "id": "pajzsmirigy", "name": "Pajzsmirigy betegségek", "codes": ["E00", "E01", "E02", "E03", "E04", "E05", "E06", "E07"], "priority": 4 },
+        { "id": "obesitas", "name": "Elhízás", "codes": ["E66"], "priority": 5 },
+        { "id": "hyperlipidaemia", "name": "Lipid anyagcsere zavarok", "codes": ["E78"], "priority": 6 }
+      ]
+    },
+    {
+      "id": "pszichiatria",
+      "name": "Mentális egészség",
+      "nameEn": "Mental Health",
+      "icon": "Sparkles",
+      "color": "#ec4899",
+      "chapters": ["F"],
+      "codeRanges": ["F00-F99"],
+      "description": "Pszichiátriai és viselkedési zavarok",
+      "subgroups": [
+        { "id": "demencia-f", "name": "Demencia (F)", "codes": ["F00", "F01", "F02", "F03"], "priority": 1 },
+        { "id": "schizofrenia", "name": "Szkizofrénia", "codes": ["F20", "F21", "F22", "F23", "F24", "F25"], "priority": 2 },
+        { "id": "bipolaris", "name": "Bipoláris zavar", "codes": ["F30", "F31"], "priority": 3 },
+        { "id": "depresszio", "name": "Depresszió", "codes": ["F32", "F33", "F34"], "priority": 4 },
+        { "id": "szorongas", "name": "Szorongásos zavarok", "codes": ["F40", "F41", "F42", "F43"], "priority": 5 },
+        { "id": "addiction", "name": "Függőségek", "codes": ["F10", "F11", "F12", "F13", "F14", "F15", "F16", "F17", "F18", "F19"], "priority": 6 },
+        { "id": "adhd", "name": "ADHD és fejlődési zavarok", "codes": ["F90", "F84"], "priority": 7 }
+      ]
+    },
+    {
+      "id": "legzes",
+      "name": "Légzőrendszer",
+      "nameEn": "Respiratory System",
+      "icon": "Wind",
+      "color": "#3b82f6",
+      "chapters": ["J"],
+      "codeRanges": ["J00-J99"],
+      "description": "Légzőszervi betegségek",
+      "subgroups": [
+        { "id": "asthma", "name": "Asthma bronchiale", "codes": ["J45", "J46"], "priority": 1 },
+        { "id": "copd", "name": "COPD", "codes": ["J44"], "priority": 2 },
+        { "id": "pneumonia", "name": "Tüdőgyulladás", "codes": ["J12", "J13", "J14", "J15", "J16", "J17", "J18"], "priority": 3 },
+        { "id": "bronchitis", "name": "Krónikus bronchitis", "codes": ["J40", "J41", "J42"], "priority": 4 },
+        { "id": "allergia-legzo", "name": "Allergiás rhinitis", "codes": ["J30", "J31"], "priority": 5 }
+      ]
+    },
+    {
+      "id": "onkologia",
+      "name": "Daganatos betegségek",
+      "nameEn": "Oncology",
+      "icon": "Target",
+      "color": "#f43f5e",
+      "chapters": ["C", "D"],
+      "codeRanges": ["C00-D48"],
+      "description": "Rosszindulatú és jóindulatú daganatok",
+      "subgroups": [
+        { "id": "agy-tumor", "name": "Agydaganatok", "codes": ["C71", "D43"], "priority": 1 },
+        { "id": "mellrak", "name": "Emlőrák", "codes": ["C50"], "priority": 2 },
+        { "id": "tudo-tumor", "name": "Tüdőrák", "codes": ["C34"], "priority": 3 },
+        { "id": "colorectal", "name": "Vastagbélrák", "codes": ["C18", "C19", "C20"], "priority": 4 },
+        { "id": "leukaemia", "name": "Leukémia", "codes": ["C91", "C92", "C93", "C94", "C95"], "priority": 5 },
+        { "id": "lymphoma", "name": "Lymphoma", "codes": ["C81", "C82", "C83", "C84", "C85", "C86"], "priority": 6 }
+      ]
+    },
+    {
+      "id": "fertozes",
+      "name": "Fertőző betegségek",
+      "nameEn": "Infectious Diseases",
+      "icon": "Bug",
+      "color": "#84cc16",
+      "chapters": ["A", "B"],
+      "codeRanges": ["A00-B99"],
+      "description": "Fertőző és parazitás betegségek",
+      "subgroups": [
+        { "id": "hiv", "name": "HIV/AIDS", "codes": ["B20", "B21", "B22", "B23", "B24"], "priority": 1 },
+        { "id": "hepatitis-viral", "name": "Vírushepatitis", "codes": ["B15", "B16", "B17", "B18", "B19"], "priority": 2 },
+        { "id": "tuberculosis", "name": "Tuberkulózis", "codes": ["A15", "A16", "A17", "A18", "A19"], "priority": 3 },
+        { "id": "sepsis", "name": "Szepszis", "codes": ["A40", "A41"], "priority": 4 },
+        { "id": "herpes", "name": "Herpes vírus fertőzések", "codes": ["B00", "B01", "B02"], "priority": 5 }
+      ]
+    },
+    {
+      "id": "bor",
+      "name": "Bőrgyógyászat",
+      "nameEn": "Dermatology",
+      "icon": "Scan",
+      "color": "#a855f7",
+      "chapters": ["L"],
+      "codeRanges": ["L00-L99"],
+      "description": "Bőr és bőr alatti szövet betegségei",
+      "subgroups": [
+        { "id": "psoriasis", "name": "Psoriasis", "codes": ["L40"], "priority": 1 },
+        { "id": "atopia", "name": "Atópiás dermatitis", "codes": ["L20"], "priority": 2 },
+        { "id": "ekzema", "name": "Egyéb dermatitis", "codes": ["L21", "L22", "L23", "L24", "L25", "L26", "L27", "L28", "L29", "L30"], "priority": 3 },
+        { "id": "urticaria", "name": "Urticaria", "codes": ["L50"], "priority": 4 },
+        { "id": "acne", "name": "Acne és rosacea", "codes": ["L70", "L71"], "priority": 5 }
+      ]
+    },
+    {
+      "id": "vese",
+      "name": "Vese és húgyutak",
+      "nameEn": "Urinary System",
+      "icon": "Droplets",
+      "color": "#0ea5e9",
+      "chapters": ["N"],
+      "codeRanges": ["N00-N99"],
+      "description": "Vese és húgyúti betegségek",
+      "subgroups": [
+        { "id": "veselegtelenseg", "name": "Krónikus veseelégtelenség", "codes": ["N18", "N19"], "priority": 1 },
+        { "id": "nephritis", "name": "Glomerulonephritis", "codes": ["N00", "N01", "N02", "N03", "N04", "N05"], "priority": 2 },
+        { "id": "huti", "name": "Húgyúti fertőzések", "codes": ["N30", "N39"], "priority": 3 },
+        { "id": "veseko", "name": "Vesekövesség", "codes": ["N20", "N21", "N22", "N23"], "priority": 4 }
+      ]
+    },
+    {
+      "id": "szem",
+      "name": "Szemészet",
+      "nameEn": "Ophthalmology",
+      "icon": "Eye",
+      "color": "#14b8a6",
+      "chapters": ["H0", "H1", "H2", "H3", "H4", "H5"],
+      "codeRanges": ["H00-H59"],
+      "description": "Szembetegségek",
+      "subgroups": [
+        { "id": "glaucoma", "name": "Glaucoma", "codes": ["H40", "H42"], "priority": 1 },
+        { "id": "maculadegeneratio", "name": "Macula degeneráció", "codes": ["H35"], "priority": 2 },
+        { "id": "cataracta", "name": "Szürke hályog", "codes": ["H25", "H26", "H28"], "priority": 3 },
+        { "id": "opticus-neuritis", "name": "Opticus neuritis", "codes": ["H46"], "priority": 4 },
+        { "id": "retinopathia", "name": "Retinopathia", "codes": ["H36"], "priority": 5 }
+      ]
+    }
+  ]
+}
