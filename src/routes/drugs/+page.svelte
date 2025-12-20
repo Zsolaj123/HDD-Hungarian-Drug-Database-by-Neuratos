@@ -24,6 +24,8 @@
 		type DrugIndicationEntry
 	} from '$lib/services/indication-service';
 	import { openFdaService, type OpenFdaSearchResult } from '$lib/services/openfda-service';
+	import { ingredientTranslationService } from '$lib/services/ingredient-translation-service';
+	import { emaService, type EmaMatchResult, type EmaShortage, type EmaDhpc } from '$lib/services/ema-service';
 	import { specialtyService } from '$lib/services/specialty-service';
 	import DrugAutocomplete from '$lib/components/ui/DrugAutocomplete.svelte';
 	import DrugInfoModal from '$lib/components/ui/DrugInfoModal.svelte';
@@ -57,7 +59,8 @@
 		UserCheck,
 		Brain,
 		Heart,
-		Shield
+		Shield,
+		Globe
 	} from 'lucide-svelte';
 	import { fade, slide } from 'svelte/transition';
 
@@ -66,7 +69,7 @@
 	// ============================================================================
 
 	let selectedDrug = $state<Drug | null>(null);
-	let activeTab = $state<'basic' | 'dosage' | 'packaging' | 'regulatory' | 'indications' | 'fda'>('basic');
+	let activeTab = $state<'basic' | 'dosage' | 'packaging' | 'regulatory' | 'indications' | 'fda' | 'ema'>('basic');
 	let isLoading = $state(false);
 	let showFilters = $state(false);
 
@@ -81,6 +84,13 @@
 	// FDA clinical data state
 	let fdaData = $state<OpenFdaSearchResult | null>(null);
 	let fdaLoading = $state(false);
+
+	// EMA state - real EMA data integration
+	let emaData = $state<EmaMatchResult | null>(null);
+	let emaLoading = $state(false);
+	let emaDataTimestamp = $state<string>('');
+	// Keep for backwards compatibility with external links
+	let emaEnglishIngredient = $state<string>('');
 
 	// Filters
 	let filterAtc = $state('');
@@ -127,14 +137,15 @@
 		indicationsLoading = false;
 	}
 
-	async function loadFdaData(brandName: string, genericName?: string) {
+	async function loadFdaData(brandName: string, genericName?: string, atcCode?: string) {
 		fdaLoading = true;
 		fdaData = null;
 		try {
 			// Extract brand name from full drug name (e.g., "TECFIDERA 120 MG..." -> "TECFIDERA")
 			const cleanBrand = brandName.split(/\s+\d/)[0].trim();
 			// Use translation-aware method for Hungarian→English ingredient lookup
-			fdaData = await openFdaService.getDrugLabelWithTranslation(cleanBrand, genericName);
+			// Now passes ATC code as well for better search reliability
+			fdaData = await openFdaService.getDrugLabelWithTranslation(cleanBrand, genericName, atcCode);
 		} catch (error) {
 			console.error('Failed to load FDA data:', error);
 			fdaData = null;
@@ -142,11 +153,31 @@
 		fdaLoading = false;
 	}
 
+	async function loadEmaData(drug: { activeIngredient?: string; atcCode?: string; name?: string }) {
+		emaLoading = true;
+		emaData = null;
+		try {
+			await emaService.initialize();
+			emaData = await emaService.findEmaData({
+				activeIngredient: drug.activeIngredient,
+				atcCode: drug.atcCode,
+				name: drug.name
+			});
+			emaDataTimestamp = emaService.getDataTimestamp();
+		} catch (error) {
+			console.error('Failed to load EMA data:', error);
+			emaData = null;
+		}
+		emaLoading = false;
+	}
+
 	async function handleDrugSelect(drug: Drug | SimplifiedDrug | DrugSummaryLight) {
 		// Fetch full drug details from the database
 		isLoading = true;
 		drugIndications = null; // Reset indications
 		fdaData = null; // Reset FDA data
+		emaData = null; // Reset EMA data
+		emaEnglishIngredient = ''; // Reset EMA ingredient
 		try {
 			const fullDrug = await drugService.getFullDrugDetails(drug.id);
 			if (fullDrug) {
@@ -157,6 +188,17 @@
 				window.history.pushState({}, '', url.toString());
 				// Load indications in background
 				loadDrugIndications(fullDrug.id);
+				// Load EMA data in background
+				loadEmaData({
+					activeIngredient: fullDrug.activeIngredient,
+					atcCode: fullDrug.atcCode,
+					name: fullDrug.name
+				});
+				// Translate ingredient for EMA links
+				if (fullDrug.activeIngredient) {
+					const englishVariants = await ingredientTranslationService.toEnglish(fullDrug.activeIngredient);
+					emaEnglishIngredient = englishVariants[0] || fullDrug.activeIngredient;
+				}
 			} else {
 				// Fallback: use the basic drug info from autocomplete
 				selectedDrug = drug as Drug;
@@ -234,10 +276,10 @@
 </script>
 
 <svelte:head>
-	<title>{selectedDrug ? selectedDrug.name : 'Gyógyszer Adatbázis'} | Doctor App</title>
+	<title>{selectedDrug ? selectedDrug.name : 'Gyógyszer Adatbázis'} | HDD</title>
 </svelte:head>
 
-<div class="min-h-screen bg-slate-950">
+<div class="min-h-screen bg-slate-950 flex flex-col">
 	<!-- Header -->
 	<header class="sticky top-0 z-40 bg-slate-900/95 backdrop-blur border-b border-slate-800">
 		<div class="max-w-7xl mx-auto px-4 py-4">
@@ -319,7 +361,7 @@
 	</header>
 
 	<!-- Main Content -->
-	<main class="max-w-7xl mx-auto px-4 py-6">
+	<main class="flex-1 max-w-7xl mx-auto px-4 py-6 w-full">
 		{#if isLoading}
 			<div class="flex items-center justify-center py-20">
 				<div class="animate-spin rounded-full h-8 w-8 border-2 border-blue-500 border-t-transparent"></div>
@@ -332,8 +374,11 @@
 					<div class="flex items-start justify-between gap-4">
 						<div class="flex-1 min-w-0">
 							<h2 class="text-2xl font-bold text-white">{selectedDrug.name}</h2>
-							{#if selectedDrug.brandName && selectedDrug.brandName !== selectedDrug.name}
-								<p class="text-slate-400 mt-1">{selectedDrug.brandName}</p>
+							{#if selectedDrug.activeIngredient}
+								<p class="text-lg text-blue-400 font-medium mt-1">{selectedDrug.activeIngredient}</p>
+							{/if}
+							{#if selectedDrug.brandName && selectedDrug.brandName !== selectedDrug.name && selectedDrug.brandName !== selectedDrug.activeIngredient}
+								<p class="text-slate-400 text-sm mt-1">{selectedDrug.brandName}</p>
 							{/if}
 
 							<!-- Status Badges -->
@@ -434,7 +479,7 @@
 							onclick={() => {
 								activeTab = 'fda';
 								if (selectedDrug && !fdaData && !fdaLoading) {
-									loadFdaData(selectedDrug.name, selectedDrug.activeIngredient);
+									loadFdaData(selectedDrug.name, selectedDrug.activeIngredient, selectedDrug.atcCode);
 								}
 							}}
 						>
@@ -445,6 +490,17 @@
 									FDA
 								</span>
 							{/if}
+						</button>
+						<button
+							type="button"
+							class="flex items-center gap-2 px-5 py-3 text-sm font-medium border-b-2 transition-colors whitespace-nowrap
+								{activeTab === 'ema'
+									? 'text-blue-400 border-blue-500 bg-blue-500/5'
+									: 'text-slate-400 border-transparent hover:text-white hover:bg-slate-800/50'}"
+							onclick={() => activeTab = 'ema'}
+						>
+							<Globe class="h-4 w-4" />
+							EMA (EU)
 						</button>
 					</nav>
 				</div>
@@ -977,7 +1033,7 @@
 									<button
 										type="button"
 										class="inline-flex items-center gap-2 px-4 py-2 bg-red-500/20 hover:bg-red-500/30 text-red-400 rounded-lg transition-colors"
-										onclick={() => selectedDrug && loadFdaData(selectedDrug.name, selectedDrug.activeIngredient)}
+										onclick={() => selectedDrug && loadFdaData(selectedDrug.name, selectedDrug.activeIngredient, selectedDrug.atcCode)}
 									>
 										<ShieldAlert class="h-4 w-4" />
 										FDA adatok lekérése
@@ -985,6 +1041,267 @@
 									<p class="text-xs text-slate-500 mt-3">
 										Ellenjavallatok, interakciók és figyelmeztetések az amerikai FDA adatbázisból.
 									</p>
+								</div>
+							{/if}
+						</div>
+
+					{:else if activeTab === 'ema'}
+						<!-- EMA Tab - EU Drug Data -->
+						<div class="space-y-6">
+							{#if emaLoading}
+								<div class="flex items-center justify-center py-8">
+									<Loader2 class="h-6 w-6 animate-spin text-blue-500" />
+									<span class="ml-3 text-slate-400">EMA adatok betöltése...</span>
+								</div>
+							{:else}
+								<!-- Header with match status -->
+								<div class="p-4 bg-blue-900/20 border border-blue-700/30 rounded-lg">
+									<div class="flex items-center justify-between flex-wrap gap-2">
+										<div class="flex items-center gap-2">
+											<Globe class="h-5 w-5 text-blue-400" />
+											<span class="font-medium text-white">EMA EU Adatok</span>
+											{#if emaData?.matched}
+												<span class="px-2 py-0.5 text-xs bg-green-500/20 text-green-400 rounded border border-green-500/30">Illeszkedik ({emaData.method})</span>
+											{:else}
+												<span class="px-2 py-0.5 text-xs bg-amber-500/20 text-amber-400 rounded border border-amber-500/30">Nincs EU adat</span>
+											{/if}
+										</div>
+										{#if emaDataTimestamp}
+											<span class="text-xs text-slate-500">Frissítve: {emaDataTimestamp}</span>
+										{/if}
+									</div>
+									{#if emaData?.searchTerm}
+										<p class="text-xs text-slate-400 mt-2">Keresés: <span class="text-blue-400">{emaData.searchTerm}</span></p>
+									{/if}
+								</div>
+
+								<!-- SHORTAGE ALERT (if active) -->
+								{#if emaData?.shortages && emaData.shortages.length > 0}
+									{#each emaData.shortages as shortage}
+										<div class="p-4 bg-red-900/30 border-2 border-red-500/50 rounded-lg">
+											<div class="flex items-center gap-2 mb-3">
+												<AlertTriangle class="h-5 w-5 text-red-400" />
+												<span class="font-bold text-red-400 uppercase">Hiánycikk</span>
+												<span class="text-xs text-red-300/70 ml-auto">{shortage.lastUpdated}</span>
+											</div>
+											<p class="text-red-200 font-medium mb-2">{shortage.medicine}</p>
+											{#if shortage.formsAffected}
+												<p class="text-sm text-red-300/80 mb-1">
+													<span class="text-slate-400">Érintett formák:</span> {shortage.formsAffected}
+												</p>
+											{/if}
+											{#if shortage.strengthsAffected}
+												<p class="text-sm text-red-300/80 mb-1">
+													<span class="text-slate-400">Érintett dózisok:</span> {shortage.strengthsAffected}
+												</p>
+											{/if}
+											{#if shortage.expectedResolution}
+												<p class="text-sm text-slate-300 mt-2">
+													<span class="text-slate-400">Várható megoldás:</span> {shortage.expectedResolution}
+												</p>
+											{/if}
+											<div class="flex items-center gap-4 mt-3">
+												{#if shortage.hasAlternatives === true}
+													<span class="text-sm text-green-400 flex items-center gap-1">
+														<CheckCircle2 class="h-4 w-4" />
+														Alternatívák elérhetőek
+													</span>
+												{:else if shortage.hasAlternatives === false}
+													<span class="text-sm text-red-400 flex items-center gap-1">
+														<XCircle class="h-4 w-4" />
+														Nincs alternatíva
+													</span>
+												{:else}
+													<span class="text-sm text-slate-400">Alternatívák: ismeretlen</span>
+												{/if}
+												{#if shortage.shortageUrl}
+													<a href={shortage.shortageUrl} target="_blank" rel="noopener noreferrer" class="text-xs text-blue-400 hover:text-blue-300 flex items-center gap-1">
+														Részletek <ExternalLink class="h-3 w-3" />
+													</a>
+												{/if}
+											</div>
+										</div>
+									{/each}
+								{/if}
+
+								<!-- SAFETY ALERTS (DHPCs) -->
+								{#if emaData?.dhpcs && emaData.dhpcs.length > 0}
+									<div class="p-4 bg-amber-900/20 border border-amber-700/30 rounded-lg">
+										<h4 class="font-medium text-amber-400 mb-3 flex items-center gap-2">
+											<AlertTriangle class="h-4 w-4" />
+											Biztonsági figyelmeztetések ({emaData.dhpcs.length})
+										</h4>
+										<div class="space-y-2">
+											{#each emaData.dhpcs as dhpc}
+												<a
+													href={dhpc.dhpcUrl}
+													target="_blank"
+													rel="noopener noreferrer"
+													class="flex items-center gap-3 p-3 bg-slate-800/50 hover:bg-amber-900/30 rounded-lg transition-colors group"
+												>
+													<div class="flex-1 min-w-0">
+														<div class="flex items-center gap-2 flex-wrap">
+															<span class="text-amber-300 font-medium">{dhpc.medicine}</span>
+															<span class="text-xs px-2 py-0.5 bg-amber-500/20 text-amber-400 rounded">{dhpc.dhpcType}</span>
+														</div>
+														{#if dhpc.activeSubstances && dhpc.activeSubstances !== dhpc.medicine}
+															<p class="text-xs text-slate-400 mt-1">{dhpc.activeSubstances}</p>
+														{/if}
+													</div>
+													<div class="flex items-center gap-2 flex-shrink-0">
+														<span class="text-xs text-slate-500">{dhpc.disseminationDate}</span>
+														<ExternalLink class="h-4 w-4 text-slate-500 group-hover:text-amber-400 transition-colors" />
+													</div>
+												</a>
+											{/each}
+										</div>
+									</div>
+								{/if}
+
+								<!-- AUTHORIZATION STATUS -->
+								{#if emaData?.medicine}
+									<div class="p-4 bg-slate-800/50 border border-slate-700 rounded-lg">
+										<h4 class="font-medium text-slate-300 mb-4 flex items-center gap-2">
+											<FileText class="h-4 w-4 text-blue-400" />
+											EU Engedélyezési Adatok
+										</h4>
+										<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+											<div>
+												<span class="text-xs text-slate-500">EU gyógyszernév</span>
+												<p class="text-white font-medium">{emaData.medicine.name}</p>
+											</div>
+											<div>
+												<span class="text-xs text-slate-500">Státusz</span>
+												<p class="text-white">
+													<span class="inline-flex items-center gap-1.5 {emaData.medicine.status === 'Authorised' ? 'text-green-400' : 'text-amber-400'}">
+														{#if emaData.medicine.status === 'Authorised'}
+															<CheckCircle2 class="h-4 w-4" />
+														{:else}
+															<AlertCircle class="h-4 w-4" />
+														{/if}
+														{emaData.medicine.status}
+													</span>
+												</p>
+											</div>
+											{#if emaData.medicine.inn}
+												<div>
+													<span class="text-xs text-slate-500">INN (nemzetközi szabadnév)</span>
+													<p class="text-blue-400">{emaData.medicine.inn}</p>
+												</div>
+											{/if}
+											{#if emaData.medicine.atcCode}
+												<div>
+													<span class="text-xs text-slate-500">ATC kód</span>
+													<p class="text-white font-mono">{emaData.medicine.atcCode}</p>
+												</div>
+											{/if}
+											{#if emaData.medicine.authorisationDate}
+												<div>
+													<span class="text-xs text-slate-500">Engedélyezés dátuma</span>
+													<p class="text-white">{emaData.medicine.authorisationDate}</p>
+												</div>
+											{/if}
+											{#if emaData.medicine.holder}
+												<div>
+													<span class="text-xs text-slate-500">Forgalomba hozatali engedély jogosultja</span>
+													<p class="text-white text-sm">{emaData.medicine.holder}</p>
+												</div>
+											{/if}
+										</div>
+
+										<!-- Special flags -->
+										{#if emaData.medicine.biosimilar || emaData.medicine.orphanMedicine || emaData.medicine.additionalMonitoring || emaData.medicine.genericOrHybrid || emaData.medicine.conditionalApproval}
+											<div class="flex flex-wrap gap-2 mt-4 pt-4 border-t border-slate-700">
+												{#if emaData.medicine.biosimilar}
+													<span class="px-2 py-1 text-xs bg-cyan-500/20 text-cyan-400 rounded border border-cyan-500/30">Bioszimiláris</span>
+												{/if}
+												{#if emaData.medicine.orphanMedicine}
+													<span class="px-2 py-1 text-xs bg-violet-500/20 text-violet-400 rounded border border-violet-500/30">Ritka betegségekre</span>
+												{/if}
+												{#if emaData.medicine.additionalMonitoring}
+													<span class="px-2 py-1 text-xs bg-amber-500/20 text-amber-400 rounded border border-amber-500/30">Fokozott felügyelet</span>
+												{/if}
+												{#if emaData.medicine.genericOrHybrid}
+													<span class="px-2 py-1 text-xs bg-slate-500/20 text-slate-400 rounded border border-slate-500/30">Generikus/Hibrid</span>
+												{/if}
+												{#if emaData.medicine.conditionalApproval}
+													<span class="px-2 py-1 text-xs bg-amber-500/20 text-amber-400 rounded border border-amber-500/30">Feltételes engedély</span>
+												{/if}
+											</div>
+										{/if}
+
+										<!-- Therapeutic indication -->
+										{#if emaData.medicine.therapeuticIndication}
+											<div class="mt-4 pt-4 border-t border-slate-700">
+												<span class="text-xs text-slate-500">Terápiás javallat</span>
+												<p class="text-sm text-slate-300 mt-1 leading-relaxed line-clamp-6">{emaData.medicine.therapeuticIndication}</p>
+											</div>
+										{/if}
+
+										<!-- Link to EMA page -->
+										{#if emaData.medicine.productUrl}
+											<div class="mt-4 pt-4 border-t border-slate-700">
+												<a
+													href={emaData.medicine.productUrl}
+													target="_blank"
+													rel="noopener noreferrer"
+													class="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 text-sm"
+												>
+													<Globe class="h-4 w-4" />
+													EMA termékoldal megtekintése
+													<ExternalLink class="h-3 w-3" />
+												</a>
+											</div>
+										{/if}
+									</div>
+								{/if}
+
+								<!-- External links section (always show) -->
+								{@const searchTerm = emaEnglishIngredient || selectedDrug?.activeIngredient || ''}
+								{#if searchTerm}
+									<details class="border border-slate-700 rounded-lg overflow-hidden">
+										<summary class="px-4 py-3 bg-slate-800/50 border-b border-slate-700 flex items-center gap-2 cursor-pointer hover:bg-slate-700/50">
+											<ExternalLink class="h-4 w-4 text-slate-400" />
+											<span class="font-medium text-slate-300">Külső EMA linkek</span>
+											<span class="ml-auto text-xs text-slate-500">kattintson a kibontáshoz</span>
+										</summary>
+										<div class="p-4 space-y-3">
+											<a
+												href="https://www.adrreports.eu/en/search_subst.html#{encodeURIComponent(searchTerm)}"
+												target="_blank"
+												rel="noopener noreferrer"
+												class="flex items-center gap-3 p-3 bg-amber-900/20 border border-amber-700/30 rounded-lg hover:bg-amber-900/30 transition-colors group"
+											>
+												<AlertTriangle class="h-5 w-5 text-amber-400" />
+												<div class="flex-1">
+													<div class="font-medium text-amber-300">Mellékhatások (EudraVigilance)</div>
+													<div class="text-xs text-slate-400">Bejelentett mellékhatások az EU-ban</div>
+												</div>
+												<ExternalLink class="h-4 w-4 text-slate-500 group-hover:text-amber-400 transition-colors" />
+											</a>
+											<a
+												href="https://www.ema.europa.eu/en/search?search_api_views_fulltext={encodeURIComponent(searchTerm)}"
+												target="_blank"
+												rel="noopener noreferrer"
+												class="flex items-center gap-3 p-3 bg-blue-900/20 border border-blue-700/30 rounded-lg hover:bg-blue-900/30 transition-colors group"
+											>
+												<FileText class="h-5 w-5 text-blue-400" />
+												<div class="flex-1">
+													<div class="font-medium text-blue-300">EMA Keresés</div>
+													<div class="text-xs text-slate-400">Hivatalos EU dokumentumok keresése</div>
+												</div>
+												<ExternalLink class="h-4 w-4 text-slate-500 group-hover:text-blue-400 transition-colors" />
+											</a>
+										</div>
+									</details>
+								{/if}
+
+								<!-- Footer info -->
+								<div class="text-xs text-slate-500 pt-2 border-t border-slate-800">
+									<p>Adatforrás: European Medicines Agency (EMA) nyilvános adatbázis.</p>
+									{#if !emaData?.matched}
+										<p class="mt-1 text-amber-500/70">Ez a gyógyszer nem található az EMA központi engedélyezésű gyógyszerei között. Ez nem jelenti, hogy nem engedélyezett - lehet nemzeti engedélyezésű.</p>
+									{/if}
 								</div>
 							{/if}
 						</div>
@@ -1006,6 +1323,22 @@
 			</div>
 		{/if}
 	</main>
+
+	<!-- Footer -->
+	<footer class="mt-auto py-6 px-4 border-t border-slate-800">
+		<div class="max-w-4xl mx-auto text-center text-sm text-slate-500">
+			<p class="mb-1">
+				<span class="text-slate-400">HDD - Hungarian Drug Database</span>
+			</p>
+			<p>
+				Made by <span class="text-cyan-400">Dr. Zsolaj</span> ·
+				Data sources: <span class="text-slate-400">NEAK</span>,
+				<span class="text-slate-400">OGYÉI</span>,
+				<span class="text-slate-400">EMA</span>,
+				<span class="text-slate-400">FDA</span>
+			</p>
+		</div>
+	</footer>
 </div>
 
 <!-- Drug Info Modal -->

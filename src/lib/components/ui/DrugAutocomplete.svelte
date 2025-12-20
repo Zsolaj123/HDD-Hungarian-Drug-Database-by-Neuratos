@@ -270,7 +270,18 @@
 
 	async function performLocalSearch(query: string): Promise<UnifiedDrug[]> {
 		const searchResults = await drugService.searchDrugs(query, { limit: maxResults });
-		return searchResults.map((d) => normalizeToUnified(d, 'local'));
+		const unified = searchResults.map((d) => normalizeToUnified(d, 'local'));
+
+		// Sort: active drugs first, then withdrawn drugs
+		unified.sort((a, b) => {
+			const aActive = a.inMarket !== false;
+			const bActive = b.inMarket !== false;
+			if (aActive && !bActive) return -1;
+			if (!aActive && bActive) return 1;
+			return 0; // Keep original order for same status
+		});
+
+		return unified;
 	}
 
 	async function performPuphaxSearch(query: string): Promise<UnifiedDrug[]> {
@@ -305,6 +316,16 @@
 			if (groupedMode) {
 				// Use grouped search for two-step selection
 				groupedResults = await drugService.searchDrugsGrouped(query, { limit: maxResults });
+
+				// Sort: groups with active variants first, all-withdrawn groups last
+				groupedResults.sort((a, b) => {
+					const aHasActive = a.variants.some(v => v.isInMarket);
+					const bHasActive = b.variants.some(v => v.isInMarket);
+					if (aHasActive && !bHasActive) return -1;
+					if (!aHasActive && bHasActive) return 1;
+					return 0;
+				});
+
 				results = []; // Clear flat results in grouped mode
 				highlightedIndex = groupedResults.length > 0 ? 0 : -1;
 			} else {
@@ -1103,6 +1124,8 @@
 						{@const isHighlighted = index === highlightedIndex}
 						{@const isExpanded = isGroupExpanded(group)}
 						{@const prescriptionBadge = getPrescriptionBadge(group.defaultVariant.prescriptionRequired)}
+						{@const hasActiveVariant = group.variants.some(v => v.isInMarket)}
+						{@const allWithdrawn = !hasActiveVariant}
 
 						<!-- Group Header -->
 						<li
@@ -1115,7 +1138,8 @@
 								transition-colors duration-100
 								{isHighlighted
 								? 'bg-blue-600/20 border-l-2 border-l-blue-500'
-								: 'hover:bg-slate-700/50'}"
+								: 'hover:bg-slate-700/50'}
+								{allWithdrawn ? 'opacity-50 grayscale-[30%]' : ''}"
 							onclick={(e) => selectGroupDefault(group, e)}
 							onmouseenter={() => (highlightedIndex = index)}
 						>
@@ -1133,6 +1157,11 @@
 												{/if}
 											{/each}
 										</span>
+										{#if allWithdrawn}
+											<span class="px-1.5 py-0.5 text-[10px] font-medium rounded bg-red-900/40 text-red-400 border border-red-700/40">
+												Kivont
+											</span>
+										{/if}
 									</div>
 
 									<!-- Active Ingredient & ATC -->
@@ -1246,7 +1275,7 @@
 								{isHighlighted
 								? 'bg-blue-600/20 border-l-2 border-l-blue-500'
 								: 'hover:bg-slate-700/50'}
-								{discontinued ? 'opacity-70' : ''}"
+								{discontinued ? 'opacity-50 grayscale-[30%]' : ''}"
 							onclick={() => selectDrug(drug)}
 							onkeydown={(e) => e.key === 'Enter' && selectDrug(drug)}
 							onmouseenter={() => (highlightedIndex = index)}
@@ -1268,7 +1297,7 @@
 											{/each}
 										</span>
 										{#if discontinued}
-											<span class="px-1.5 py-0.5 text-[10px] font-medium rounded bg-slate-600/50 text-slate-400 border border-slate-500/30">
+											<span class="px-1.5 py-0.5 text-[10px] font-medium rounded bg-red-900/40 text-red-400 border border-red-700/40">
 												Kivont
 											</span>
 										{/if}

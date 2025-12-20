@@ -171,6 +171,45 @@ async function searchByGenericName(genericName: string): Promise<OpenFdaSearchRe
 	}
 }
 
+/**
+ * Search OpenFDA by active ingredient (substance_name field - more reliable)
+ */
+async function searchByActiveIngredient(ingredient: string): Promise<OpenFdaSearchResult> {
+	const query = encodeURIComponent(ingredient.replace(/[^\w\s-]/g, '').toLowerCase());
+	// Use active_ingredient field which is more reliable
+	const url = `${OPENFDA_BASE_URL}?search=active_ingredient:"${query}"&limit=1`;
+
+	try {
+		const response = await fetch(url);
+		if (!response.ok) {
+			if (response.status === 404) {
+				return { found: false, label: null, error: null, searchedBy: 'active_ingredient' };
+			}
+			throw new Error(`API error: ${response.status}`);
+		}
+
+		const data = await response.json();
+		if (!data.results || data.results.length === 0) {
+			return { found: false, label: null, error: null, searchedBy: 'active_ingredient' };
+		}
+
+		return {
+			found: true,
+			label: parseLabel(data.results[0]),
+			error: null,
+			searchedBy: 'active_ingredient'
+		};
+	} catch (error) {
+		console.error('[OpenFDA] Active ingredient search error:', error);
+		return {
+			found: false,
+			label: null,
+			error: error instanceof Error ? error.message : 'Unknown error',
+			searchedBy: 'active_ingredient'
+		};
+	}
+}
+
 class OpenFdaService {
 	/**
 	 * Get FDA drug label information
@@ -326,7 +365,7 @@ class OpenFdaService {
 
 	/**
 	 * Get FDA drug label with Hungarian ingredient translation support
-	 * Tries brand name first, then translates Hungarian ingredient to English
+	 * IMPROVED: Tries ingredient (English) FIRST, then brand name, then ATC
 	 */
 	async getDrugLabelWithTranslation(
 		brandName: string,
@@ -340,30 +379,50 @@ class OpenFdaService {
 			return cached.data;
 		}
 
-		// Try brand name first
-		let result = await searchByBrandName(brandName);
+		let result: OpenFdaSearchResult = { found: false, label: null, error: null, searchedBy: 'brand_name' };
 
-		// If not found by brand, try translated ingredient names
-		if (!result.found && hungarianIngredient) {
+		// 1. TRY INGREDIENT FIRST (most reliable for Hungarian drugs)
+		if (hungarianIngredient) {
 			// Get English translations (may return multiple variants)
 			const englishVariants = await ingredientTranslationService.toEnglish(hungarianIngredient);
 
 			for (const englishName of englishVariants) {
+				// Try active_ingredient field first (more reliable)
+				result = await searchByActiveIngredient(englishName);
+				if (result.found) {
+					console.log(
+						`[OpenFDA] Found via active_ingredient: "${hungarianIngredient}" → "${englishName}"`
+					);
+					break;
+				}
+
+				// Fallback to generic_name field
 				result = await searchByGenericName(englishName);
 				if (result.found) {
 					console.log(
-						`[OpenFDA] Found via translation: "${hungarianIngredient}" → "${englishName}"`
+						`[OpenFDA] Found via generic_name: "${hungarianIngredient}" → "${englishName}"`
 					);
 					break;
 				}
 			}
 		}
 
-		// If still not found, try ATC code translation
+		// 2. If not found by ingredient, try brand name
+		if (!result.found) {
+			result = await searchByBrandName(brandName);
+			if (result.found) {
+				console.log(`[OpenFDA] Found via brand_name: "${brandName}"`);
+			}
+		}
+
+		// 3. If still not found, try ATC code translation
 		if (!result.found && atcCode) {
 			const atcEnglish = await ingredientTranslationService.getEnglishFromAtc(atcCode);
 			if (atcEnglish) {
-				result = await searchByGenericName(atcEnglish);
+				result = await searchByActiveIngredient(atcEnglish);
+				if (!result.found) {
+					result = await searchByGenericName(atcEnglish);
+				}
 				if (result.found) {
 					console.log(`[OpenFDA] Found via ATC: ${atcCode} → "${atcEnglish}"`);
 				}
