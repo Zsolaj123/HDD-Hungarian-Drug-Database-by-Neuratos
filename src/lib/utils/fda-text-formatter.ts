@@ -289,8 +289,10 @@ function formatDrugInteractionTables(text: string): string {
 		return text;
 	}
 
-	// Find table header like "Table 4: Clinically Significant Drug Interactions..."
-	const tableHeaderMatch = text.match(/Table\s+(\d+):\s*([^.]+Drug Interactions[^.]*)/i);
+	// Find table header like "Table 4: Clinically Significant Drug Interactions with DRUG_NAME"
+	// Pattern captures everything up to but NOT including the first drug class
+	// Titles typically end with drug name (Atorvastatin, Metformin, etc.)
+	const tableHeaderMatch = text.match(/Table\s+(\d+):\s*((?:Clinically Significant )?Drug Interactions[^]*?(?:with\s+\w+(?:\s+Calcium)?))(?=\s+[A-Z])/i);
 	if (!tableHeaderMatch) {
 		return text;
 	}
@@ -299,8 +301,9 @@ function formatDrugInteractionTables(text: string): string {
 	const tableTitle = tableHeaderMatch[2].trim();
 
 	// Find drug class names followed by "Clinical Impact:"
-	// Pattern: after period/space or table header, find capitalized words before "Clinical Impact:"
-	const drugClassPattern = /(?:(?:\.\s+)|(?:ZITUVIMET\s+)|(?:^))([A-Z][A-Za-z\s,()/-]+?)(?=\s*Clinical Impact:)/g;
+	// Pattern: after period/space, table header, closing bracket, or drug name ending, find capitalized words before "Clinical Impact:"
+	// Added patterns: "] " for references, "in " or "Atorvastatin " for end of title
+	const drugClassPattern = /(?:(?:\.\s+)|(?:ZITUVIMET\s+)|(?:Atorvastatin\s+)|(?:\]\s*)|(?:^))([A-Z][A-Za-z\s,()/-]+?)(?=\s*Clinical Impact:)/g;
 	const drugClasses = [...text.matchAll(drugClassPattern)].map(m => m[1].trim());
 
 	if (drugClasses.length === 0) {
@@ -337,41 +340,24 @@ function formatDrugInteractionTables(text: string): string {
 
 	// Build HTML table
 	const hasExamples = rows.some(r => r.examples);
-	let tableHtml = `
-<div class="fda-table-container">
-<div class="fda-table-header">Table ${tableNum}: ${tableTitle}</div>
-<table class="fda-interaction-table">
-<thead>
-<tr>
-<th>Gyógyszer/Osztály</th>
-<th>Klinikai hatás</th>
-<th>Beavatkozás</th>
-${hasExamples ? '<th>Példák</th>' : ''}
-</tr>
-</thead>
-<tbody>`;
+	let tableHtml = `<div class="fda-table-container"><div class="fda-table-header">Table ${tableNum}: ${tableTitle}</div><table class="fda-interaction-table"><thead><tr><th>Gyógyszer/Osztály</th><th>Klinikai hatás</th><th>Beavatkozás</th>${hasExamples ? '<th>Példák</th>' : ''}</tr></thead><tbody>`;
 
 	for (const row of rows) {
-		tableHtml += `
-<tr>
-<td class="fda-drug-cell">${row.drug}</td>
-<td>${row.impact}</td>
-<td>${row.intervention}</td>
-${hasExamples ? `<td class="fda-examples-cell">${row.examples}</td>` : ''}
-</tr>`;
+		tableHtml += `<tr><td class="fda-drug-cell">${row.drug}</td><td>${row.impact}</td><td>${row.intervention}</td>${hasExamples ? `<td class="fda-examples-cell">${row.examples}</td>` : ''}</tr>`;
 	}
 
-	tableHtml += `
-</tbody>
-</table>
-</div>`;
+	tableHtml += `</tbody></table></div>`;
+
+	// Find where the table content starts (first drug class)
+	const firstDrug = rows[0].drug;
+	const firstDrugIndex = text.indexOf(firstDrug + ' Clinical Impact:') || text.indexOf(firstDrug);
 
 	// Find where the table content ends (after the last row's content)
 	const lastRow = rows[rows.length - 1];
 	const lastContent = lastRow.examples || lastRow.intervention;
 	const tableEndIndex = text.indexOf(lastContent) + lastContent.length + 1;
 
-	// Replace table section with formatted HTML
+	// Replace table section with formatted HTML - remove from table title to end of last row
 	const tableStartIndex = tableHeaderMatch.index || 0;
 	const beforeTable = text.substring(0, tableStartIndex);
 	const afterTable = text.substring(tableEndIndex);
