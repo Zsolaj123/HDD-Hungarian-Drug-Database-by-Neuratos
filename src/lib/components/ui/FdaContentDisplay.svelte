@@ -498,6 +498,65 @@
 		font-size: 1rem;
 	}
 
+	/* Drug Interaction Tables */
+	.fda-formatted-content :global(.fda-table-container) {
+		margin: 1.5rem 0;
+		border-radius: 0.5rem;
+		overflow: hidden;
+		border: 1px solid rgba(96, 165, 250, 0.3);
+	}
+
+	.fda-formatted-content :global(.fda-table-header) {
+		background: rgba(96, 165, 250, 0.15);
+		color: rgb(147, 197, 253); /* blue-300 */
+		padding: 0.75rem 1rem;
+		font-weight: 600;
+		font-size: 1rem;
+		border-bottom: 1px solid rgba(96, 165, 250, 0.3);
+	}
+
+	.fda-formatted-content :global(.fda-interaction-table) {
+		width: 100%;
+		border-collapse: collapse;
+		font-size: 0.9375rem;
+	}
+
+	.fda-formatted-content :global(.fda-interaction-table th) {
+		background: rgba(30, 41, 59, 0.8);
+		color: rgb(226, 232, 240); /* slate-200 */
+		padding: 0.75rem;
+		text-align: left;
+		font-weight: 600;
+		border-bottom: 1px solid rgba(71, 85, 105, 0.5);
+	}
+
+	.fda-formatted-content :global(.fda-interaction-table td) {
+		padding: 0.75rem;
+		border-bottom: 1px solid rgba(71, 85, 105, 0.3);
+		color: rgb(203, 213, 225); /* slate-300 */
+		vertical-align: top;
+		line-height: 1.6;
+	}
+
+	.fda-formatted-content :global(.fda-interaction-table tr:last-child td) {
+		border-bottom: none;
+	}
+
+	.fda-formatted-content :global(.fda-interaction-table tr:hover td) {
+		background: rgba(71, 85, 105, 0.2);
+	}
+
+	.fda-formatted-content :global(.fda-drug-cell) {
+		color: rgb(251, 191, 36); /* amber-400 */
+		font-weight: 600;
+		white-space: nowrap;
+	}
+
+	.fda-formatted-content :global(.fda-examples-cell) {
+		color: rgb(148, 163, 184); /* slate-400 */
+		font-style: italic;
+	}
+
 	/* Scrollbar styling */
 	.fda-content-display ::-webkit-scrollbar {
 		width: 10px;

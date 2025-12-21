@@ -79,6 +79,12 @@ const DRUG_CLASS_PATTERN =
 // Table detection
 const TABLE_PATTERN = /Table\s+\d+[:\.]?\s*[A-Z][^.]+/gi;
 
+// Drug interaction table pattern - detects the repeating structure
+const DRUG_INTERACTION_TABLE_PATTERN = /Table\s+\d+:\s*([^\n]+)\s+((?:[A-Z][A-Za-z\s,()]+(?:Clinical Impact:|Intervention:|Examples:)[^]*?)+)/gi;
+
+// Individual drug interaction row pattern
+const INTERACTION_ROW_PATTERN = /([A-Z][A-Za-z\s,()/-]+?)(?=Clinical Impact:)\s*Clinical Impact:\s*([^]*?)(?=Intervention:)\s*Intervention:\s*([^]*?)(?=Examples:|(?=[A-Z][A-Za-z\s,()/-]+Clinical Impact:)|$)(?:Examples:\s*([^]*?))?(?=(?:[A-Z][A-Za-z\s,()/-]+Clinical Impact:)|$)/g;
+
 // Notes block detection
 const NOTES_PATTERN = /Notes?:\s*/gi;
 
@@ -274,6 +280,106 @@ function extractKeyValuePairs(text: string): KeyValuePair[] {
 }
 
 /**
+ * Format drug interaction tables into HTML tables
+ * Pattern: Drug Class → Clinical Impact → Intervention → Examples (repeating)
+ */
+function formatDrugInteractionTables(text: string): string {
+	// Check if this text contains Drug Interaction table patterns
+	if (!text.includes('Clinical Impact:') || !text.includes('Intervention:')) {
+		return text;
+	}
+
+	// Find table header like "Table 4: Clinically Significant Drug Interactions..."
+	const tableHeaderMatch = text.match(/Table\s+(\d+):\s*([^.]+Drug Interactions[^.]*)/i);
+	if (!tableHeaderMatch) {
+		return text;
+	}
+
+	const tableNum = tableHeaderMatch[1];
+	const tableTitle = tableHeaderMatch[2].trim();
+
+	// Find drug class names followed by "Clinical Impact:"
+	// Pattern: after period/space or table header, find capitalized words before "Clinical Impact:"
+	const drugClassPattern = /(?:(?:\.\s+)|(?:ZITUVIMET\s+)|(?:^))([A-Z][A-Za-z\s,()/-]+?)(?=\s*Clinical Impact:)/g;
+	const drugClasses = [...text.matchAll(drugClassPattern)].map(m => m[1].trim());
+
+	if (drugClasses.length === 0) {
+		return text;
+	}
+
+	// Parse each drug interaction entry
+	const rows: Array<{drug: string, impact: string, intervention: string, examples: string}> = [];
+
+	for (const drugClass of drugClasses) {
+		// Find the section for this drug class
+		const escapedDrug = drugClass.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+		const sectionPattern = new RegExp(
+			escapedDrug + '\\s*Clinical Impact:\\s*([^]*?)(?=Intervention:)' +
+			'Intervention:\\s*([^]*?)(?=Examples:|(?:[A-Z][A-Za-z\\s,()/-]+Clinical Impact:)|$)' +
+			'(?:Examples:\\s*([^.]*\\.?))?',
+			'i'
+		);
+
+		const sectionMatch = text.match(sectionPattern);
+		if (sectionMatch) {
+			rows.push({
+				drug: drugClass,
+				impact: (sectionMatch[1] || '').trim().replace(/\s+/g, ' '),
+				intervention: (sectionMatch[2] || '').trim().replace(/\s+/g, ' '),
+				examples: (sectionMatch[3] || '').trim().replace(/\.$/, '')
+			});
+		}
+	}
+
+	if (rows.length === 0) {
+		return text;
+	}
+
+	// Build HTML table
+	const hasExamples = rows.some(r => r.examples);
+	let tableHtml = `
+<div class="fda-table-container">
+<div class="fda-table-header">Table ${tableNum}: ${tableTitle}</div>
+<table class="fda-interaction-table">
+<thead>
+<tr>
+<th>Gyógyszer/Osztály</th>
+<th>Klinikai hatás</th>
+<th>Beavatkozás</th>
+${hasExamples ? '<th>Példák</th>' : ''}
+</tr>
+</thead>
+<tbody>`;
+
+	for (const row of rows) {
+		tableHtml += `
+<tr>
+<td class="fda-drug-cell">${row.drug}</td>
+<td>${row.impact}</td>
+<td>${row.intervention}</td>
+${hasExamples ? `<td class="fda-examples-cell">${row.examples}</td>` : ''}
+</tr>`;
+	}
+
+	tableHtml += `
+</tbody>
+</table>
+</div>`;
+
+	// Find where the table content ends (after the last row's content)
+	const lastRow = rows[rows.length - 1];
+	const lastContent = lastRow.examples || lastRow.intervention;
+	const tableEndIndex = text.indexOf(lastContent) + lastContent.length + 1;
+
+	// Replace table section with formatted HTML
+	const tableStartIndex = tableHeaderMatch.index || 0;
+	const beforeTable = text.substring(0, tableStartIndex);
+	const afterTable = text.substring(tableEndIndex);
+
+	return beforeTable + tableHtml + afterTable;
+}
+
+/**
  * Split text on semicolons that precede capital letters (list pattern)
  */
 function splitOnSemicolonLists(text: string): string {
@@ -364,6 +470,9 @@ export function formatFdaContent(text: string | null): FormattedFdaContent | nul
  */
 export function formatSectionContent(content: string): string {
 	let formatted = content;
+
+	// Pre-process: format drug interaction tables into HTML tables
+	formatted = formatDrugInteractionTables(formatted);
 
 	// Pre-process: split on semicolons and numbered lists for better line breaks
 	formatted = splitOnSemicolonLists(formatted);
