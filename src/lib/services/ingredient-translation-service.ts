@@ -100,16 +100,40 @@ class IngredientTranslationService {
 			return this.translations.get(normalized)!;
 		}
 
-		// Try partial matches (for combination drugs)
-		const partialMatches: string[] = [];
+		// Try partial matches - prefer shorter keys (individual ingredients over combinations)
+		// When looking up "roszuvasztatin", prefer "rosuvastatin" over "ezetimibe and rosuvastatin"
+		const partialMatches: { key: string; values: string[] }[] = [];
 		for (const [key, values] of this.translations) {
-			if (normalized.includes(key) || key.includes(normalized)) {
-				partialMatches.push(...values);
+			// Only match if key contains the normalized input (the input is part of a larger combo)
+			// OR if the input contains the key AND the key is reasonably similar length
+			if (key.includes(normalized)) {
+				// The input is part of a larger combo - return the combo translation
+				partialMatches.push({ key, values });
+			} else if (normalized.includes(key)) {
+				// The key is part of the input - only include if key is similar length
+				// This prevents "rosuvastatin" matching "roszuvasztatin" when key is just "sz"
+				const lengthRatio = key.length / normalized.length;
+				if (lengthRatio > 0.7) {
+					partialMatches.push({ key, values });
+				}
 			}
 		}
 
 		if (partialMatches.length > 0) {
-			return [...new Set(partialMatches)]; // Deduplicate
+			// Sort by key length - prefer shorter matches (individual ingredients)
+			// For "roszuvasztatin", prefer "rosuvastatin" over "ezetimibe and rosuvastatin"
+			partialMatches.sort((a, b) => a.key.length - b.key.length);
+
+			// Only return single-ingredient translations if available
+			const singleIngredients = partialMatches.filter(m =>
+				!m.values.some(v => v.includes(' and ') || v.includes(' és '))
+			);
+
+			if (singleIngredients.length > 0) {
+				return [...new Set(singleIngredients.flatMap(m => m.values))];
+			}
+
+			return [...new Set(partialMatches.flatMap(m => m.values))];
 		}
 
 		// If ingredient looks already English (no Hungarian chars), return as-is
