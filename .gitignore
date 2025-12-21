@@ -36,3 +36,6 @@ playwright-report/
 
 # Generated data files (regenerate with scripts)
 static/data/ogyei/*.json
+
+# Audit output (regenerate with scripts)
+audit-results.json
