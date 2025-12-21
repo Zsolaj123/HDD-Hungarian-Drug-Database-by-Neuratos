@@ -23,9 +23,10 @@
 		indicationService,
 		type DrugIndicationEntry
 	} from '$lib/services/indication-service';
-	import { openFdaService, type OpenFdaSearchResult } from '$lib/services/openfda-service';
+	import { openFdaService, type OpenFdaSearchResult, type OpenFdaMultiIngredientResult } from '$lib/services/openfda-service';
 	import { ingredientTranslationService } from '$lib/services/ingredient-translation-service';
-	import { emaService, type EmaMatchResult, type EmaShortage, type EmaDhpc } from '$lib/services/ema-service';
+	import { emaService, type EmaMatchResult, type EmaShortage, type EmaDhpc, type EmaMultiIngredientResult } from '$lib/services/ema-service';
+	import { ingredientParserService } from '$lib/services/ingredient-parser-service';
 	import { specialtyService } from '$lib/services/specialty-service';
 	import DrugAutocomplete from '$lib/components/ui/DrugAutocomplete.svelte';
 	import DrugInfoModal from '$lib/components/ui/DrugInfoModal.svelte';
@@ -84,6 +85,10 @@
 	// FDA clinical data state
 	let fdaData = $state<OpenFdaSearchResult | null>(null);
 	let fdaLoading = $state(false);
+	// Multi-ingredient FDA state
+	let fdaMultiData = $state<OpenFdaMultiIngredientResult | null>(null);
+	let isMultiIngredientDrug = $state(false);
+	let activeFdaIngredientTab = $state(0);
 
 	// EMA state - real EMA data integration
 	let emaData = $state<EmaMatchResult | null>(null);
@@ -91,6 +96,9 @@
 	let emaDataTimestamp = $state<string>('');
 	// Keep for backwards compatibility with external links
 	let emaEnglishIngredient = $state<string>('');
+	// Multi-ingredient EMA state
+	let emaMultiData = $state<EmaMultiIngredientResult | null>(null);
+	let activeEmaIngredientTab = $state(0);
 
 	// Filters
 	let filterAtc = $state('');
@@ -140,15 +148,28 @@
 	async function loadFdaData(brandName: string, genericName?: string, atcCode?: string) {
 		fdaLoading = true;
 		fdaData = null;
+		fdaMultiData = null;
+		activeFdaIngredientTab = 0;
 		try {
 			// Extract brand name from full drug name (e.g., "TECFIDERA 120 MG..." -> "TECFIDERA")
 			const cleanBrand = brandName.split(/\s+\d/)[0].trim();
-			// Use translation-aware method for Hungarian→English ingredient lookup
-			// Now passes ATC code as well for better search reliability
-			fdaData = await openFdaService.getDrugLabelWithTranslation(cleanBrand, genericName, atcCode);
+
+			// Check if multi-ingredient drug
+			if (genericName && isMultiIngredientDrug) {
+				// Use multi-ingredient lookup for combination drugs
+				fdaMultiData = await openFdaService.getMultiIngredientLabels(cleanBrand, genericName, atcCode);
+				// Also set single fdaData if combination match found
+				if (fdaMultiData?.combinationMatch?.found) {
+					fdaData = fdaMultiData.combinationMatch;
+				}
+			} else {
+				// Use translation-aware method for single ingredient drugs
+				fdaData = await openFdaService.getDrugLabelWithTranslation(cleanBrand, genericName, atcCode);
+			}
 		} catch (error) {
 			console.error('Failed to load FDA data:', error);
 			fdaData = null;
+			fdaMultiData = null;
 		}
 		fdaLoading = false;
 	}
@@ -156,17 +177,43 @@
 	async function loadEmaData(drug: { activeIngredient?: string; atcCode?: string; name?: string }) {
 		emaLoading = true;
 		emaData = null;
+		emaMultiData = null;
+		activeEmaIngredientTab = 0;
 		try {
 			await emaService.initialize();
-			emaData = await emaService.findEmaData({
-				activeIngredient: drug.activeIngredient,
-				atcCode: drug.atcCode,
-				name: drug.name
-			});
+
+			// Check if multi-ingredient drug
+			if (drug.activeIngredient && isMultiIngredientDrug) {
+				// Use multi-ingredient lookup for combination drugs
+				emaMultiData = await emaService.findMultiIngredientData({
+					activeIngredient: drug.activeIngredient,
+					atcCode: drug.atcCode,
+					name: drug.name
+				});
+				// Also set single emaData if combination match found
+				if (emaMultiData?.combinationMatch) {
+					emaData = {
+						matched: true,
+						method: 'atc',
+						medicine: emaMultiData.combinationMatch,
+						shortages: emaMultiData.aggregatedShortages,
+						dhpcs: emaMultiData.aggregatedDhpcs,
+						searchTerm: drug.atcCode
+					};
+				}
+			} else {
+				// Use standard single-ingredient lookup
+				emaData = await emaService.findEmaData({
+					activeIngredient: drug.activeIngredient,
+					atcCode: drug.atcCode,
+					name: drug.name
+				});
+			}
 			emaDataTimestamp = emaService.getDataTimestamp();
 		} catch (error) {
 			console.error('Failed to load EMA data:', error);
 			emaData = null;
+			emaMultiData = null;
 		}
 		emaLoading = false;
 	}
@@ -176,12 +223,25 @@
 		isLoading = true;
 		drugIndications = null; // Reset indications
 		fdaData = null; // Reset FDA data
+		fdaMultiData = null; // Reset multi-ingredient FDA data
 		emaData = null; // Reset EMA data
+		emaMultiData = null; // Reset multi-ingredient EMA data
 		emaEnglishIngredient = ''; // Reset EMA ingredient
+		isMultiIngredientDrug = false; // Reset multi-ingredient flag
+		activeFdaIngredientTab = 0;
+		activeEmaIngredientTab = 0;
 		try {
 			const fullDrug = await drugService.getFullDrugDetails(drug.id);
 			if (fullDrug) {
 				selectedDrug = fullDrug;
+
+				// Detect multi-ingredient drugs using parser
+				if (fullDrug.activeIngredient) {
+					const parsed = ingredientParserService.parse(fullDrug.activeIngredient);
+					isMultiIngredientDrug = parsed.isMultiIngredient;
+					console.log(`[Drug] ${fullDrug.name}: ${parsed.isMultiIngredient ? 'Multi-ingredient' : 'Single ingredient'}`, parsed.ingredients);
+				}
+
 				// Update URL without navigation
 				const url = new URL(window.location.href);
 				url.searchParams.set('id', fullDrug.id);
@@ -891,6 +951,109 @@
 									<Loader2 class="h-6 w-6 animate-spin text-red-500" />
 									<span class="ml-3 text-slate-400">FDA adatok betöltése...</span>
 								</div>
+							{:else if isMultiIngredientDrug && fdaMultiData && fdaMultiData.perIngredient.length > 0}
+								<!-- Multi-ingredient FDA Display with Tabs -->
+								<div class="p-4 bg-slate-800/50 border border-slate-700 rounded-lg">
+									<div class="flex items-center gap-2 mb-2">
+										<ShieldAlert class="h-5 w-5 text-red-400" />
+										<span class="text-sm font-medium text-white">FDA Drug Labels - Hatóanyagonként</span>
+										<span class="px-2 py-0.5 text-xs bg-blue-500/20 text-blue-400 rounded border border-blue-500/30">
+											{fdaMultiData.perIngredient.length} hatóanyag
+										</span>
+									</div>
+									<p class="text-xs text-slate-400">
+										Keresési mód: {fdaMultiData.searchMethod === 'combination' ? 'kombinált készítmény' : fdaMultiData.searchMethod === 'per-ingredient' ? 'hatóanyagonként' : 'ATC fallback'}
+									</p>
+								</div>
+
+								<!-- Per-Ingredient Tabs -->
+								<div class="border-b border-slate-700">
+									<nav class="flex gap-1 flex-wrap">
+										{#each fdaMultiData.perIngredient as ingredient, idx}
+											<button
+												type="button"
+												class="flex items-center gap-2 px-4 py-2 text-sm font-medium border-b-2 transition-colors
+													{activeFdaIngredientTab === idx
+														? 'text-red-400 border-red-500 bg-red-500/10'
+														: 'text-slate-400 border-transparent hover:text-white hover:bg-slate-800/50'}"
+												onclick={() => activeFdaIngredientTab = idx}
+											>
+												{ingredient.englishName || ingredient.ingredient}
+												{#if ingredient.result?.found}
+													<span class="w-2 h-2 rounded-full bg-green-500"></span>
+												{:else}
+													<span class="w-2 h-2 rounded-full bg-red-500"></span>
+												{/if}
+											</button>
+										{/each}
+									</nav>
+								</div>
+
+								<!-- Selected Ingredient Content -->
+								{@const currentIngredient = fdaMultiData.perIngredient[activeFdaIngredientTab]}
+								{#if currentIngredient?.result?.found && currentIngredient.result.label}
+									{@const label = currentIngredient.result.label}
+									<!-- Boxed Warning -->
+									{#if label.boxedWarning}
+										<div class="border-2 border-red-500 rounded-lg overflow-hidden">
+											<div class="px-4 py-2 bg-red-500/20 border-b border-red-500 flex items-center gap-2">
+												<Ban class="h-5 w-5 text-red-400" />
+												<span class="font-semibold text-red-400">BOXED WARNING</span>
+											</div>
+											<div class="p-4 bg-red-500/5">
+												<p class="text-sm text-red-300 whitespace-pre-wrap leading-relaxed">{label.boxedWarning}</p>
+											</div>
+										</div>
+									{/if}
+
+									{#if label.contraindications}
+										<FdaContentDisplay
+											content={label.contraindications}
+											title="Ellenjavallatok (Contraindications)"
+											variant="contraindication"
+											maxHeight="250px"
+										/>
+									{/if}
+
+									{#if label.drugInteractions}
+										<FdaContentDisplay
+											content={label.drugInteractions}
+											title="Gyógyszer-interakciók (Drug Interactions)"
+											variant="interaction"
+											maxHeight="250px"
+										/>
+									{/if}
+
+									{#if label.warningsAndCautions}
+										<FdaContentDisplay
+											content={label.warningsAndCautions}
+											title="Figyelmeztetések és óvintézkedések"
+											variant="warning"
+											maxHeight="250px"
+										/>
+									{/if}
+
+									{#if label.adverseReactions}
+										<FdaContentDisplay
+											content={label.adverseReactions}
+											title="Mellékhatások (Adverse Reactions)"
+											variant="info"
+											maxHeight="250px"
+										/>
+									{/if}
+								{:else}
+									<div class="text-center py-8 bg-slate-800/30 rounded-lg">
+										<ShieldAlert class="h-8 w-8 text-slate-500 mx-auto mb-2" />
+										<p class="text-slate-400">Nem található FDA adat: <span class="text-white font-medium">{currentIngredient?.englishName || currentIngredient?.ingredient}</span></p>
+										<p class="text-xs text-slate-500 mt-2">A hatóanyag nem szerepel az FDA adatbázisban, vagy más néven van regisztrálva.</p>
+									</div>
+								{/if}
+
+								<!-- Disclaimer -->
+								<div class="text-xs text-slate-500 border-t border-slate-800 pt-4">
+									<p>Adatforrás: U.S. Food and Drug Administration (FDA) drug labeling database.</p>
+								</div>
+
 							{:else if fdaData?.found && fdaData.label}
 								<!-- FDA Data Header -->
 								<div class="p-4 bg-slate-800/50 border border-slate-700 rounded-lg">
@@ -1053,6 +1216,152 @@
 									<Loader2 class="h-6 w-6 animate-spin text-blue-500" />
 									<span class="ml-3 text-slate-400">EMA adatok betöltése...</span>
 								</div>
+							{:else if isMultiIngredientDrug && emaMultiData && emaMultiData.perIngredient.length > 0}
+								<!-- Multi-ingredient EMA Display with Tabs -->
+								<div class="p-4 bg-blue-900/20 border border-blue-700/30 rounded-lg">
+									<div class="flex items-center gap-2 mb-2">
+										<Globe class="h-5 w-5 text-blue-400" />
+										<span class="font-medium text-white">EMA EU Adatok - Hatóanyagonként</span>
+										<span class="px-2 py-0.5 text-xs bg-blue-500/20 text-blue-400 rounded border border-blue-500/30">
+											{emaMultiData.perIngredient.length} hatóanyag
+										</span>
+									</div>
+									<p class="text-xs text-slate-400">
+										Keresési mód: {emaMultiData.searchMethod === 'combination' ? 'kombinált készítmény (ATC)' : emaMultiData.searchMethod === 'per-ingredient' ? 'hatóanyagonként' : 'ATC fallback'}
+									</p>
+									{#if emaDataTimestamp}
+										<p class="text-xs text-slate-500 mt-1">Frissítve: {emaDataTimestamp}</p>
+									{/if}
+								</div>
+
+								<!-- Aggregated Shortages (show all at top) -->
+								{#if emaMultiData.aggregatedShortages && emaMultiData.aggregatedShortages.length > 0}
+									{#each emaMultiData.aggregatedShortages as shortage}
+										<div class="p-4 bg-red-900/30 border-2 border-red-500/50 rounded-lg">
+											<div class="flex items-center gap-2 mb-2">
+												<AlertTriangle class="h-5 w-5 text-red-400" />
+												<span class="font-bold text-red-400 uppercase">Hiánycikk</span>
+												<span class="text-xs text-red-300/70 ml-auto">{shortage.lastUpdated}</span>
+											</div>
+											<p class="text-red-200 font-medium">{shortage.medicine}</p>
+											{#if shortage.formsAffected}
+												<p class="text-sm text-red-300/80 mt-1">Érintett formák: {shortage.formsAffected}</p>
+											{/if}
+										</div>
+									{/each}
+								{/if}
+
+								<!-- Aggregated Safety Alerts -->
+								{#if emaMultiData.aggregatedDhpcs && emaMultiData.aggregatedDhpcs.length > 0}
+									<div class="p-4 bg-amber-900/20 border border-amber-700/30 rounded-lg">
+										<h4 class="font-medium text-amber-400 mb-3 flex items-center gap-2">
+											<AlertTriangle class="h-4 w-4" />
+											Biztonsági figyelmeztetések ({emaMultiData.aggregatedDhpcs.length})
+										</h4>
+										<div class="space-y-2">
+											{#each emaMultiData.aggregatedDhpcs.slice(0, 5) as dhpc}
+												<a href={dhpc.dhpcUrl} target="_blank" rel="noopener noreferrer"
+													class="flex items-center gap-3 p-2 bg-slate-800/50 hover:bg-amber-900/30 rounded-lg transition-colors group">
+													<span class="text-amber-300 font-medium text-sm">{dhpc.medicine}</span>
+													<span class="text-xs px-2 py-0.5 bg-amber-500/20 text-amber-400 rounded">{dhpc.dhpcType}</span>
+													<ExternalLink class="h-3 w-3 text-slate-500 group-hover:text-amber-400 ml-auto" />
+												</a>
+											{/each}
+										</div>
+									</div>
+								{/if}
+
+								<!-- Per-Ingredient Tabs -->
+								<div class="border-b border-slate-700">
+									<nav class="flex gap-1 flex-wrap">
+										{#each emaMultiData.perIngredient as ingredient, idx}
+											<button
+												type="button"
+												class="flex items-center gap-2 px-4 py-2 text-sm font-medium border-b-2 transition-colors
+													{activeEmaIngredientTab === idx
+														? 'text-blue-400 border-blue-500 bg-blue-500/10'
+														: 'text-slate-400 border-transparent hover:text-white hover:bg-slate-800/50'}"
+												onclick={() => activeEmaIngredientTab = idx}
+											>
+												{ingredient.englishName || ingredient.ingredient}
+												{#if ingredient.match?.matched}
+													<span class="w-2 h-2 rounded-full bg-green-500"></span>
+												{:else}
+													<span class="w-2 h-2 rounded-full bg-amber-500"></span>
+												{/if}
+											</button>
+										{/each}
+									</nav>
+								</div>
+
+								<!-- Selected Ingredient EMA Content -->
+								{@const currentEmaIngredient = emaMultiData.perIngredient[activeEmaIngredientTab]}
+								{#if currentEmaIngredient?.match?.matched && currentEmaIngredient.match.medicine}
+									{@const medicine = currentEmaIngredient.match.medicine}
+									<div class="p-4 bg-slate-800/50 border border-slate-700 rounded-lg">
+										<h4 class="font-medium text-slate-300 mb-4 flex items-center gap-2">
+											<FileText class="h-4 w-4 text-blue-400" />
+											EU Engedélyezési Adatok - {currentEmaIngredient.englishName}
+										</h4>
+										<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+											<div>
+												<span class="text-xs text-slate-500">EU gyógyszernév</span>
+												<p class="text-white font-medium">{medicine.name}</p>
+											</div>
+											<div>
+												<span class="text-xs text-slate-500">Státusz</span>
+												<p class="text-white">
+													<span class="inline-flex items-center gap-1.5 {medicine.status === 'Authorised' ? 'text-green-400' : 'text-amber-400'}">
+														{#if medicine.status === 'Authorised'}
+															<CheckCircle2 class="h-4 w-4" />
+														{:else}
+															<AlertCircle class="h-4 w-4" />
+														{/if}
+														{medicine.status}
+													</span>
+												</p>
+											</div>
+											{#if medicine.inn}
+												<div>
+													<span class="text-xs text-slate-500">INN</span>
+													<p class="text-blue-400">{medicine.inn}</p>
+												</div>
+											{/if}
+											{#if medicine.atcCode}
+												<div>
+													<span class="text-xs text-slate-500">ATC kód</span>
+													<p class="text-white font-mono">{medicine.atcCode}</p>
+												</div>
+											{/if}
+										</div>
+										{#if medicine.therapeuticIndication}
+											<div class="mt-4 pt-4 border-t border-slate-700">
+												<span class="text-xs text-slate-500">Terápiás javallat</span>
+												<p class="text-sm text-slate-300 mt-1 leading-relaxed line-clamp-4">{medicine.therapeuticIndication}</p>
+											</div>
+										{/if}
+										{#if medicine.productUrl}
+											<a href={medicine.productUrl} target="_blank" rel="noopener noreferrer"
+												class="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 text-sm mt-4">
+												<Globe class="h-4 w-4" />
+												EMA termékoldal
+												<ExternalLink class="h-3 w-3" />
+											</a>
+										{/if}
+									</div>
+								{:else}
+									<div class="text-center py-8 bg-slate-800/30 rounded-lg">
+										<Globe class="h-8 w-8 text-slate-500 mx-auto mb-2" />
+										<p class="text-slate-400">Nincs EU adat: <span class="text-white font-medium">{currentEmaIngredient?.englishName || currentEmaIngredient?.ingredient}</span></p>
+										<p class="text-xs text-slate-500 mt-2">A hatóanyag nem szerepel az EMA központi engedélyezésű gyógyszerei között.</p>
+									</div>
+								{/if}
+
+								<!-- Disclaimer -->
+								<div class="text-xs text-slate-500 border-t border-slate-800 pt-4">
+									<p>Adatforrás: European Medicines Agency (EMA) nyilvános adatbázis.</p>
+								</div>
+
 							{:else}
 								<!-- Header with match status -->
 								<div class="p-4 bg-blue-900/20 border border-blue-700/30 rounded-lg">

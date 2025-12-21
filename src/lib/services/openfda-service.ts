@@ -14,6 +14,7 @@
  */
 
 import { ingredientTranslationService } from './ingredient-translation-service';
+import { ingredientParserService, type ParsedIngredients } from './ingredient-parser-service';
 
 const OPENFDA_BASE_URL = 'https://api.fda.gov/drug/label.json';
 
@@ -42,6 +43,23 @@ export interface OpenFdaSearchResult {
 	label: OpenFdaDrugLabel | null;
 	error: string | null;
 	searchedBy: 'brand_name' | 'generic_name' | 'active_ingredient';
+}
+
+/**
+ * Result for multi-ingredient drug lookups
+ * Contains per-ingredient results for tabbed display
+ */
+export interface OpenFdaMultiIngredientResult {
+	matchedByAny: boolean;
+	combinationMatch?: OpenFdaSearchResult; // Direct combination found via brand name
+	perIngredient: {
+		ingredient: string;        // Original Hungarian ingredient
+		englishName: string;       // Translated English name
+		result?: OpenFdaSearchResult;
+	}[];
+	searchMethod: 'combination' | 'per-ingredient' | 'atc-fallback';
+	isMultiIngredient: boolean;
+	parsedIngredients: ParsedIngredients;
 }
 
 // Cache for API responses (5 minute TTL)
@@ -485,6 +503,124 @@ class OpenFdaService {
 			adverseReactions: extractSummary(label.adverseReactions, 500),
 			translatedFrom: hungarianIngredient !== label.genericName ? hungarianIngredient : undefined
 		};
+	}
+
+	/**
+	 * Get FDA drug labels for multi-ingredient drugs
+	 * Parses the ingredient string and searches for each ingredient separately
+	 * Returns per-ingredient results for tabbed display
+	 */
+	async getMultiIngredientLabels(
+		brandName: string,
+		hungarianIngredient?: string,
+		atcCode?: string
+	): Promise<OpenFdaMultiIngredientResult> {
+		// Parse ingredients
+		const parsed = ingredientParserService.parse(hungarianIngredient);
+
+		const result: OpenFdaMultiIngredientResult = {
+			matchedByAny: false,
+			perIngredient: [],
+			searchMethod: 'per-ingredient',
+			isMultiIngredient: parsed.isMultiIngredient,
+			parsedIngredients: parsed
+		};
+
+		// 1. Try direct brand name search first (may get combination product)
+		// Strip dosage from brand name (e.g., "CO-XETER 10 MG/10 MG" → "CO-XETER")
+		const cleanBrandName = brandName.split(/\s+\d/)[0].trim();
+		const brandResult = await searchByBrandName(cleanBrandName);
+		if (brandResult.found) {
+			result.combinationMatch = brandResult;
+			result.matchedByAny = true;
+			result.searchMethod = 'combination';
+			console.log(`[OpenFDA Multi] Found combination via brand: "${cleanBrandName}"`);
+		}
+
+		// 2. If multi-ingredient, parse and search each ingredient separately
+		if (parsed.isMultiIngredient && parsed.ingredients.length > 0) {
+			for (const ingredient of parsed.ingredients) {
+				// Get English translations
+				const englishVariants = await ingredientTranslationService.toEnglish(ingredient);
+				const englishName = englishVariants[0] || ingredient;
+
+				let ingredientResult: OpenFdaSearchResult | undefined;
+
+				// Try each English variant
+				for (const variant of englishVariants) {
+					// Try active_ingredient field first
+					let searchResult = await searchByActiveIngredient(variant);
+					if (!searchResult.found) {
+						searchResult = await searchByGenericName(variant);
+					}
+
+					if (searchResult.found) {
+						ingredientResult = searchResult;
+						console.log(`[OpenFDA Multi] Found ingredient: "${ingredient}" → "${variant}"`);
+						break;
+					}
+				}
+
+				// Add to per-ingredient results
+				result.perIngredient.push({
+					ingredient,
+					englishName,
+					result: ingredientResult
+				});
+
+				if (ingredientResult?.found) {
+					result.matchedByAny = true;
+				}
+			}
+		}
+
+		// 3. ATC fallback for generic placeholders (e.g., "irbesartan and diuretics")
+		if (!result.matchedByAny && parsed.isGenericPlaceholder && atcCode) {
+			const atcEnglish = await ingredientTranslationService.getEnglishFromAtc(atcCode);
+			if (atcEnglish) {
+				result.searchMethod = 'atc-fallback';
+				console.log(`[OpenFDA Multi] ATC fallback: ${atcCode} → "${atcEnglish}"`);
+
+				// Parse the ATC-derived name and search each component
+				const atcParsed = ingredientParserService.parse(atcEnglish);
+				for (const ing of atcParsed.ingredients) {
+					let fallbackResult = await searchByActiveIngredient(ing);
+					if (!fallbackResult.found) {
+						fallbackResult = await searchByGenericName(ing);
+					}
+
+					if (fallbackResult.found) {
+						result.perIngredient.push({
+							ingredient: ing,
+							englishName: ing,
+							result: fallbackResult
+						});
+						result.matchedByAny = true;
+						console.log(`[OpenFDA Multi] Found via ATC fallback: "${ing}"`);
+					}
+				}
+			}
+		}
+
+		// 4. If single ingredient and no match yet, use existing method
+		if (!parsed.isMultiIngredient && !result.matchedByAny) {
+			const singleResult = await this.getDrugLabelWithTranslation(
+				brandName,
+				hungarianIngredient,
+				atcCode
+			);
+			if (singleResult.found) {
+				const englishVariants = await ingredientTranslationService.toEnglish(hungarianIngredient || '');
+				result.perIngredient.push({
+					ingredient: hungarianIngredient || brandName,
+					englishName: englishVariants[0] || hungarianIngredient || brandName,
+					result: singleResult
+				});
+				result.matchedByAny = true;
+			}
+		}
+
+		return result;
 	}
 
 	/**

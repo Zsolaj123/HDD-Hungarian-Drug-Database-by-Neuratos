@@ -6,6 +6,7 @@
  */
 
 import { ingredientTranslationService } from './ingredient-translation-service';
+import { ingredientParserService, type ParsedIngredients } from './ingredient-parser-service';
 
 // ============= INTERFACES =============
 
@@ -61,6 +62,25 @@ export interface EmaMatchResult {
   shortages?: EmaShortage[];
   dhpcs?: EmaDhpc[];
   searchTerm?: string;
+}
+
+/**
+ * Result for multi-ingredient drug lookups
+ * Contains per-ingredient results for tabbed display
+ */
+export interface EmaMultiIngredientResult {
+  matchedByAny: boolean;
+  combinationMatch?: EmaMedicine;  // If combination found in EMA database
+  perIngredient: {
+    ingredient: string;        // Original Hungarian ingredient
+    englishName: string;       // Translated English name
+    match?: EmaMatchResult;
+  }[];
+  aggregatedShortages: EmaShortage[];
+  aggregatedDhpcs: EmaDhpc[];
+  searchMethod: 'combination' | 'per-ingredient' | 'atc-fallback';
+  isMultiIngredient: boolean;
+  parsedIngredients: ParsedIngredients;
 }
 
 // ============= RAW DATA TYPES =============
@@ -527,6 +547,175 @@ class EmaService {
       totalDhpcs: this.dhpcs.length,
       lastUpdated: this.dataTimestamp
     };
+  }
+
+  /**
+   * Find EMA data for multi-ingredient drugs
+   * Parses the ingredient string and searches for each ingredient separately
+   * Returns per-ingredient results for tabbed display
+   */
+  async findMultiIngredientData(hungarianDrug: {
+    activeIngredient?: string;
+    atcCode?: string;
+    name?: string;
+  }): Promise<EmaMultiIngredientResult> {
+    if (!this.initialized) {
+      await this.initialize();
+    }
+
+    // Parse ingredients
+    const parsed = ingredientParserService.parse(hungarianDrug.activeIngredient);
+
+    const result: EmaMultiIngredientResult = {
+      matchedByAny: false,
+      perIngredient: [],
+      aggregatedShortages: [],
+      aggregatedDhpcs: [],
+      searchMethod: 'per-ingredient',
+      isMultiIngredient: parsed.isMultiIngredient,
+      parsedIngredients: parsed
+    };
+
+    // 1. Try combination ATC lookup first
+    if (hungarianDrug.atcCode) {
+      const combinationResult = await this.findEmaData({
+        atcCode: hungarianDrug.atcCode,
+        name: hungarianDrug.name
+      });
+      if (combinationResult.matched && combinationResult.medicine) {
+        result.combinationMatch = combinationResult.medicine;
+        result.matchedByAny = true;
+        result.searchMethod = 'combination';
+
+        // Add shortages and DHPCs from combination
+        if (combinationResult.shortages) {
+          result.aggregatedShortages.push(...combinationResult.shortages);
+        }
+        if (combinationResult.dhpcs) {
+          result.aggregatedDhpcs.push(...combinationResult.dhpcs);
+        }
+        console.log(`[EMA Multi] Found combination via ATC: ${hungarianDrug.atcCode}`);
+      }
+    }
+
+    // 2. If multi-ingredient, parse and search per ingredient
+    if (parsed.isMultiIngredient && parsed.ingredients.length > 0) {
+      for (const ingredient of parsed.ingredients) {
+        // Get English translations
+        const englishVariants = await ingredientTranslationService.toEnglish(ingredient);
+        const englishName = englishVariants[0] || ingredient;
+
+        // Search for this ingredient only (don't pass ATC - we want individual match)
+        const ingredientMatch = await this.findEmaData({
+          activeIngredient: ingredient,
+          name: undefined // Don't use brand name for individual ingredients
+        });
+
+        result.perIngredient.push({
+          ingredient,
+          englishName,
+          match: ingredientMatch.matched ? ingredientMatch : undefined
+        });
+
+        if (ingredientMatch.matched) {
+          result.matchedByAny = true;
+          console.log(`[EMA Multi] Found ingredient: "${ingredient}" → "${englishName}"`);
+
+          // Aggregate shortages and DHPCs
+          if (ingredientMatch.shortages) {
+            result.aggregatedShortages.push(...ingredientMatch.shortages);
+          }
+          if (ingredientMatch.dhpcs) {
+            result.aggregatedDhpcs.push(...ingredientMatch.dhpcs);
+          }
+        }
+      }
+    }
+
+    // 3. ATC fallback for generic placeholders (e.g., "irbesartan and diuretics")
+    if (!result.matchedByAny && parsed.isGenericPlaceholder && hungarianDrug.atcCode) {
+      const atcEnglish = await ingredientTranslationService.getEnglishFromAtc(hungarianDrug.atcCode);
+      if (atcEnglish) {
+        result.searchMethod = 'atc-fallback';
+        console.log(`[EMA Multi] ATC fallback: ${hungarianDrug.atcCode} → "${atcEnglish}"`);
+
+        // Parse the ATC-derived name and search each component
+        const atcParsed = ingredientParserService.parse(atcEnglish);
+        for (const ing of atcParsed.ingredients) {
+          const fallbackMatch = await this.findEmaData({ activeIngredient: ing });
+          if (fallbackMatch.matched) {
+            result.perIngredient.push({
+              ingredient: ing,
+              englishName: ing,
+              match: fallbackMatch
+            });
+            result.matchedByAny = true;
+            console.log(`[EMA Multi] Found via ATC fallback: "${ing}"`);
+
+            // Aggregate shortages and DHPCs
+            if (fallbackMatch.shortages) {
+              result.aggregatedShortages.push(...fallbackMatch.shortages);
+            }
+            if (fallbackMatch.dhpcs) {
+              result.aggregatedDhpcs.push(...fallbackMatch.dhpcs);
+            }
+          }
+        }
+      }
+    }
+
+    // 4. If single ingredient and no match yet, use existing method
+    if (!parsed.isMultiIngredient && !result.matchedByAny) {
+      const singleResult = await this.findEmaData(hungarianDrug);
+      if (singleResult.matched) {
+        const englishVariants = await ingredientTranslationService.toEnglish(hungarianDrug.activeIngredient || '');
+        result.perIngredient.push({
+          ingredient: hungarianDrug.activeIngredient || hungarianDrug.name || '',
+          englishName: englishVariants[0] || hungarianDrug.activeIngredient || '',
+          match: singleResult
+        });
+        result.matchedByAny = true;
+
+        if (singleResult.shortages) {
+          result.aggregatedShortages.push(...singleResult.shortages);
+        }
+        if (singleResult.dhpcs) {
+          result.aggregatedDhpcs.push(...singleResult.dhpcs);
+        }
+      }
+    }
+
+    // Deduplicate aggregated results
+    result.aggregatedShortages = this.deduplicateShortages(result.aggregatedShortages);
+    result.aggregatedDhpcs = this.deduplicateDhpcs(result.aggregatedDhpcs);
+
+    return result;
+  }
+
+  /**
+   * Deduplicate shortages by medicine + startDate
+   */
+  private deduplicateShortages(shortages: EmaShortage[]): EmaShortage[] {
+    const seen = new Set<string>();
+    return shortages.filter(s => {
+      const key = `${s.medicine}|${s.startDate}`;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+  }
+
+  /**
+   * Deduplicate DHPCs by medicine + disseminationDate
+   */
+  private deduplicateDhpcs(dhpcs: EmaDhpc[]): EmaDhpc[] {
+    const seen = new Set<string>();
+    return dhpcs.filter(d => {
+      const key = `${d.medicine}|${d.disseminationDate}`;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
   }
 }
 
