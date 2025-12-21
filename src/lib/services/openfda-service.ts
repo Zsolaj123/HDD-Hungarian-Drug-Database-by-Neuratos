@@ -72,8 +72,10 @@ const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
 function cleanLabelText(text: string | string[] | undefined): string | null {
 	if (!text) return null;
 	const content = Array.isArray(text) ? text.join('\n\n') : text;
-	// Remove section numbers like "4 CONTRAINDICATIONS" at the start
-	return content.replace(/^\d+(\.\d+)?\s+[A-Z\s]+\n?/g, '').trim() || null;
+	// Remove section numbers like "4 CONTRAINDICATIONS" or "7 DRUG INTERACTIONS" at the start
+	// Match: digit(s) + optional decimal + space + consecutive ALL-CAPS words (not mixed case)
+	// This preserves content that starts with uppercase like "Severe renal impairment"
+	return content.replace(/^\d+(\.\d+)?\s+([A-Z]+\s+)+/g, '').trim() || null;
 }
 
 /**
