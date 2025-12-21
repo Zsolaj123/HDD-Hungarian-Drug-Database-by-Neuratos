@@ -1055,12 +1055,60 @@
 									</div>
 								{/if}
 							{:else}
-								<div class="text-center py-8">
-									<div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-slate-800 mb-3">
-										<Stethoscope class="h-6 w-6 text-slate-500" />
+								<!-- No NEAK indications - try FDA/EMA fallback -->
+								<div class="space-y-4">
+									<div class="text-center py-4">
+										<div class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-slate-800 mb-2">
+											<Stethoscope class="h-5 w-5 text-slate-500" />
+										</div>
+										<p class="text-slate-400 text-sm">Nincs NEAK indikációs adat (nem TB támogatott)</p>
 									</div>
-									<p class="text-slate-400">Ehhez a gyógyszerhez nem találhatók engedélyezett indikációk az adatbázisban.</p>
-									<p class="text-xs text-slate-500 mt-2">Ez nem jelenti, hogy a gyógyszer nem használható - csak az EU támogatási rendszerben nincs bejegyezve.</p>
+
+									<!-- EMA Fallback -->
+									{#if emaData?.matched && emaData.medicine?.therapeuticIndication}
+										<div class="p-4 bg-blue-500/10 border border-blue-500/30 rounded-lg">
+											<div class="flex items-center gap-2 mb-3">
+												<Globe class="h-4 w-4 text-blue-400" />
+												<span class="text-sm font-medium text-blue-400">EMA Terápiás javallat (EU)</span>
+											</div>
+											<p class="text-sm text-slate-300 leading-relaxed whitespace-pre-wrap">{emaData.medicine.therapeuticIndication}</p>
+											<p class="text-xs text-slate-500 mt-3">Forrás: Európai Gyógyszerügynökség (EMA) - {emaData.medicine.name}</p>
+										</div>
+									{/if}
+
+									<!-- FDA Fallback -->
+									{#if fdaData?.found && fdaData.label?.indicationsAndUsage}
+										<div class="p-4 bg-red-500/10 border border-red-500/30 rounded-lg">
+											<div class="flex items-center gap-2 mb-3">
+												<ShieldAlert class="h-4 w-4 text-red-400" />
+												<span class="text-sm font-medium text-red-400">FDA Indikációk (USA)</span>
+											</div>
+											<p class="text-sm text-slate-300 leading-relaxed whitespace-pre-wrap">{fdaData.label.indicationsAndUsage}</p>
+											<p class="text-xs text-slate-500 mt-3">Forrás: U.S. Food and Drug Administration (FDA)</p>
+										</div>
+									{:else if !fdaData && !fdaLoading}
+										<!-- Offer to load FDA data -->
+										<button
+											type="button"
+											class="w-full p-3 bg-slate-800/50 border border-slate-700 rounded-lg hover:bg-slate-800 transition-colors flex items-center justify-center gap-2"
+											onclick={() => selectedDrug && loadFdaData(selectedDrug.name, selectedDrug.activeIngredient, selectedDrug.atcCode)}
+										>
+											<ShieldAlert class="h-4 w-4 text-red-400" />
+											<span class="text-sm text-slate-400">FDA indikációk betöltése</span>
+										</button>
+									{:else if fdaLoading}
+										<div class="flex items-center justify-center py-3">
+											<Loader2 class="h-4 w-4 animate-spin text-red-400" />
+											<span class="ml-2 text-sm text-slate-400">FDA adatok betöltése...</span>
+										</div>
+									{/if}
+
+									<!-- No fallback available -->
+									{#if !(emaData?.matched && emaData.medicine?.therapeuticIndication) && !fdaData?.found && !fdaLoading}
+										<p class="text-xs text-slate-500 text-center">
+											Kattintson az FDA vagy EMA fülre további információkért.
+										</p>
+									{/if}
 								</div>
 							{/if}
 						</div>
