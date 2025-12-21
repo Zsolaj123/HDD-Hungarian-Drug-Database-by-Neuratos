@@ -272,8 +272,12 @@
 		const searchResults = await drugService.searchDrugs(query, { limit: maxResults });
 		const unified = searchResults.map((d) => normalizeToUnified(d, 'local'));
 
+		// Filter out GYSE items (medical devices with no active ingredient)
+		// Defense in depth - service also filters, but ensure UI is clean
+		const filtered = unified.filter((d) => d.activeIngredient?.trim());
+
 		// Sort: active drugs first, then withdrawn drugs
-		unified.sort((a, b) => {
+		filtered.sort((a, b) => {
 			const aActive = a.inMarket !== false;
 			const bActive = b.inMarket !== false;
 			if (aActive && !bActive) return -1;
@@ -281,7 +285,7 @@
 			return 0; // Keep original order for same status
 		});
 
-		return unified;
+		return filtered;
 	}
 
 	async function performPuphaxSearch(query: string): Promise<UnifiedDrug[]> {
@@ -315,7 +319,10 @@
 		try {
 			if (groupedMode) {
 				// Use grouped search for two-step selection
-				groupedResults = await drugService.searchDrugsGrouped(query, { limit: maxResults });
+				let rawGrouped = await drugService.searchDrugsGrouped(query, { limit: maxResults });
+
+				// Filter out GYSE groups (medical devices with no active ingredient)
+				groupedResults = rawGrouped.filter((g) => g.activeIngredient?.trim());
 
 				// Sort: groups with active variants first, all-withdrawn groups last
 				groupedResults.sort((a, b) => {

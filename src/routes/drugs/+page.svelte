@@ -28,6 +28,7 @@
 	import { emaService, type EmaMatchResult, type EmaShortage, type EmaDhpc, type EmaMultiIngredientResult } from '$lib/services/ema-service';
 	import { ingredientParserService } from '$lib/services/ingredient-parser-service';
 	import { specialtyService } from '$lib/services/specialty-service';
+	import { getManualPairing, saveManualPairing, type ManualPairing } from '$lib/utils/manual-pairing-store';
 	import DrugAutocomplete from '$lib/components/ui/DrugAutocomplete.svelte';
 	import DrugInfoModal from '$lib/components/ui/DrugInfoModal.svelte';
 	import FdaContentDisplay from '$lib/components/ui/FdaContentDisplay.svelte';
@@ -99,6 +100,17 @@
 	// Multi-ingredient EMA state
 	let emaMultiData = $state<EmaMultiIngredientResult | null>(null);
 	let activeEmaIngredientTab = $state(0);
+
+	// Manual search state (when auto-lookup fails)
+	let manualFdaSearch = $state('');
+	let manualFdaLoading = $state(false);
+	let manualFdaResults = $state<OpenFdaSearchResult | null>(null);
+	let fdaMatchedByPairing = $state(false);
+
+	let manualEmaSearch = $state('');
+	let manualEmaLoading = $state(false);
+	let manualEmaResults = $state<EmaMatchResult | null>(null);
+	let emaMatchedByPairing = $state(false);
 
 	// Filters
 	let filterAtc = $state('');
@@ -218,6 +230,103 @@
 		emaLoading = false;
 	}
 
+	/**
+	 * Manual FDA search when auto-lookup fails
+	 * Allows user to search with English drug names directly
+	 */
+	async function handleManualFdaSearch() {
+		if (!manualFdaSearch.trim() || !selectedDrug) return;
+
+		manualFdaLoading = true;
+		manualFdaResults = null;
+
+		try {
+			// Try generic_name search first (most reliable for FDA)
+			let result = await openFdaService.searchByGenericName(manualFdaSearch.trim().toUpperCase());
+
+			if (!result?.found) {
+				// Fallback to active_ingredient
+				result = await openFdaService.searchByActiveIngredient(manualFdaSearch.trim());
+			}
+
+			if (result?.found) {
+				manualFdaResults = result;
+
+				// Save successful pairing for future auto-lookup
+				saveManualPairing('fda', {
+					drugId: selectedDrug.id,
+					drugName: selectedDrug.name,
+					searchTerm: manualFdaSearch.trim(),
+					foundBrandName: result.brandName || undefined,
+					timestamp: Date.now()
+				});
+			} else {
+				manualFdaResults = { found: false };
+			}
+		} catch (error) {
+			console.error('Manual FDA search failed:', error);
+			manualFdaResults = { found: false };
+		}
+
+		manualFdaLoading = false;
+	}
+
+	/**
+	 * Manual EMA search when auto-lookup fails
+	 * Allows user to search with INN/brand names directly
+	 */
+	async function handleManualEmaSearch() {
+		if (!manualEmaSearch.trim() || !selectedDrug) return;
+
+		manualEmaLoading = true;
+		manualEmaResults = null;
+
+		try {
+			await emaService.initialize();
+
+			// Search by INN or brand name
+			const result = await emaService.findEmaData({
+				activeIngredient: manualEmaSearch.trim(),
+				name: manualEmaSearch.trim()
+			});
+
+			if (result?.matched) {
+				manualEmaResults = result;
+
+				// Save successful pairing for future auto-lookup
+				saveManualPairing('ema', {
+					drugId: selectedDrug.id,
+					drugName: selectedDrug.name,
+					searchTerm: manualEmaSearch.trim(),
+					foundBrandName: result.medicine?.name_of_medicine || undefined,
+					timestamp: Date.now()
+				});
+			} else {
+				manualEmaResults = null;
+			}
+		} catch (error) {
+			console.error('Manual EMA search failed:', error);
+			manualEmaResults = null;
+		}
+
+		manualEmaLoading = false;
+	}
+
+	/**
+	 * Reset manual search state when drug changes
+	 */
+	function resetManualSearchState() {
+		manualFdaSearch = '';
+		manualFdaResults = null;
+		manualFdaLoading = false;
+		fdaMatchedByPairing = false;
+
+		manualEmaSearch = '';
+		manualEmaResults = null;
+		manualEmaLoading = false;
+		emaMatchedByPairing = false;
+	}
+
 	async function handleDrugSelect(drug: Drug | SimplifiedDrug | DrugSummaryLight) {
 		// Fetch full drug details from the database
 		isLoading = true;
@@ -230,6 +339,7 @@
 		isMultiIngredientDrug = false; // Reset multi-ingredient flag
 		activeFdaIngredientTab = 0;
 		activeEmaIngredientTab = 0;
+		resetManualSearchState(); // Reset manual search state
 		try {
 			const fullDrug = await drugService.getFullDrugDetails(drug.id);
 			if (fullDrug) {
@@ -1175,16 +1285,68 @@
 									<p>Adatforrás: U.S. Food and Drug Administration (FDA) drug labeling database. Az információ amerikai gyógyszercímkéből származik és a magyar előírások eltérhetnek. Mindig konzultáljon az aktuális magyarországi betegtájékoztatóval.</p>
 								</div>
 							{:else if fdaData && !fdaData.found}
-								<!-- FDA Not Found -->
-								<div class="text-center py-8">
-									<div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-slate-800 mb-3">
-										<ShieldAlert class="h-6 w-6 text-slate-500" />
+								<!-- FDA Not Found - Manual Search -->
+								<div class="py-6">
+									<div class="text-center mb-6">
+										<div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-slate-800 mb-3">
+											<ShieldAlert class="h-6 w-6 text-slate-500" />
+										</div>
+										<p class="text-slate-400">Az automatikus keresés nem talált FDA adatot.</p>
 									</div>
-									<p class="text-slate-400">Az FDA adatbázisban nem található ez a gyógyszer.</p>
-									<p class="text-xs text-slate-500 mt-2">
-										Az FDA adatbázis amerikai gyógyszereket tartalmaz.
-										Európai/magyar gyógyszerek nem mindig találhatók meg.
-									</p>
+
+									<!-- Manual Search Input -->
+									<div class="max-w-md mx-auto">
+										<p class="text-sm text-slate-400 mb-3 text-center">Próbáljon angol gyógyszernévvel keresni:</p>
+										<div class="flex gap-2">
+											<input
+												type="text"
+												bind:value={manualFdaSearch}
+												placeholder="pl. aspirin, acetaminophen, ibuprofen..."
+												class="flex-1 px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder:text-slate-500 focus:outline-none focus:border-red-500/50"
+												onkeydown={(e) => e.key === 'Enter' && handleManualFdaSearch()}
+											/>
+											<button
+												type="button"
+												onclick={handleManualFdaSearch}
+												disabled={!manualFdaSearch.trim() || manualFdaLoading}
+												class="px-4 py-2 bg-red-500/20 hover:bg-red-500/30 text-red-400 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+											>
+												{#if manualFdaLoading}
+													<Loader2 class="h-4 w-4 animate-spin" />
+												{:else}
+													<Search class="h-4 w-4" />
+												{/if}
+												Keresés
+											</button>
+										</div>
+
+										<!-- Search Tips -->
+										<div class="mt-4 p-3 bg-slate-800/50 rounded-lg">
+											<p class="text-xs text-slate-400 font-medium mb-2">Tippek a kereséshez:</p>
+											<ul class="text-xs text-slate-500 space-y-1">
+												<li>• Használjon angol nevet (aspirin, ibuprofen)</li>
+												<li>• Próbálja a hatóanyag angol nevét (acetylsalicylic acid)</li>
+												<li>• USA márkaneveknél próbáljon nagybetűt (TYLENOL)</li>
+												<li>• Paracetamol helyett acetaminophen</li>
+											</ul>
+										</div>
+									</div>
+
+									<!-- Manual Search Results -->
+									{#if manualFdaResults?.found}
+										<div class="mt-6 p-4 bg-emerald-500/10 border border-emerald-500/30 rounded-lg">
+											<div class="flex items-center gap-2 text-emerald-400 mb-3">
+												<CheckCircle2 class="h-5 w-5" />
+												<span class="font-medium">Találat: {manualFdaSearch}</span>
+												<span class="text-xs text-emerald-500/70">(párosítás mentve)</span>
+											</div>
+											<FdaContentDisplay data={manualFdaResults} />
+										</div>
+									{:else if manualFdaResults && !manualFdaResults.found}
+										<div class="mt-4 text-center text-sm text-slate-500">
+											Nincs találat erre: "{manualFdaSearch}". Próbáljon más kifejezést.
+										</div>
+									{/if}
 								</div>
 							{:else}
 								<!-- Prompt to load -->
@@ -1605,10 +1767,76 @@
 									</details>
 								{/if}
 
+								<!-- Manual EMA Search (when not matched) -->
+								{#if !emaData?.matched && !emaMultiData}
+									<div class="mt-4 p-4 bg-slate-800/50 rounded-lg">
+										<p class="text-sm text-slate-400 mb-3">Próbáljon angol gyógyszernévvel (INN) keresni:</p>
+										<div class="flex gap-2">
+											<input
+												type="text"
+												bind:value={manualEmaSearch}
+												placeholder="pl. ibuprofen, omeprazole..."
+												class="flex-1 px-3 py-2 bg-slate-900 border border-slate-700 rounded-lg text-white placeholder:text-slate-500 focus:outline-none focus:border-blue-500/50"
+												onkeydown={(e) => e.key === 'Enter' && handleManualEmaSearch()}
+											/>
+											<button
+												type="button"
+												onclick={handleManualEmaSearch}
+												disabled={!manualEmaSearch.trim() || manualEmaLoading}
+												class="px-4 py-2 bg-blue-500/20 hover:bg-blue-500/30 text-blue-400 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+											>
+												{#if manualEmaLoading}
+													<Loader2 class="h-4 w-4 animate-spin" />
+												{:else}
+													<Search class="h-4 w-4" />
+												{/if}
+												Keresés
+											</button>
+										</div>
+
+										<!-- Manual EMA Search Results -->
+										{#if manualEmaResults?.matched}
+											<div class="mt-4 p-4 bg-emerald-500/10 border border-emerald-500/30 rounded-lg">
+												<div class="flex items-center gap-2 text-emerald-400 mb-3">
+													<CheckCircle2 class="h-5 w-5" />
+													<span class="font-medium">Találat: {manualEmaSearch}</span>
+													<span class="text-xs text-emerald-500/70">(párosítás mentve)</span>
+												</div>
+												{#if manualEmaResults.medicine}
+													<div class="grid grid-cols-2 gap-3 text-sm">
+														<div>
+															<span class="text-xs text-slate-500">Gyógyszernév</span>
+															<p class="text-white">{manualEmaResults.medicine.name}</p>
+														</div>
+														<div>
+															<span class="text-xs text-slate-500">Státusz</span>
+															<p class="{manualEmaResults.medicine.status === 'Authorised' ? 'text-green-400' : 'text-amber-400'}">{manualEmaResults.medicine.status}</p>
+														</div>
+														{#if manualEmaResults.medicine.inn}
+															<div>
+																<span class="text-xs text-slate-500">INN</span>
+																<p class="text-blue-400">{manualEmaResults.medicine.inn}</p>
+															</div>
+														{/if}
+														{#if manualEmaResults.medicine.therapeuticIndication}
+															<div class="col-span-2">
+																<span class="text-xs text-slate-500">Terápiás javallat</span>
+																<p class="text-slate-300 text-sm line-clamp-3">{manualEmaResults.medicine.therapeuticIndication}</p>
+															</div>
+														{/if}
+													</div>
+												{/if}
+											</div>
+										{:else if manualEmaResults === null && manualEmaSearch && !manualEmaLoading}
+											<!-- This case is when search returned no results -->
+										{/if}
+									</div>
+								{/if}
+
 								<!-- Footer info -->
 								<div class="text-xs text-slate-500 pt-2 border-t border-slate-800">
 									<p>Adatforrás: European Medicines Agency (EMA) nyilvános adatbázis.</p>
-									{#if !emaData?.matched}
+									{#if !emaData?.matched && !manualEmaResults?.matched}
 										<p class="mt-1 text-amber-500/70">Ez a gyógyszer nem található az EMA központi engedélyezésű gyógyszerei között. Ez nem jelenti, hogy nem engedélyezett - lehet nemzeti engedélyezésű.</p>
 									{/if}
 								</div>

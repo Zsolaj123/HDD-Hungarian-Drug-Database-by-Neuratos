@@ -93,18 +93,49 @@ function extractSummary(text: string | null, maxLength = 300): string | null {
 function parseLabel(result: Record<string, unknown>): OpenFdaDrugLabel {
 	const openfda = (result.openfda as Record<string, string[]>) || {};
 
+	// Handle both Rx (prescription) and OTC (over-the-counter) label formats
+	// OTC labels use different field names: warnings, do_not_use, ask_doctor, etc.
+
+	// Contraindications: Rx uses contraindications, OTC uses do_not_use
+	const contraindications = cleanLabelText(result.contraindications as string[]) ||
+		cleanLabelText(result.do_not_use as string[]);
+
+	// Drug interactions: Rx uses drug_interactions, OTC uses ask_doctor/ask_doctor_or_pharmacist
+	let drugInteractions = cleanLabelText(result.drug_interactions as string[]);
+	if (!drugInteractions) {
+		const askDoctor = cleanLabelText(result.ask_doctor as string[]);
+		const askPharmacist = cleanLabelText(result.ask_doctor_or_pharmacist as string[]);
+		if (askDoctor || askPharmacist) {
+			drugInteractions = [askDoctor, askPharmacist].filter(Boolean).join('\n\n');
+		}
+	}
+
+	// Warnings: Rx uses warnings_and_cautions, OTC uses warnings (+ stop_use)
+	let warningsAndCautions = cleanLabelText(result.warnings_and_cautions as string[]);
+	if (!warningsAndCautions) {
+		const warnings = cleanLabelText(result.warnings as string[]);
+		const stopUse = cleanLabelText(result.stop_use as string[]);
+		if (warnings || stopUse) {
+			warningsAndCautions = [warnings, stopUse ? `Stop use: ${stopUse}` : null].filter(Boolean).join('\n\n');
+		}
+	}
+
+	// Pregnancy: Rx uses pregnancy, OTC uses pregnancy_or_breast_feeding
+	const pregnancy = cleanLabelText(result.pregnancy as string[]) ||
+		cleanLabelText(result.pregnancy_or_breast_feeding as string[]);
+
 	return {
 		brandName: openfda.brand_name?.[0] || '',
 		genericName: openfda.generic_name?.[0] || '',
 		manufacturer: openfda.manufacturer_name?.[0] || '',
-		contraindications: cleanLabelText(result.contraindications as string[]),
-		drugInteractions: cleanLabelText(result.drug_interactions as string[]),
-		warningsAndCautions: cleanLabelText(result.warnings_and_cautions as string[]),
+		contraindications,
+		drugInteractions,
+		warningsAndCautions,
 		boxedWarning: cleanLabelText(result.boxed_warning as string[]),
 		adverseReactions: cleanLabelText(result.adverse_reactions as string[]),
 		indicationsAndUsage: cleanLabelText(result.indications_and_usage as string[]),
 		dosageAndAdministration: cleanLabelText(result.dosage_and_administration as string[]),
-		pregnancy: cleanLabelText(result.pregnancy as string[]),
+		pregnancy,
 		pediatricUse: cleanLabelText(result.pediatric_use as string[]),
 		geriatricUse: cleanLabelText(result.geriatric_use as string[]),
 		mechanismOfAction: cleanLabelText(result.mechanism_of_action as string[]),

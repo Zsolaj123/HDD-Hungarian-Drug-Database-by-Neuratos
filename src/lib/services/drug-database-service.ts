@@ -442,9 +442,14 @@ class DrugDatabaseService {
 			if (atcPrefix && !drug.atcCode.startsWith(atcPrefix)) continue;
 			if (!includeInactive && !drug.inMarket) continue;
 
-			// Add priority bonus for in-market drugs (+20 points)
-			const priorityBonus = drug.inMarket ? 20 : 0;
-			results.push({ drug, score: score + priorityBonus });
+			// Filter out GYSE items (medical devices with no active ingredient)
+			// These belong in the dedicated GYSE tab, not drug search
+			if (!drug.activeIngredient || drug.activeIngredient.trim() === '') continue;
+
+			// Scoring bonuses
+			const priorityBonus = drug.inMarket ? 20 : 0; // In-market drugs get priority
+			const ingredientBonus = drug.activeIngredient?.trim().length > 0 ? 15 : 0; // Real drugs with ingredients
+			results.push({ drug, score: score + priorityBonus + ingredientBonus });
 		}
 
 		// Also search expansion cache (previously-selected PUPHAX drugs)
