@@ -340,19 +340,63 @@ class EmaService {
     let method: 'atc' | 'inn' | 'name' | 'activeSubstance' | undefined;
     let searchTerm: string | undefined;
 
-    // 1. Try ATC code (most reliable)
+    // Get English translations of Hungarian ingredient for validation
+    let englishVariants: string[] = [];
+    if (hungarianDrug.activeIngredient) {
+      englishVariants = await ingredientTranslationService.toEnglish(hungarianDrug.activeIngredient);
+    }
+
+    // 1. Try ATC code (most reliable) - but validate INN matches and prefer Authorised medicines
     if (hungarianDrug.atcCode) {
       const byAtc = this.medicinesByAtc.get(hungarianDrug.atcCode.toUpperCase());
       if (byAtc && byAtc.length > 0) {
-        medicine = byAtc[0]; // Take first match
-        method = 'atc';
-        searchTerm = hungarianDrug.atcCode;
+        // Sort: Authorised first, then by INN match with Hungarian ingredient
+        const sortedByAtc = [...byAtc].sort((a, b) => {
+          // Authorised status first
+          const aAuth = a.status === 'Authorised' ? 0 : 1;
+          const bAuth = b.status === 'Authorised' ? 0 : 1;
+          if (aAuth !== bAuth) return aAuth - bAuth;
+
+          // Then prefer INN that matches translated ingredient
+          if (englishVariants.length > 0) {
+            const aInnMatch = englishVariants.some(e =>
+              this.normalizeText(a.inn).includes(this.normalizeText(e)) ||
+              this.normalizeText(e).includes(this.normalizeText(a.inn))
+            ) ? 0 : 1;
+            const bInnMatch = englishVariants.some(e =>
+              this.normalizeText(b.inn).includes(this.normalizeText(e)) ||
+              this.normalizeText(e).includes(this.normalizeText(b.inn))
+            ) ? 0 : 1;
+            if (aInnMatch !== bInnMatch) return aInnMatch - bInnMatch;
+          }
+
+          return 0;
+        });
+
+        // Validate: only use ATC match if INN actually matches the ingredient
+        const bestMatch = sortedByAtc[0];
+        const innMatches = englishVariants.length === 0 || englishVariants.some(e =>
+          this.normalizeText(bestMatch.inn).includes(this.normalizeText(e)) ||
+          this.normalizeText(e).includes(this.normalizeText(bestMatch.inn)) ||
+          this.normalizeText(bestMatch.activeSubstance).includes(this.normalizeText(e)) ||
+          this.normalizeText(e).includes(this.normalizeText(bestMatch.activeSubstance))
+        );
+
+        if (innMatches) {
+          medicine = bestMatch;
+          method = 'atc';
+          searchTerm = hungarianDrug.atcCode;
+        }
+        // If INN doesn't match, don't use ATC match - fall through to INN search
       }
     }
 
     // 2. Try INN/active substance (after translation)
     if (!medicine && hungarianDrug.activeIngredient) {
-      const englishVariants = await ingredientTranslationService.toEnglish(hungarianDrug.activeIngredient);
+      // englishVariants already loaded above for ATC validation
+      if (englishVariants.length === 0) {
+        englishVariants = await ingredientTranslationService.toEnglish(hungarianDrug.activeIngredient);
+      }
 
       for (const english of englishVariants) {
         const normalizedEnglish = this.normalizeText(english);

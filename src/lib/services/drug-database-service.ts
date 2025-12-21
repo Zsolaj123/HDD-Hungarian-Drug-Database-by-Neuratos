@@ -186,6 +186,7 @@ class DrugDatabaseService {
 	private searchIndex: Map<string, string[]> = new Map(); // term -> drug IDs
 	private drugById: Map<string, Drug> = new Map(); // O(1) ID lookup
 	private prefixIndex: Map<string, Set<string>> = new Map(); // 3-char prefix -> drug IDs
+	private suffixIndex: Map<string, Set<string>> = new Map(); // drug class suffix -> drug IDs (statin, pril, etc.)
 	private loadPromise: Promise<void> | null = null;
 	private lastLoadTime: number = 0;
 
@@ -252,12 +253,20 @@ class DrugDatabaseService {
 	 * Build search index for fast lookups
 	 * Uses pre-computed searchName/searchIngredient from cleaned database when available
 	 */
+	// Common drug class suffixes for substring matching
+	private static readonly DRUG_CLASS_SUFFIXES = [
+		'statin', 'pril', 'sartan', 'olol', 'azole', 'mycin', 'cillin', 'cycline',
+		'prazole', 'tidine', 'dipine', 'floxacin', 'setron', 'triptan', 'gliptin',
+		'glutide', 'tinib', 'mab', 'umab', 'zumab', 'ximab', 'mumab'
+	];
+
 	private buildSearchIndex(): void {
 		if (!this.localDatabase?.drugs) return;
 
 		this.searchIndex.clear();
 		this.drugById.clear();
 		this.prefixIndex.clear();
+		this.suffixIndex.clear();
 
 		for (const drug of this.localDatabase.drugs) {
 			// Store in O(1) lookup map
@@ -303,6 +312,16 @@ class DrugDatabaseService {
 							this.prefixIndex.set(prefix, new Set());
 						}
 						this.prefixIndex.get(prefix)!.add(drug.id);
+					}
+
+					// Build suffix index for drug class searches (statin, pril, sartan, etc.)
+					for (const suffix of DrugDatabaseService.DRUG_CLASS_SUFFIXES) {
+						if (token.endsWith(suffix) && token.length > suffix.length) {
+							if (!this.suffixIndex.has(suffix)) {
+								this.suffixIndex.set(suffix, new Set());
+							}
+							this.suffixIndex.get(suffix)!.add(drug.id);
+						}
 					}
 				}
 			}
@@ -393,6 +412,18 @@ class DrugDatabaseService {
 						}
 						prefixCount++;
 						if (prefixCount > 100) break; // Limit iterations for short tokens
+					}
+				}
+			}
+
+			// Drug class suffix matching (e.g., "statin" finds "rosuvastatin", "atorvastatin")
+			if (DrugDatabaseService.DRUG_CLASS_SUFFIXES.includes(token)) {
+				const suffixMatches = this.suffixIndex.get(token);
+				if (suffixMatches) {
+					for (const id of suffixMatches) {
+						if (!exactMatches.includes(id)) {
+							matchingIds.set(id, (matchingIds.get(id) || 0) + 8); // High score for drug class match
+						}
 					}
 				}
 			}
