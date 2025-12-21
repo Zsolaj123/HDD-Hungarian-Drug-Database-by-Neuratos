@@ -672,6 +672,16 @@
 							<Globe class="h-4 w-4" />
 							EMA (EU)
 						</button>
+						<a
+							href="https://www.pharmindex-online.hu/kereses?q={encodeURIComponent(selectedDrug?.name || '')}"
+							target="_blank"
+							rel="noopener noreferrer"
+							class="flex items-center gap-2 px-5 py-3 text-sm font-medium border-b-2 transition-colors whitespace-nowrap
+								text-slate-400 border-transparent hover:text-emerald-400 hover:bg-emerald-500/5"
+						>
+							<ExternalLink class="h-4 w-4" />
+							Pharmindex
+						</a>
 					</nav>
 				</div>
 
