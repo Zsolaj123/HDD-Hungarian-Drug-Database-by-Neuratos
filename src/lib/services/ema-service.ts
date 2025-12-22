@@ -584,6 +584,13 @@ class EmaService {
   }
 
   /**
+   * Get all medicines for autocomplete
+   */
+  getMedicines(): EmaMedicine[] {
+    return this.medicines;
+  }
+
+  /**
    * Direct search by English INN or medicine name (for manual search)
    * Does NOT try to translate - user is entering English terms directly
    */

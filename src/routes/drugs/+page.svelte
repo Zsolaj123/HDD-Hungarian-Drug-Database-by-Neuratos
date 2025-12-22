@@ -113,6 +113,14 @@
 	let manualEmaResults = $state<EmaMatchResult | null>(null);
 	let emaMatchedByPairing = $state(false);
 
+	// EMA autocomplete suggestions
+	let emaSuggestions = $state<Array<{inn: string, name: string, status: string}>>([]);
+	let showEmaSuggestions = $state(false);
+
+	// Pairing save state (must be manually saved, not auto)
+	let fdaPairingPending = $state(false);
+	let emaPairingPending = $state(false);
+
 	// Filters
 	let filterAtc = $state('');
 	let filterPrescription = $state<'all' | 'rx' | 'otc'>('all');
@@ -282,24 +290,36 @@
 
 			if (result?.found) {
 				manualFdaResults = result;
-
-				// Save successful pairing for future auto-lookup
-				saveManualPairing('fda', {
-					drugId: selectedDrug.id,
-					drugName: selectedDrug.name,
-					searchTerm: manualFdaSearch.trim(),
-					foundBrandName: result.label?.brandName || undefined,
-					timestamp: Date.now()
-				});
+				fdaPairingPending = true; // Mark as pending - user must click save
 			} else {
 				manualFdaResults = { found: false, label: null, error: null, searchedBy: 'generic_name' };
+				fdaPairingPending = false;
 			}
 		} catch (error) {
 			console.error('Manual FDA search failed:', error);
 			manualFdaResults = { found: false, label: null, error: String(error), searchedBy: 'generic_name' };
+			fdaPairingPending = false;
 		}
 
 		manualFdaLoading = false;
+	}
+
+	/**
+	 * Save FDA pairing manually (user must click button)
+	 */
+	function saveFdaPairing() {
+		if (!selectedDrug || !manualFdaResults?.found) return;
+
+		saveManualPairing('fda', {
+			drugId: selectedDrug.id,
+			drugName: selectedDrug.name,
+			searchTerm: manualFdaSearch.trim(),
+			foundBrandName: manualFdaResults.label?.brandName || undefined,
+			timestamp: Date.now()
+		});
+
+		fdaPairingPending = false;
+		fdaMatchedByPairing = true;
 	}
 
 	/**
@@ -311,6 +331,7 @@
 
 		manualEmaLoading = true;
 		manualEmaResults = null;
+		showEmaSuggestions = false;
 
 		try {
 			await emaService.initialize();
@@ -320,24 +341,78 @@
 
 			if (result?.matched) {
 				manualEmaResults = result;
-
-				// Save successful pairing for future auto-lookup
-				saveManualPairing('ema', {
-					drugId: selectedDrug.id,
-					drugName: selectedDrug.name,
-					searchTerm: manualEmaSearch.trim(),
-					foundBrandName: result.medicine?.name || undefined,
-					timestamp: Date.now()
-				});
+				emaPairingPending = true; // Mark as pending - user must click save
 			} else {
 				manualEmaResults = null;
+				emaPairingPending = false;
 			}
 		} catch (error) {
 			console.error('Manual EMA search failed:', error);
 			manualEmaResults = null;
+			emaPairingPending = false;
 		}
 
 		manualEmaLoading = false;
+	}
+
+	/**
+	 * Save EMA pairing manually (user must click button)
+	 */
+	function saveEmaPairing() {
+		if (!selectedDrug || !manualEmaResults?.matched) return;
+
+		saveManualPairing('ema', {
+			drugId: selectedDrug.id,
+			drugName: selectedDrug.name,
+			searchTerm: manualEmaSearch.trim(),
+			foundBrandName: manualEmaResults.medicine?.name || undefined,
+			timestamp: Date.now()
+		});
+
+		emaPairingPending = false;
+		emaMatchedByPairing = true;
+	}
+
+	/**
+	 * Update EMA autocomplete suggestions as user types
+	 */
+	async function updateEmaSuggestions(query: string) {
+		if (query.length < 2) {
+			emaSuggestions = [];
+			showEmaSuggestions = false;
+			return;
+		}
+
+		await emaService.initialize();
+		const medicines = emaService.getMedicines();
+		const queryLower = query.toLowerCase();
+
+		// Search INN and medicine names for matches
+		const matches = medicines
+			.filter(m => {
+				const inn = m.inn?.toLowerCase() || '';
+				const name = m.name?.toLowerCase() || '';
+				return inn.includes(queryLower) || name.includes(queryLower);
+			})
+			.filter(m => m.status === 'Authorised') // Only authorised medicines
+			.slice(0, 10) // Limit to 10 suggestions
+			.map(m => ({
+				inn: m.inn || '',
+				name: m.name || '',
+				status: m.status || ''
+			}));
+
+		emaSuggestions = matches;
+		showEmaSuggestions = matches.length > 0;
+	}
+
+	/**
+	 * Select an EMA suggestion from autocomplete
+	 */
+	function selectEmaSuggestion(suggestion: {inn: string, name: string}) {
+		manualEmaSearch = suggestion.inn.split(';')[0].trim(); // Use first INN component
+		showEmaSuggestions = false;
+		handleManualEmaSearch();
 	}
 
 	/**
@@ -348,11 +423,15 @@
 		manualFdaResults = null;
 		manualFdaLoading = false;
 		fdaMatchedByPairing = false;
+		fdaPairingPending = false;
 
 		manualEmaSearch = '';
 		manualEmaResults = null;
 		manualEmaLoading = false;
 		emaMatchedByPairing = false;
+		emaPairingPending = false;
+		emaSuggestions = [];
+		showEmaSuggestions = false;
 	}
 
 	async function handleDrugSelect(drug: Drug | SimplifiedDrug | DrugSummaryLight) {
@@ -1553,10 +1632,25 @@
 									<!-- Manual Search Results -->
 									{#if manualFdaResults?.found}
 										<div class="mt-6 p-4 bg-emerald-500/10 border border-emerald-500/30 rounded-lg">
-											<div class="flex items-center gap-2 text-emerald-400 mb-3">
-												<CheckCircle2 class="h-5 w-5" />
-												<span class="font-medium">Találat: {manualFdaSearch}</span>
-												<span class="text-xs text-emerald-500/70">(párosítás mentve)</span>
+											<div class="flex items-center justify-between mb-3">
+												<div class="flex items-center gap-2 text-emerald-400">
+													<CheckCircle2 class="h-5 w-5" />
+													<span class="font-medium">Találat: {manualFdaSearch}</span>
+													{#if fdaMatchedByPairing || !fdaPairingPending}
+														<span class="text-xs text-emerald-500/70">(párosítás mentve)</span>
+													{/if}
+												</div>
+												<!-- Save pairing button -->
+												{#if fdaPairingPending}
+													<button
+														type="button"
+														onclick={saveFdaPairing}
+														class="px-3 py-1.5 bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-400 text-sm rounded-lg transition-colors flex items-center gap-1.5"
+													>
+														<CheckCircle2 class="h-4 w-4" />
+														Mentés
+													</button>
+												{/if}
 											</div>
 											{#if manualFdaResults.label}
 												<div class="space-y-3">
@@ -2019,36 +2113,73 @@
 								{#if !emaData?.matched && !emaMultiData}
 									<div class="mt-4 p-4 bg-slate-800/50 rounded-lg">
 										<p class="text-sm text-slate-400 mb-3">Próbáljon angol gyógyszernévvel (INN) keresni:</p>
-										<div class="flex gap-2">
-											<input
-												type="text"
-												bind:value={manualEmaSearch}
-												placeholder="pl. ibuprofen, omeprazole..."
-												class="flex-1 px-3 py-2 bg-slate-900 border border-slate-700 rounded-lg text-white placeholder:text-slate-500 focus:outline-none focus:border-blue-500/50"
-												onkeydown={(e) => e.key === 'Enter' && handleManualEmaSearch()}
-											/>
-											<button
-												type="button"
-												onclick={handleManualEmaSearch}
-												disabled={!manualEmaSearch.trim() || manualEmaLoading}
-												class="px-4 py-2 bg-blue-500/20 hover:bg-blue-500/30 text-blue-400 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
-											>
-												{#if manualEmaLoading}
-													<Loader2 class="h-4 w-4 animate-spin" />
-												{:else}
-													<Search class="h-4 w-4" />
-												{/if}
-												Keresés
-											</button>
+										<div class="relative">
+											<div class="flex gap-2">
+												<div class="flex-1 relative">
+													<input
+														type="text"
+														bind:value={manualEmaSearch}
+														placeholder="pl. ibuprofen, omeprazole..."
+														class="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-lg text-white placeholder:text-slate-500 focus:outline-none focus:border-blue-500/50"
+														onkeydown={(e) => e.key === 'Enter' && handleManualEmaSearch()}
+														oninput={(e) => updateEmaSuggestions(e.currentTarget.value)}
+														onfocus={() => manualEmaSearch.length >= 2 && updateEmaSuggestions(manualEmaSearch)}
+														onblur={() => setTimeout(() => showEmaSuggestions = false, 200)}
+													/>
+													<!-- Autocomplete dropdown -->
+													{#if showEmaSuggestions && emaSuggestions.length > 0}
+														<div class="absolute z-50 w-full mt-1 bg-slate-800 border border-slate-700 rounded-lg shadow-xl max-h-64 overflow-y-auto">
+															{#each emaSuggestions as suggestion}
+																<button
+																	type="button"
+																	class="w-full px-3 py-2 text-left hover:bg-slate-700 transition-colors border-b border-slate-700/50 last:border-0"
+																	onmousedown={() => selectEmaSuggestion(suggestion)}
+																>
+																	<div class="text-sm text-white font-medium">{suggestion.name}</div>
+																	<div class="text-xs text-blue-400">{suggestion.inn}</div>
+																</button>
+															{/each}
+														</div>
+													{/if}
+												</div>
+												<button
+													type="button"
+													onclick={handleManualEmaSearch}
+													disabled={!manualEmaSearch.trim() || manualEmaLoading}
+													class="px-4 py-2 bg-blue-500/20 hover:bg-blue-500/30 text-blue-400 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+												>
+													{#if manualEmaLoading}
+														<Loader2 class="h-4 w-4 animate-spin" />
+													{:else}
+														<Search class="h-4 w-4" />
+													{/if}
+													Keresés
+												</button>
+											</div>
 										</div>
 
 										<!-- Manual EMA Search Results -->
 										{#if manualEmaResults?.matched}
 											<div class="mt-4 p-4 bg-emerald-500/10 border border-emerald-500/30 rounded-lg">
-												<div class="flex items-center gap-2 text-emerald-400 mb-3">
-													<CheckCircle2 class="h-5 w-5" />
-													<span class="font-medium">Találat: {manualEmaSearch}</span>
-													<span class="text-xs text-emerald-500/70">(párosítás mentve)</span>
+												<div class="flex items-center justify-between mb-3">
+													<div class="flex items-center gap-2 text-emerald-400">
+														<CheckCircle2 class="h-5 w-5" />
+														<span class="font-medium">Találat: {manualEmaSearch}</span>
+														{#if emaMatchedByPairing || !emaPairingPending}
+															<span class="text-xs text-emerald-500/70">(párosítás mentve)</span>
+														{/if}
+													</div>
+													<!-- Save pairing button -->
+													{#if emaPairingPending}
+														<button
+															type="button"
+															onclick={saveEmaPairing}
+															class="px-3 py-1.5 bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-400 text-sm rounded-lg transition-colors flex items-center gap-1.5"
+														>
+															<CheckCircle2 class="h-4 w-4" />
+															Mentés
+														</button>
+													{/if}
 												</div>
 												{#if manualEmaResults.medicine}
 													<div class="grid grid-cols-2 gap-3 text-sm">
