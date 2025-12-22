@@ -117,6 +117,10 @@
 	let emaSuggestions = $state<Array<{inn: string, name: string, status: string}>>([]);
 	let showEmaSuggestions = $state(false);
 
+	// FDA autocomplete suggestions (from ingredient translations)
+	let fdaSuggestions = $state<string[]>([]);
+	let showFdaSuggestions = $state(false);
+
 	// Pairing save state (must be manually saved, not auto)
 	let fdaPairingPending = $state(false);
 	let emaPairingPending = $state(false);
@@ -416,6 +420,55 @@
 	}
 
 	/**
+	 * Update FDA autocomplete suggestions from ingredient translations
+	 */
+	async function updateFdaSuggestions(query: string) {
+		if (query.length < 2) {
+			fdaSuggestions = [];
+			showFdaSuggestions = false;
+			return;
+		}
+
+		// Get all English translations and match against query
+		const queryLower = query.toLowerCase();
+		const allTranslations = await ingredientTranslationService.getAllTranslations();
+
+		// Collect unique English terms that match
+		const matchingTerms = new Set<string>();
+
+		// Prioritize terms starting with query
+		for (const [hungarian, englishArray] of allTranslations) {
+			for (const english of englishArray) {
+				if (english.toLowerCase().startsWith(queryLower)) {
+					matchingTerms.add(english);
+				}
+			}
+		}
+
+		// Then add terms containing query
+		for (const [hungarian, englishArray] of allTranslations) {
+			for (const english of englishArray) {
+				if (english.toLowerCase().includes(queryLower)) {
+					matchingTerms.add(english);
+				}
+			}
+		}
+
+		const suggestions = [...matchingTerms].slice(0, 10);
+		fdaSuggestions = suggestions;
+		showFdaSuggestions = suggestions.length > 0;
+	}
+
+	/**
+	 * Select an FDA suggestion from autocomplete
+	 */
+	function selectFdaSuggestion(suggestion: string) {
+		manualFdaSearch = suggestion;
+		showFdaSuggestions = false;
+		handleManualFdaSearch();
+	}
+
+	/**
 	 * Reset manual search state when drug changes
 	 */
 	function resetManualSearchState() {
@@ -424,6 +477,8 @@
 		manualFdaLoading = false;
 		fdaMatchedByPairing = false;
 		fdaPairingPending = false;
+		fdaSuggestions = [];
+		showFdaSuggestions = false;
 
 		manualEmaSearch = '';
 		manualEmaResults = null;
@@ -1591,17 +1646,36 @@
 										<p class="text-slate-400">Az automatikus keresés nem talált FDA adatot.</p>
 									</div>
 
-									<!-- Manual Search Input -->
+									<!-- Manual Search Input with Autocomplete -->
 									<div class="max-w-md mx-auto">
 										<p class="text-sm text-slate-400 mb-3 text-center">Próbáljon angol gyógyszernévvel keresni:</p>
 										<div class="flex gap-2">
-											<input
-												type="text"
-												bind:value={manualFdaSearch}
-												placeholder="pl. aspirin, acetaminophen, ibuprofen..."
-												class="flex-1 px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder:text-slate-500 focus:outline-none focus:border-red-500/50"
-												onkeydown={(e) => e.key === 'Enter' && handleManualFdaSearch()}
-											/>
+											<div class="relative flex-1">
+												<input
+													type="text"
+													bind:value={manualFdaSearch}
+													placeholder="pl. aspirin, acetaminophen, ibuprofen..."
+													class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder:text-slate-500 focus:outline-none focus:border-red-500/50"
+													oninput={(e) => updateFdaSuggestions(e.currentTarget.value)}
+													onfocus={() => manualFdaSearch.length >= 2 && updateFdaSuggestions(manualFdaSearch)}
+													onblur={() => setTimeout(() => showFdaSuggestions = false, 200)}
+													onkeydown={(e) => e.key === 'Enter' && handleManualFdaSearch()}
+												/>
+												<!-- Autocomplete Dropdown -->
+												{#if showFdaSuggestions && fdaSuggestions.length > 0}
+													<div class="absolute top-full left-0 right-0 mt-1 bg-slate-800 border border-slate-700 rounded-lg shadow-xl z-50 max-h-60 overflow-y-auto">
+														{#each fdaSuggestions as suggestion}
+															<button
+																type="button"
+																class="w-full px-3 py-2 text-left text-sm text-white hover:bg-slate-700 transition-colors first:rounded-t-lg last:rounded-b-lg"
+																onmousedown={() => selectFdaSuggestion(suggestion)}
+															>
+																{suggestion}
+															</button>
+														{/each}
+													</div>
+												{/if}
+											</div>
 											<button
 												type="button"
 												onclick={handleManualFdaSearch}
