@@ -158,16 +158,33 @@
 		indicationsLoading = false;
 	}
 
-	async function loadFdaData(brandName: string, genericName?: string, atcCode?: string) {
+	async function loadFdaData(brandName: string, genericName?: string, atcCode?: string, drugId?: string) {
 		fdaLoading = true;
 		fdaData = null;
 		fdaMultiData = null;
 		activeFdaIngredientTab = 0;
+		fdaMatchedByPairing = false;
+
 		try {
-			// Extract brand name from full drug name (e.g., "TECFIDERA 120 MG..." -> "TECFIDERA")
+			// 1. First check for saved manual pairing
+			if (drugId) {
+				const savedPairing = getManualPairing('fda', drugId);
+				if (savedPairing) {
+					console.log(`[FDA] Using saved pairing for "${savedPairing.drugName}": ${savedPairing.searchTerm}`);
+					const pairingResult = await openFdaService.searchByGenericName(savedPairing.searchTerm);
+					if (pairingResult?.found) {
+						fdaData = pairingResult;
+						fdaMatchedByPairing = true;
+						fdaLoading = false;
+						return;
+					}
+				}
+			}
+
+			// 2. Extract brand name from full drug name (e.g., "TECFIDERA 120 MG..." -> "TECFIDERA")
 			const cleanBrand = brandName.split(/\s+\d/)[0].trim();
 
-			// Check if multi-ingredient drug
+			// 3. Check if multi-ingredient drug
 			if (genericName && isMultiIngredientDrug) {
 				// Use multi-ingredient lookup for combination drugs
 				fdaMultiData = await openFdaService.getMultiIngredientLabels(cleanBrand, genericName, atcCode);
@@ -187,15 +204,33 @@
 		fdaLoading = false;
 	}
 
-	async function loadEmaData(drug: { activeIngredient?: string; atcCode?: string; name?: string }) {
+	async function loadEmaData(drug: { activeIngredient?: string; atcCode?: string; name?: string }, drugId?: string) {
 		emaLoading = true;
 		emaData = null;
 		emaMultiData = null;
 		activeEmaIngredientTab = 0;
+		emaMatchedByPairing = false;
+
 		try {
 			await emaService.initialize();
 
-			// Check if multi-ingredient drug
+			// 1. First check for saved manual pairing
+			if (drugId) {
+				const savedPairing = getManualPairing('ema', drugId);
+				if (savedPairing) {
+					console.log(`[EMA] Using saved pairing for "${savedPairing.drugName}": ${savedPairing.searchTerm}`);
+					const pairingResult = await emaService.searchDirectByInn(savedPairing.searchTerm);
+					if (pairingResult?.matched) {
+						emaData = pairingResult;
+						emaMatchedByPairing = true;
+						emaDataTimestamp = emaService.getDataTimestamp();
+						emaLoading = false;
+						return;
+					}
+				}
+			}
+
+			// 2. Check if multi-ingredient drug
 			if (drug.activeIngredient && isMultiIngredientDrug) {
 				// Use multi-ingredient lookup for combination drugs
 				emaMultiData = await emaService.findMultiIngredientData({
@@ -243,12 +278,7 @@
 
 		try {
 			// Try generic_name search first (most reliable for FDA)
-			let result = await openFdaService.searchByGenericName(manualFdaSearch.trim().toUpperCase());
-
-			if (!result?.found) {
-				// Fallback to active_ingredient
-				result = await openFdaService.searchByActiveIngredient(manualFdaSearch.trim());
-			}
+			const result = await openFdaService.searchByGenericName(manualFdaSearch.trim().toUpperCase());
 
 			if (result?.found) {
 				manualFdaResults = result;
@@ -258,15 +288,15 @@
 					drugId: selectedDrug.id,
 					drugName: selectedDrug.name,
 					searchTerm: manualFdaSearch.trim(),
-					foundBrandName: result.brandName || undefined,
+					foundBrandName: result.label?.brandName || undefined,
 					timestamp: Date.now()
 				});
 			} else {
-				manualFdaResults = { found: false };
+				manualFdaResults = { found: false, label: null, error: null, searchedBy: 'generic_name' };
 			}
 		} catch (error) {
 			console.error('Manual FDA search failed:', error);
-			manualFdaResults = { found: false };
+			manualFdaResults = { found: false, label: null, error: String(error), searchedBy: 'generic_name' };
 		}
 
 		manualFdaLoading = false;
@@ -296,7 +326,7 @@
 					drugId: selectedDrug.id,
 					drugName: selectedDrug.name,
 					searchTerm: manualEmaSearch.trim(),
-					foundBrandName: result.medicine?.name_of_medicine || undefined,
+					foundBrandName: result.medicine?.name || undefined,
 					timestamp: Date.now()
 				});
 			} else {
@@ -356,12 +386,12 @@
 				window.history.pushState({}, '', url.toString());
 				// Load indications in background
 				loadDrugIndications(fullDrug.id);
-				// Load EMA data in background
+				// Load EMA data in background (pass drugId for saved pairing lookup)
 				loadEmaData({
 					activeIngredient: fullDrug.activeIngredient,
 					atcCode: fullDrug.atcCode,
 					name: fullDrug.name
-				});
+				}, fullDrug.id);
 				// Translate ingredient for EMA links
 				if (fullDrug.activeIngredient) {
 					const englishVariants = await ingredientTranslationService.toEnglish(fullDrug.activeIngredient);
@@ -647,7 +677,7 @@
 							onclick={() => {
 								activeTab = 'fda';
 								if (selectedDrug && !fdaData && !fdaLoading) {
-									loadFdaData(selectedDrug.name, selectedDrug.activeIngredient, selectedDrug.atcCode);
+									loadFdaData(selectedDrug.name, selectedDrug.activeIngredient, selectedDrug.atcCode, selectedDrug.id);
 								}
 							}}
 						>
@@ -1089,7 +1119,7 @@
 										<button
 											type="button"
 											class="w-full p-3 bg-slate-800/50 border border-slate-700 rounded-lg hover:bg-slate-800 transition-colors flex items-center justify-center gap-2"
-											onclick={() => selectedDrug && loadFdaData(selectedDrug.name, selectedDrug.activeIngredient, selectedDrug.atcCode)}
+											onclick={() => selectedDrug && loadFdaData(selectedDrug.name, selectedDrug.activeIngredient, selectedDrug.atcCode, selectedDrug.id)}
 										>
 											<ShieldAlert class="h-4 w-4 text-red-400" />
 											<span class="text-sm text-slate-400">FDA indikációk betöltése</span>
@@ -1229,7 +1259,12 @@
 										<span class="text-sm font-medium text-white">FDA Drug Label - USA</span>
 									</div>
 									<div class="text-xs text-slate-400">
-										<p>Keresve: {fdaData.searchedBy === 'brand_name' ? 'márkanév' : 'hatóanyag'}</p>
+										<p>
+											Keresve: {fdaData.searchedBy === 'brand_name' ? 'márkanév' : 'hatóanyag'}
+											{#if fdaMatchedByPairing}
+												<span class="ml-2 text-amber-400">📌 Mentett párosítás</span>
+											{/if}
+										</p>
 										{#if fdaData.label.brandName || fdaData.label.genericName}
 											<p class="mt-1">
 												<span class="text-slate-300">{fdaData.label.brandName}</span>
@@ -1295,19 +1330,49 @@
 									/>
 								{/if}
 
-								<!-- Special Populations (collapsible) -->
-								{#if fdaData.label.pregnancy || fdaData.label.pediatricUse || fdaData.label.geriatricUse}
+								<!-- Section 8: Special Populations (collapsible) -->
+								{#if fdaData.label.pregnancy || fdaData.label.pediatricUse || fdaData.label.geriatricUse || fdaData.label.useInSpecificPopulations || fdaData.label.nursingMothers || fdaData.label.laborAndDelivery}
 									<details class="border border-slate-600 rounded-lg overflow-hidden">
 										<summary class="px-4 py-2 bg-slate-700/50 border-b border-slate-600 flex items-center gap-2 cursor-pointer hover:bg-slate-700/70">
 											<Info class="h-4 w-4 text-slate-400" />
-											<span class="font-medium text-slate-300">Speciális populációk</span>
+											<span class="font-medium text-slate-300">Speciális populációk (8. szakasz)</span>
 											<span class="ml-auto text-xs text-slate-500">kattintson a kibontáshoz</span>
 										</summary>
-										<div class="p-4 bg-slate-800/30 space-y-4 max-h-96 overflow-y-auto">
+										<div class="p-4 bg-slate-800/30 space-y-4 max-h-[500px] overflow-y-auto">
+											{#if fdaData.label.useInSpecificPopulations}
+												<FdaContentDisplay
+													content={fdaData.label.useInSpecificPopulations}
+													title="8. Használat speciális populációkban"
+													variant="info"
+													compact
+													showStats={false}
+													maxHeight="250px"
+												/>
+											{/if}
 											{#if fdaData.label.pregnancy}
 												<FdaContentDisplay
 													content={fdaData.label.pregnancy}
-													title="Terhesség"
+													title="8.1 Terhesség"
+													variant="info"
+													compact
+													showStats={false}
+													maxHeight="200px"
+												/>
+											{/if}
+											{#if fdaData.label.laborAndDelivery}
+												<FdaContentDisplay
+													content={fdaData.label.laborAndDelivery}
+													title="8.2 Szülés és vajúdás"
+													variant="info"
+													compact
+													showStats={false}
+													maxHeight="200px"
+												/>
+											{/if}
+											{#if fdaData.label.nursingMothers}
+												<FdaContentDisplay
+													content={fdaData.label.nursingMothers}
+													title="8.3 Szoptatás"
 													variant="info"
 													compact
 													showStats={false}
@@ -1317,7 +1382,7 @@
 											{#if fdaData.label.pediatricUse}
 												<FdaContentDisplay
 													content={fdaData.label.pediatricUse}
-													title="Gyermekek"
+													title="8.4 Gyermekek"
 													variant="info"
 													compact
 													showStats={false}
@@ -1327,13 +1392,108 @@
 											{#if fdaData.label.geriatricUse}
 												<FdaContentDisplay
 													content={fdaData.label.geriatricUse}
-													title="Idősek"
+													title="8.5 Idősek"
 													variant="info"
 													compact
 													showStats={false}
 													maxHeight="200px"
 												/>
 											{/if}
+										</div>
+									</details>
+								{/if}
+
+								<!-- Section 10: Overdosage (collapsible) -->
+								{#if fdaData.label.overdosage}
+									<details class="border border-slate-600 rounded-lg overflow-hidden">
+										<summary class="px-4 py-2 bg-slate-700/50 border-b border-slate-600 flex items-center gap-2 cursor-pointer hover:bg-slate-700/70">
+											<AlertTriangle class="h-4 w-4 text-amber-400" />
+											<span class="font-medium text-slate-300">Túladagolás (10. szakasz)</span>
+											<span class="ml-auto text-xs text-slate-500">kattintson a kibontáshoz</span>
+										</summary>
+										<div class="p-4 bg-slate-800/30">
+											<FdaContentDisplay
+												content={fdaData.label.overdosage}
+												title="Túladagolás"
+												variant="warning"
+												compact
+												showStats={false}
+												maxHeight="300px"
+											/>
+										</div>
+									</details>
+								{/if}
+
+								<!-- Section 12: Clinical Pharmacology (collapsible) -->
+								{#if fdaData.label.clinicalPharmacology || fdaData.label.mechanismOfAction || fdaData.label.pharmacodynamics || fdaData.label.pharmacokinetics}
+									<details class="border border-slate-600 rounded-lg overflow-hidden">
+										<summary class="px-4 py-2 bg-slate-700/50 border-b border-slate-600 flex items-center gap-2 cursor-pointer hover:bg-slate-700/70">
+											<FileText class="h-4 w-4 text-blue-400" />
+											<span class="font-medium text-slate-300">Klinikai farmakológia (12. szakasz)</span>
+											<span class="ml-auto text-xs text-slate-500">kattintson a kibontáshoz</span>
+										</summary>
+										<div class="p-4 bg-slate-800/30 space-y-4 max-h-[500px] overflow-y-auto">
+											{#if fdaData.label.clinicalPharmacology}
+												<FdaContentDisplay
+													content={fdaData.label.clinicalPharmacology}
+													title="12. Klinikai farmakológia"
+													variant="info"
+													compact
+													showStats={false}
+													maxHeight="250px"
+												/>
+											{/if}
+											{#if fdaData.label.mechanismOfAction}
+												<FdaContentDisplay
+													content={fdaData.label.mechanismOfAction}
+													title="12.1 Hatásmechanizmus"
+													variant="info"
+													compact
+													showStats={false}
+													maxHeight="200px"
+												/>
+											{/if}
+											{#if fdaData.label.pharmacodynamics}
+												<FdaContentDisplay
+													content={fdaData.label.pharmacodynamics}
+													title="12.2 Farmakodinamika"
+													variant="info"
+													compact
+													showStats={false}
+													maxHeight="200px"
+												/>
+											{/if}
+											{#if fdaData.label.pharmacokinetics}
+												<FdaContentDisplay
+													content={fdaData.label.pharmacokinetics}
+													title="12.3 Farmakokinetika"
+													variant="info"
+													compact
+													showStats={false}
+													maxHeight="200px"
+												/>
+											{/if}
+										</div>
+									</details>
+								{/if}
+
+								<!-- Section 14: Clinical Studies (collapsible) -->
+								{#if fdaData.label.clinicalStudies}
+									<details class="border border-slate-600 rounded-lg overflow-hidden">
+										<summary class="px-4 py-2 bg-slate-700/50 border-b border-slate-600 flex items-center gap-2 cursor-pointer hover:bg-slate-700/70">
+											<FileText class="h-4 w-4 text-green-400" />
+											<span class="font-medium text-slate-300">Klinikai vizsgálatok (14. szakasz)</span>
+											<span class="ml-auto text-xs text-slate-500">kattintson a kibontáshoz</span>
+										</summary>
+										<div class="p-4 bg-slate-800/30">
+											<FdaContentDisplay
+												content={fdaData.label.clinicalStudies}
+												title="Klinikai vizsgálatok"
+												variant="info"
+												compact
+												showStats={false}
+												maxHeight="400px"
+											/>
 										</div>
 									</details>
 								{/if}
@@ -1398,7 +1558,34 @@
 												<span class="font-medium">Találat: {manualFdaSearch}</span>
 												<span class="text-xs text-emerald-500/70">(párosítás mentve)</span>
 											</div>
-											<FdaContentDisplay data={manualFdaResults} />
+											{#if manualFdaResults.label}
+												<div class="space-y-3">
+													{#if manualFdaResults.label.brandName || manualFdaResults.label.genericName}
+														<p class="text-sm text-slate-300">
+															<span class="font-medium">{manualFdaResults.label.brandName}</span>
+															{#if manualFdaResults.label.genericName}
+																<span class="text-slate-400"> ({manualFdaResults.label.genericName})</span>
+															{/if}
+														</p>
+													{/if}
+													{#if manualFdaResults.label.indicationsAndUsage}
+														<FdaContentDisplay
+															content={manualFdaResults.label.indicationsAndUsage}
+															title="Indikációk"
+															variant="info"
+															compact
+														/>
+													{/if}
+													{#if manualFdaResults.label.contraindications}
+														<FdaContentDisplay
+															content={manualFdaResults.label.contraindications}
+															title="Kontraindikációk"
+															variant="contraindication"
+															compact
+														/>
+													{/if}
+												</div>
+											{/if}
 										</div>
 									{:else if manualFdaResults && !manualFdaResults.found}
 										<div class="mt-4 text-center text-sm text-slate-500">
@@ -1416,7 +1603,7 @@
 									<button
 										type="button"
 										class="inline-flex items-center gap-2 px-4 py-2 bg-red-500/20 hover:bg-red-500/30 text-red-400 rounded-lg transition-colors"
-										onclick={() => selectedDrug && loadFdaData(selectedDrug.name, selectedDrug.activeIngredient, selectedDrug.atcCode)}
+										onclick={() => selectedDrug && loadFdaData(selectedDrug.name, selectedDrug.activeIngredient, selectedDrug.atcCode, selectedDrug.id)}
 									>
 										<ShieldAlert class="h-4 w-4" />
 										FDA adatok lekérése
@@ -1693,6 +1880,9 @@
 										<h4 class="font-medium text-slate-300 mb-4 flex items-center gap-2">
 											<FileText class="h-4 w-4 text-blue-400" />
 											EU Engedélyezési Adatok
+											{#if emaMatchedByPairing}
+												<span class="ml-2 text-xs text-amber-400">📌 Mentett párosítás</span>
+											{/if}
 										</h4>
 										<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 											<div>

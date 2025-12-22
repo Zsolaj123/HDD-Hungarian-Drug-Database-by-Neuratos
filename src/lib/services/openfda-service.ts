@@ -33,6 +33,18 @@ export interface OpenFdaDrugLabel {
 	pediatricUse: string | null;
 	geriatricUse: string | null;
 	mechanismOfAction: string | null;
+	// Section 8: Use in Specific Populations (commonly referenced as 8.x)
+	useInSpecificPopulations: string | null;
+	nursingMothers: string | null;     // Section 8.2/8.3 - Lactation
+	laborAndDelivery: string | null;   // Section 8.2 - Labor and Delivery
+	// Section 10: Overdosage
+	overdosage: string | null;
+	// Section 12: Clinical Pharmacology
+	clinicalPharmacology: string | null;
+	pharmacodynamics: string | null;
+	pharmacokinetics: string | null;
+	// Section 14: Clinical Studies
+	clinicalStudies: string | null;
 	// Metadata
 	setId: string;
 	effectiveTime: string;
@@ -141,6 +153,19 @@ function parseLabel(result: Record<string, unknown>): OpenFdaDrugLabel {
 		pediatricUse: cleanLabelText(result.pediatric_use as string[]),
 		geriatricUse: cleanLabelText(result.geriatric_use as string[]),
 		mechanismOfAction: cleanLabelText(result.mechanism_of_action as string[]),
+		// Section 8: Use in Specific Populations
+		useInSpecificPopulations: cleanLabelText(result.use_in_specific_populations as string[]),
+		nursingMothers: cleanLabelText(result.nursing_mothers as string[]),
+		laborAndDelivery: cleanLabelText(result.labor_and_delivery as string[]),
+		// Section 10: Overdosage
+		overdosage: cleanLabelText(result.overdosage as string[]),
+		// Section 12: Clinical Pharmacology
+		clinicalPharmacology: cleanLabelText(result.clinical_pharmacology as string[]),
+		pharmacodynamics: cleanLabelText(result.pharmacodynamics as string[]),
+		pharmacokinetics: cleanLabelText(result.pharmacokinetics as string[]),
+		// Section 14: Clinical Studies
+		clinicalStudies: cleanLabelText(result.clinical_studies as string[]),
+		// Metadata
 		setId: (result.set_id as string) || '',
 		effectiveTime: (result.effective_time as string) || ''
 	};
@@ -654,6 +679,13 @@ class OpenFdaService {
 		}
 
 		return result;
+	}
+
+	/**
+	 * Search by generic name (for manual pairing lookups)
+	 */
+	async searchByGenericName(genericName: string): Promise<OpenFdaSearchResult> {
+		return searchByGenericName(genericName);
 	}
 
 	/**
