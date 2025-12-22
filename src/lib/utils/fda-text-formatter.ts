@@ -516,6 +516,7 @@ function formatClinicalStudiesTables(text: string): string {
 /**
  * Format drug interaction tables into HTML tables
  * Pattern: Drug Class → Clinical Impact → Intervention → Examples (repeating)
+ * Handles multiple FDA table formats (metformin, atorvastatin, etc.)
  */
 function formatDrugInteractionTables(text: string): string {
 	// Check if this text contains Drug Interaction table patterns
@@ -523,80 +524,88 @@ function formatDrugInteractionTables(text: string): string {
 		return text;
 	}
 
-	// Find table header like "Table 4: Clinically Significant Drug Interactions with DRUG_NAME"
-	// Pattern captures everything up to but NOT including the first drug class
-	// Titles typically end with drug name (Atorvastatin, Metformin, etc.)
-	const tableHeaderMatch = text.match(/Table\s+(\d+):\s*((?:Clinically Significant )?Drug Interactions[^]*?(?:with\s+\w+(?:\s+Calcium)?))(?=\s+[A-Z])/i);
-	if (!tableHeaderMatch) {
+	let result = text;
+
+	// Find ALL tables with Clinical Impact/Intervention pattern
+	// Match various table title formats:
+	// - "Table N: Clinically Significant Drug Interactions with DRUG"
+	// - "Table N: Drug Interactions that may Increase/Decrease..."
+	// - "Table N: DRUG Effects on Other Drugs"
+	const tablePattern = /Table\s+(\d+):\s*([^]+?)(?=\s+(?:[A-Z][a-z]+(?:\s+[A-Za-z]+)*|Select\s+)\s*Clinical Impact:)/gi;
+
+	let tableMatch;
+	const tables: Array<{num: string, title: string, startIdx: number}> = [];
+
+	while ((tableMatch = tablePattern.exec(text)) !== null) {
+		tables.push({
+			num: tableMatch[1],
+			title: tableMatch[2].trim().replace(/\s+/g, ' '),
+			startIdx: tableMatch.index
+		});
+	}
+
+	if (tables.length === 0) {
 		return text;
 	}
 
-	const tableNum = tableHeaderMatch[1];
-	const tableTitle = tableHeaderMatch[2].trim();
+	// Process each table (in reverse to preserve indices)
+	for (let t = tables.length - 1; t >= 0; t--) {
+		const table = tables[t];
+		const nextTableStart = t < tables.length - 1 ? tables[t + 1].startIdx : text.length;
+		const tableContent = text.substring(table.startIdx, nextTableStart);
 
-	// Find drug class names followed by "Clinical Impact:"
-	// Pattern: after period/space, table header, closing bracket, or drug name ending, find capitalized words before "Clinical Impact:"
-	// Added patterns: "] " for references, "in " or "Atorvastatin " for end of title
-	const drugClassPattern = /(?:(?:\.\s+)|(?:ZITUVIMET\s+)|(?:Atorvastatin\s+)|(?:\]\s*)|(?:^))([A-Z][A-Za-z\s,()/-]+?)(?=\s*Clinical Impact:)/g;
-	const drugClasses = [...text.matchAll(drugClassPattern)].map(m => m[1].trim());
+		// Find drug class names followed by "Clinical Impact:"
+		// Handles various FDA table formats:
+		// - "with Atorvastatin Cyclosporine Clinical Impact:"
+		// - "to Atorvastatin Rifampin Clinical Impact:"
+		// - "Other Drugs Oral Contraceptives Clinical Impact:"
+		// - Period or bracket ending previous entry
+		const drugClassPattern = /(?:(?:with|to)\s+(?:Atorvastatin|Metformin|ZITUVIMET)(?:\s+Calcium)?\s+|Other\s+Drugs\s+|Rhabdomyolysis\s+with\s+\w+(?:\s+\w+)?\s+|Exposure\s+to\s+\w+\s+|[.\]]\s+)([A-Z][A-Za-z\s,()/>-]+?)(?=\s*Clinical Impact:)/gm;
+		const drugClasses = [...tableContent.matchAll(drugClassPattern)].map(m => m[1].trim());
 
-	if (drugClasses.length === 0) {
-		return text;
-	}
+		if (drugClasses.length === 0) continue;
 
-	// Parse each drug interaction entry
-	const rows: Array<{drug: string, impact: string, intervention: string, examples: string}> = [];
+		// Parse each drug interaction entry
+		const rows: Array<{drug: string, impact: string, intervention: string, examples: string}> = [];
 
-	for (const drugClass of drugClasses) {
-		// Find the section for this drug class
-		const escapedDrug = drugClass.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-		const sectionPattern = new RegExp(
-			escapedDrug + '\\s*Clinical Impact:\\s*([^]*?)(?=Intervention:)' +
-			'Intervention:\\s*([^]*?)(?=Examples:|(?:[A-Z][A-Za-z\\s,()/-]+Clinical Impact:)|$)' +
-			'(?:Examples:\\s*([^.]*\\.?))?',
-			'i'
-		);
+		for (const drugClass of drugClasses) {
+			const escapedDrug = drugClass.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+			const sectionPattern = new RegExp(
+				escapedDrug + '\\s*Clinical Impact:\\s*([^]*?)(?=Intervention:)' +
+				'Intervention:\\s*([^]*?)(?=Examples:|(?:[A-Z][A-Za-z\\s,()/>-]+\\s*Clinical Impact:)|Table\\s+\\d+:|$)' +
+				'(?:Examples:\\s*([^]*?)(?=(?:[A-Z][A-Za-z\\s,()/>-]+\\s*Clinical Impact:)|Table\\s+\\d+:|$))?',
+				'i'
+			);
 
-		const sectionMatch = text.match(sectionPattern);
-		if (sectionMatch) {
-			rows.push({
-				drug: drugClass,
-				impact: (sectionMatch[1] || '').trim().replace(/\s+/g, ' '),
-				intervention: (sectionMatch[2] || '').trim().replace(/\s+/g, ' '),
-				examples: (sectionMatch[3] || '').trim().replace(/\.$/, '')
-			});
+			const sectionMatch = tableContent.match(sectionPattern);
+			if (sectionMatch) {
+				rows.push({
+					drug: drugClass,
+					impact: (sectionMatch[1] || '').trim().replace(/\s+/g, ' '),
+					intervention: (sectionMatch[2] || '').trim().replace(/\s+/g, ' '),
+					examples: (sectionMatch[3] || '').trim().replace(/\.$/, '').replace(/\s+/g, ' ')
+				});
+			}
 		}
+
+		if (rows.length === 0) continue;
+
+		// Build HTML table for this specific table
+		const hasExamples = rows.some(r => r.examples);
+		let tableHtml = `<div class="fda-table-container"><div class="fda-table-header">Table ${table.num}: ${table.title}</div><table class="fda-interaction-table"><thead><tr><th>Gyógyszer/Osztály</th><th>Klinikai hatás</th><th>Beavatkozás</th>${hasExamples ? '<th>Példák</th>' : ''}</tr></thead><tbody>`;
+
+		for (const row of rows) {
+			tableHtml += `<tr><td class="fda-drug-cell">${row.drug}</td><td>${row.impact}</td><td>${row.intervention}</td>${hasExamples ? `<td class="fda-examples-cell">${row.examples}</td>` : ''}</tr>`;
+		}
+
+		tableHtml += `</tbody></table></div>`;
+
+		// Replace this table section in result
+		const tableEndIdx = nextTableStart;
+		result = result.substring(0, table.startIdx) + tableHtml + result.substring(tableEndIdx);
 	}
 
-	if (rows.length === 0) {
-		return text;
-	}
-
-	// Build HTML table
-	const hasExamples = rows.some(r => r.examples);
-	let tableHtml = `<div class="fda-table-container"><div class="fda-table-header">Table ${tableNum}: ${tableTitle}</div><table class="fda-interaction-table"><thead><tr><th>Gyógyszer/Osztály</th><th>Klinikai hatás</th><th>Beavatkozás</th>${hasExamples ? '<th>Példák</th>' : ''}</tr></thead><tbody>`;
-
-	for (const row of rows) {
-		tableHtml += `<tr><td class="fda-drug-cell">${row.drug}</td><td>${row.impact}</td><td>${row.intervention}</td>${hasExamples ? `<td class="fda-examples-cell">${row.examples}</td>` : ''}</tr>`;
-	}
-
-	tableHtml += `</tbody></table></div>`;
-
-	// Find where the table content starts (first drug class)
-	const firstDrug = rows[0].drug;
-	const firstDrugIndex = text.indexOf(firstDrug + ' Clinical Impact:') || text.indexOf(firstDrug);
-
-	// Find where the table content ends (after the last row's content)
-	const lastRow = rows[rows.length - 1];
-	const lastContent = lastRow.examples || lastRow.intervention;
-	const tableEndIndex = text.indexOf(lastContent) + lastContent.length + 1;
-
-	// Replace table section with formatted HTML - remove from table title to end of last row
-	const tableStartIndex = tableHeaderMatch.index || 0;
-	const beforeTable = text.substring(0, tableStartIndex);
-	const afterTable = text.substring(tableEndIndex);
-
-	return beforeTable + tableHtml + afterTable;
+	return result;
 }
 
 /**
