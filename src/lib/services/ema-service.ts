@@ -266,12 +266,29 @@ class EmaService {
     }
 
     // Index medicines by INN (normalized lowercase)
+    // Split by semicolons to handle combination drugs (e.g., "sitagliptin;metformin")
     for (const med of this.medicines) {
       if (med.inn) {
+        // Index the full INN
         const normalizedInn = this.normalizeText(med.inn);
         const existing = this.medicinesByInn.get(normalizedInn) || [];
         existing.push(med);
         this.medicinesByInn.set(normalizedInn, existing);
+
+        // Also index each component separately for combination drugs
+        const components = med.inn.split(';').map(c => c.trim()).filter(c => c.length > 0);
+        for (const component of components) {
+          // Remove common suffixes like "hydrochloride" for better matching
+          const cleanComponent = component.replace(/\s*(hydrochloride|sodium|potassium|calcium|monohydrate|dihydrate|fumarate|phosphate|sulfate|acetate|maleate|succinate|tartrate|mesylate|besylate)$/i, '').trim();
+          const normalizedComponent = this.normalizeText(cleanComponent);
+          if (normalizedComponent && normalizedComponent !== normalizedInn) {
+            const existingComponent = this.medicinesByInn.get(normalizedComponent) || [];
+            if (!existingComponent.includes(med)) {
+              existingComponent.push(med);
+              this.medicinesByInn.set(normalizedComponent, existingComponent);
+            }
+          }
+        }
       }
     }
 
@@ -283,12 +300,29 @@ class EmaService {
     }
 
     // Index medicines by active substance
+    // Split by semicolons to handle combination drugs
     for (const med of this.medicines) {
       if (med.activeSubstance) {
+        // Index the full active substance string
         const normalizedSubstance = this.normalizeText(med.activeSubstance);
         const existing = this.medicinesByActiveSubstance.get(normalizedSubstance) || [];
         existing.push(med);
         this.medicinesByActiveSubstance.set(normalizedSubstance, existing);
+
+        // Also index each component separately
+        const components = med.activeSubstance.split(';').map(c => c.trim()).filter(c => c.length > 0);
+        for (const component of components) {
+          // Remove common suffixes for better matching
+          const cleanComponent = component.replace(/\s*(hydrochloride|sodium|potassium|calcium|monohydrate|dihydrate|fumarate|phosphate|sulfate|acetate|maleate|succinate|tartrate|mesylate|besylate|propanediol|l-pyroglutamic acid)$/i, '').trim();
+          const normalizedComponent = this.normalizeText(cleanComponent);
+          if (normalizedComponent && normalizedComponent !== normalizedSubstance) {
+            const existingComponent = this.medicinesByActiveSubstance.get(normalizedComponent) || [];
+            if (!existingComponent.includes(med)) {
+              existingComponent.push(med);
+              this.medicinesByActiveSubstance.set(normalizedComponent, existingComponent);
+            }
+          }
+        }
       }
     }
 
