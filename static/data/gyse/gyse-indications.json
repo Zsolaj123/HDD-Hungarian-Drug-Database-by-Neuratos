@@ -1,0 +1,5329 @@
+{
+  "meta": {
+    "source": "NEAK PUPHAG EU Indications",
+    "extractedAt": "2025-12-17T22:49:37.892Z",
+    "totalIndications": 355,
+    "totalEuPoints": 531,
+    "version": "1.0.0"
+  },
+  "indications": [
+    {
+      "id": "32135570",
+      "euPointId": 80600,
+      "index": 1,
+      "description": "Indikáció:\r\nSebkezelési fázis: Nekrotikus seb feltisztítására, epitelizációs fázisban.\r\nSebtípus: nem fertőzött sebre.\r\nEgyéb feltétel: másodlagos kötszerrel, kötésrögzítővel. Másodlagos kötszer lehet: nedvszívó sebpárna. Kötésrögzítő lehet: filmkötszer vagy öntapadó pólya vagy ragtapasz vagy kötésrögzítő.\r\nIdőbeli korlátozás (azonos sebre): 2 hónap."
+    },
+    {
+      "id": "32135571",
+      "euPointId": 80601,
+      "index": 1,
+      "description": "Indikáció:\r\nSebkezelési fázis: Exudációs fázisban.\r\nSebtípus: közepesen vagy erősen váladékozó, fertőzött felületes sebre (lapok), vagy fertőzött üreges sebre (szalagok).\r\nEgyéb feltétel: másodlagos kötszerrel és kötésrögzítővel. Másodlagos kötszer lehet: nedvszívó sebpárna vagy aktív szenes nedvszívó sebpárna. Kötésrögzítő lehet: filmkötszer vagy öntapadó pólya vagy ragtapasz vagy kötésrögzítő.\r\nIdőbeli korlátozás (azonos sebre): 2 hónap."
+    },
+    {
+      "id": "32135572",
+      "euPointId": 80607,
+      "index": 1,
+      "description": "Indikáció: Mucoviscidosis, krónikus bronchitis, bronchiectasia, asthma bronchiale, pseudocroup, tracheostoma."
+    },
+    {
+      "id": "32135573",
+      "euPointId": 80608,
+      "index": 1,
+      "description": "Indikáció: Mucoviscidosis, krónikus bronchitis, bronchiectasia, asthma bronchiale, pseudocroup, tracheostoma."
+    },
+    {
+      "id": "32135578",
+      "euPointId": 80940,
+      "index": 1,
+      "description": "Indikáció: Inkontinenciabetétekhez."
+    },
+    {
+      "id": "32135594",
+      "euPointId": 80613,
+      "index": 1,
+      "description": "Indikáció: Bronchiectasia, asthma bronchiale, krónikus bronchitis, emphysaema (amikor inhalátor otthoni alkalmazása még nem szükséges), mucoviscidosis."
+    },
+    {
+      "id": "32135143",
+      "euPointId": 76214,
+      "index": 1,
+      "description": "Indikáció: Öröklött maculadegeneratiók, senilis maculopathia, retinopathia diabetica, retinopathia hypertonica, status post emboliam arteriae centralis retinae, status post thrombosis venae centralis retinae, glaucoma, myopia centralis fundus károsodással, Fusch-folt, aphakia, pseudophakia, Leber-féle opticus atrophia, kétoldali neuritis, atrophia nervi optici, fibroplasia retrolentalis, buphthalmus, microphthalmus, amblyopia, foramen maculae luteae, uveitis chronica, chorioretinitis centralis inveterans, leukoma corneae, dystrophia corneae."
+    },
+    {
+      "id": "32135640",
+      "euPointId": 80650,
+      "index": 1,
+      "description": "Indikáció: Inzulinkezelésre szoruló diabetes mellitus. Napi háromszori inzulinadás esetén."
+    },
+    {
+      "id": "32135641",
+      "euPointId": 80651,
+      "index": 1,
+      "description": "Indikáció: Inzulinkezelésre szoruló diabetes mellitus. Napi négyszeri vagy annál többszöri inzulinadás esetén."
+    },
+    {
+      "id": "32135642",
+      "euPointId": 80652,
+      "index": 1,
+      "description": "Indikáció: Inzulinkezelésre szoruló diabetes mellitus. Napi kétszeri inzulinadás esetén."
+    },
+    {
+      "id": "32135643",
+      "euPointId": 80653,
+      "index": 1,
+      "description": "Indikáció: Krónikus betegségek otthoni gyógyszerterápiájához."
+    },
+    {
+      "id": "32135657",
+      "euPointId": 80979,
+      "index": 1,
+      "description": "Indikáció: Kerekesszékekhez, amennyiben a kerekesszék alapkiszereléséhez tartozó háttámasz a beteg mérete, tömege, vagy speciális deformitás miatt alkalmatlan."
+    },
+    {
+      "id": "32135658",
+      "euPointId": 80654,
+      "index": 1,
+      "description": "Indikáció: Krónikus betegségek otthoni gyógyszerterápiájához."
+    },
+    {
+      "id": "32135661",
+      "euPointId": 80657,
+      "index": 1,
+      "description": "Indikáció: Inzulinkezelésre szoruló diabetes mellitus, amennyiben a beteg\r\n- intenzifikált inzulin-terápiában (legalább napi háromszori inzulinadás) részesül vagy\r\n- 18 év alatti vagy\r\n- terhes vagy\r\n- vak vagy\r\n- gyengénlátó vagy\r\n- felső végtagjára mozgáskorlátozott."
+    },
+    {
+      "id": "32135662",
+      "euPointId": 80658,
+      "index": 1,
+      "description": "Indikáció: Inzulinkezelésre szoruló diabetes mellitus."
+    },
+    {
+      "id": "32135663",
+      "euPointId": 80659,
+      "index": 1,
+      "description": "Indikáció: Inzulinkezelésre szoruló diabetes mellitus. Napi háromszori inzulinadás esetén."
+    },
+    {
+      "id": "32135665",
+      "euPointId": 80661,
+      "index": 1,
+      "description": "Indikáció: Inzulinkezelésre szoruló diabetes mellitus. Napi kétszeri inzulinadás esetén."
+    },
+    {
+      "id": "32135666",
+      "euPointId": 80662,
+      "index": 1,
+      "description": "Indikáció: Inzulinkezelésre szoruló diabetes mellitus. Napi háromszori inzulinadás esetén."
+    },
+    {
+      "id": "32135668",
+      "euPointId": 80664,
+      "index": 1,
+      "description": "Indikáció: Inzulinkezelésre szoruló diabetes mellitus. Napi kétszeri inzulinadás esetén."
+    },
+    {
+      "id": "32135686",
+      "euPointId": 80989,
+      "index": 1,
+      "description": "Indikáció: Myopia, hypermetropia, strabizmus."
+    },
+    {
+      "id": "32135689",
+      "euPointId": 80992,
+      "index": 1,
+      "description": "Indikáció: Myopia, hypermetropia, strabizmus, astigmia."
+    },
+    {
+      "id": "32135692",
+      "euPointId": 80995,
+      "index": 1,
+      "description": "Indikáció: Myopia, hypermetropia, strabizmus, astigmia."
+    },
+    {
+      "id": "32135695",
+      "euPointId": 80998,
+      "index": 1,
+      "description": "Indikáció: Konvergens strabizmus esetén 18 év alatti betegek számára"
+    },
+    {
+      "id": "32135698",
+      "euPointId": 81001,
+      "index": 1,
+      "description": "Indikáció: Astigmia, 18 éves korig konvergens strabizmus."
+    },
+    {
+      "id": "32135699",
+      "euPointId": 81002,
+      "index": 1,
+      "description": "Indikáció: Myopia, hypermetropia."
+    },
+    {
+      "id": "32135708",
+      "euPointId": 80680,
+      "index": 1,
+      "description": "Indikáció: Lumbalis scoliosis, Scheuermann-kór, postoperativ strukturális defektus."
+    },
+    {
+      "id": "32135709",
+      "euPointId": 80681,
+      "index": 1,
+      "description": "Indikáció: Strukturális scoliosis."
+    },
+    {
+      "id": "32135710",
+      "euPointId": 80682,
+      "index": 1,
+      "description": "Indikáció: Háti strukturális deformitás, scoliosis, Scheuermann-kór, postoperativ strukturális defektus."
+    },
+    {
+      "id": "32135711",
+      "euPointId": 80683,
+      "index": 1,
+      "description": "Indikáció: Scheuermann-kór"
+    },
+    {
+      "id": "32135712",
+      "euPointId": 80684,
+      "index": 1,
+      "description": "Indikáció: Nyaki és magas háti strukturális deformitás, scoliosis, Scheuermann-kór."
+    },
+    {
+      "id": "32135713",
+      "euPointId": 80685,
+      "index": 1,
+      "description": "Indikáció: Háti strukturális deformitás, súlyosabb fokú scoliosis, Scheuermann-kór."
+    },
+    {
+      "id": "32135715",
+      "euPointId": 80687,
+      "index": 1,
+      "description": "Indikáció: Traumás sérülés vagy osteoporosis eredetű csigolyatörés."
+    },
+    {
+      "id": "32135727",
+      "euPointId": 81005,
+      "index": 1,
+      "description": "Indikáció: Strabizmus, astigmia"
+    },
+    {
+      "id": "32135730",
+      "euPointId": 81008,
+      "index": 1,
+      "description": "Indikáció: Strabizmus, astigmia."
+    },
+    {
+      "id": "32135733",
+      "euPointId": 81011,
+      "index": 1,
+      "description": "Indikáció: Strabizmus, astigmia."
+    },
+    {
+      "id": "32135736",
+      "euPointId": 81014,
+      "index": 1,
+      "description": "Indikáció: Strabizmus, astigmia."
+    },
+    {
+      "id": "32135739",
+      "euPointId": 81017,
+      "index": 1,
+      "description": "Indikáció: Támogatott szemüveglencséhez."
+    },
+    {
+      "id": "32135744",
+      "euPointId": 81022,
+      "index": 1,
+      "description": "Indikáció: Reguláris és irreguláris astigmia, aphakia, sphericus -8.00 D feletti myopia, sphericus +6.00D feletti hypermetropia."
+    },
+    {
+      "id": "32135745",
+      "euPointId": 81023,
+      "index": 1,
+      "description": "Indikáció: Aphakia, sphericus -8.00D feletti myopia, sphericus +6.00D feletti hypermetropia, sérüléses cataracta utáni monoculáris aphakia, recidiváló vagy krónikus cornea erosio, keratopathia bullosa, perforáló cornea sérülés, congenitalis aniridia, traumás mydriasis, egy szektornál nagyobb iris coloboma, albinismus, elégtelenül záródó szemrés, cornea torzító hege, symblepharon megelőzése kémiai maródás után, anisometropia."
+    },
+    {
+      "id": "32135746",
+      "euPointId": 81024,
+      "index": 1,
+      "description": "Indikáció: Aphakia, sphericus -8.00D feletti myopia, sphericus +6.00D feletti hypermetropia, sérüléses cataracta utáni monoculáris aphakia, recidiváló vagy krónikus cornea erosio, keratopathia bullosa, perforáló cornea sérülés, congenitalis aniridia, traumás mydriasis, egy szektornál nagyobb iris coloboma, albinismus, elégtelenül záródó szemrés, cornea torzító hege, symblepharon megelőzése kémiai maródás után."
+    },
+    {
+      "id": "32135747",
+      "euPointId": 81025,
+      "index": 1,
+      "description": "Indikáció: Aphakia, astigmia, sphericus -8.00D feletti myopia, sphericus +6.00D feletti hypermetropia, sérüléses cataracta utáni monoculáris aphakia, recidiváló vagy chronikus cornea erosio, keratopathia bullosa, perforáló cornea sérülés, congenitalis aniridia, traumás mydriasis, egy szektornál nagyobb iris coloboma, albinismus, elégtelenül záródó szemrés, cornea torzító hege, symblepharon megelőzése kémiai maródás után, leukoma corneae, vulnus perforans corneae, aniridia congenita és traumatica."
+    },
+    {
+      "id": "32135748",
+      "euPointId": 81026,
+      "index": 1,
+      "description": "Indikáció: Teljes gége-exstirpatiot követően."
+    },
+    {
+      "id": "32135749",
+      "euPointId": 81027,
+      "index": 1,
+      "description": "Indikáció: Teljes gége-exstirpatiot követően, amennyiben a beszédképesség helyreállítása más úton nem lehetséges."
+    },
+    {
+      "id": "32135750",
+      "euPointId": 81029,
+      "index": 1,
+      "description": "Indikáció: Dokumentált halláscsökkenés javítására, amennyiben a hallásvesztés 500, 1000 és 2000 Hz-n mért átlaga a 20 dB-t meghaladja."
+    },
+    {
+      "id": "32135751",
+      "euPointId": 81030,
+      "index": 1,
+      "description": "Indikáció: Dokumentált halláscsökkenés javítására, amennyiben a hallásvesztés 500, 1000 és 2000 Hz-n mért átlaga a 20 dB-t meghaladja."
+    },
+    {
+      "id": "32135763",
+      "euPointId": 80709,
+      "index": 1,
+      "description": "Indikáció: Pes planovalgus esetén 18 év alatti betegnek."
+    },
+    {
+      "id": "32135764",
+      "euPointId": 80710,
+      "index": 1,
+      "description": "Indikáció: Pes planus, pes calceneovalgus esetén 18 év alatti betegnek."
+    },
+    {
+      "id": "32135774",
+      "euPointId": 81031,
+      "index": 1,
+      "description": "Indikáció: Dokumentált halláscsökkenés javítására, amennyiben a hallásvesztés 500, 1000 és 2000 Hz-n mért átlaga a 20 dB-t meghaladja."
+    },
+    {
+      "id": "32135790",
+      "euPointId": 81047,
+      "index": 1,
+      "description": "Indikáció: Dokumentált halláscsökkenés javítására, amennyiben a hallásvesztés 500, 1000 és 2000 Hz-n mért átlaga az 50 dB-t meghaladja."
+    },
+    {
+      "id": "32135791",
+      "euPointId": 81048,
+      "index": 1,
+      "description": "Indikáció: Dokumentált halláscsökkenés javítására, amennyiben a hallásvesztés 500, 1000 és 2000 Hz-n mért átlaga az 50 dB-t meghaladja."
+    },
+    {
+      "id": "32135792",
+      "euPointId": 81049,
+      "index": 1,
+      "description": "Indikáció: Dokumentált halláscsökkenés javítására, amennyiben a hallásvesztés 500, 1000 és 2000 Hz-n mért átlaga az 50 dB-t meghaladja."
+    },
+    {
+      "id": "32135168",
+      "euPointId": 80732,
+      "index": 1,
+      "description": "Indikáció: Csípő veleszületett subluxatiója, instabil csípő, csípő egyéb deformitása, csípő dysplasiája."
+    },
+    {
+      "id": "32135173",
+      "euPointId": 80737,
+      "index": 1,
+      "description": "Indikáció: Musculus quadriceps bénulása"
+    },
+    {
+      "id": "32135174",
+      "euPointId": 80738,
+      "index": 1,
+      "description": "Indikáció: Musculus quadriceps bénulása"
+    },
+    {
+      "id": "32135175",
+      "euPointId": 80739,
+      "index": 1,
+      "description": "Indikáció: Musculus quadriceps bénulása."
+    },
+    {
+      "id": "32135176",
+      "euPointId": 80740,
+      "index": 1,
+      "description": "Indikáció: Musculus quadriceps bénulása."
+    },
+    {
+      "id": "32135177",
+      "euPointId": 80741,
+      "index": 1,
+      "description": "Indikáció: Musculus quadriceps bénulása."
+    },
+    {
+      "id": "32135178",
+      "euPointId": 80742,
+      "index": 1,
+      "description": "Indikáció: Musculus quadriceps bénulása."
+    },
+    {
+      "id": "32135179",
+      "euPointId": 80743,
+      "index": 1,
+      "description": "Indikáció: Egyoldali csípő, comb és lábszár együttes bénulása esetén."
+    },
+    {
+      "id": "32135180",
+      "euPointId": 80744,
+      "index": 1,
+      "description": "Indikáció: Egyoldali csípő, comb és lábszár együttes bénulása esetén, amennyiben ahhoz az ágyéki gerincszakasz izomzatának nagyfokú gyengülése társul."
+    },
+    {
+      "id": "32135181",
+      "euPointId": 80745,
+      "index": 1,
+      "description": "Indikáció: Kétoldali csípő, comb és lábszár együttes bénulása."
+    },
+    {
+      "id": "32135182",
+      "euPointId": 80746,
+      "index": 1,
+      "description": "Indikáció: Kétoldali csípő, comb és lábszár együttes bénulása esetén, amennyiben ahhoz az ágyéki gerincszakasz izomzatának nagyfokú gyengülése társul."
+    },
+    {
+      "id": "32135183",
+      "euPointId": 80747,
+      "index": 1,
+      "description": "Indikáció: Perthes-kór."
+    },
+    {
+      "id": "32135244",
+      "euPointId": 81083,
+      "index": 1,
+      "description": "Indikáció: Dokumentált halláscsökkenés javítására, amennyiben a hallásvesztés 500, 1000 és 2000 Hz-n mért átlaga a 20 dB-t meghaladja."
+    },
+    {
+      "id": "32135245",
+      "euPointId": 81084,
+      "index": 1,
+      "description": "Indikáció: Dokumentált halláscsökkenés javítására, amennyiben a hallásvesztés 500, 1000 és 2000 Hz-n mért átlaga a 20 dB-t meghaladja."
+    },
+    {
+      "id": "32135246",
+      "euPointId": 81085,
+      "index": 1,
+      "description": "Indikáció: Dokumentált halláscsökkenés javítására, amennyiben a hallásvesztés 500, 1000 és 2000 Hz-n mért átlaga a 20 dB-t meghaladja."
+    },
+    {
+      "id": "32135262",
+      "euPointId": 81101,
+      "index": 1,
+      "description": "Indikáció: Dokumentált halláscsökkenés javítására, amennyiben a hallásvesztés 500, 1000 és 2000 Hz-n mért átlaga az 50 dB-t meghaladja."
+    },
+    {
+      "id": "32135263",
+      "euPointId": 81102,
+      "index": 1,
+      "description": "Indikáció: Dokumentált halláscsökkenés javítására, amennyiben a hallásvesztés 500, 1000 és 2000 Hz-n mért átlaga az 50 dB-t meghaladja."
+    },
+    {
+      "id": "32135277",
+      "euPointId": 81103,
+      "index": 1,
+      "description": "Indikáció: Dokumentált halláscsökkenés javítására, amennyiben a hallásvesztés 500, 1000 és 2000 Hz-n mért átlaga az 50 dB-t meghaladja."
+    },
+    {
+      "id": "32135467",
+      "euPointId": 81205,
+      "index": 1,
+      "description": "Indikáció: Hallásjavító készülékekhez."
+    },
+    {
+      "id": "32135507",
+      "euPointId": 82174,
+      "index": 1,
+      "description": "Indikáció:\r\nSebkezelési fázis: granulációs fázisban. \r\nSebtípus: közepesen vagy erősen váladékozó, nem fertőzött sebre. \r\nEgyéb feltétel: önállóan, másodlagos kötszer és kötésrögzítő nélkül. \r\nIdőbeli korlátozás (azonos sebre): 2 hónap."
+    },
+    {
+      "id": "32135509",
+      "euPointId": 82176,
+      "index": 1,
+      "description": "Indikáció:\r\nSebkezelési fázis: granulációs vagy epitelizációs fázisban. \r\nSebtípus: enyhén, közepesen vagy erősen váladékozó, fertőzött sebre. \r\nEgyéb feltétel: másodlagos kötszerrel és kötésrögzítővel. Másodlagos kötszer lehet: nedvszívó sebpárna. Kötésrögzítő lehet: filmkötszer vagy öntapadó pólya vagy ragtapasz vagy kötésrögzítő. \r\nIdőbeli korlátozás (azonos sebre): 2 hónap."
+    },
+    {
+      "id": "32135510",
+      "euPointId": 82177,
+      "index": 1,
+      "description": "Indikáció:\r\nSebkezelési fázis: - \r\nSebtípus: - \r\nEgyéb feltétel: másodlagos kötszerként az elsődleges kötszerrel megegyező darabszámban és megegyező ideig."
+    },
+    {
+      "id": "32135511",
+      "euPointId": 82178,
+      "index": 1,
+      "description": "Indikáció:\r\nSebkezelési fázis: - \r\nSebtípus: - \r\nEgyéb feltétel: az elsődleges és másodlagos kötszerrel megegyező ideig."
+    },
+    {
+      "id": "32135512",
+      "euPointId": 82179,
+      "index": 1,
+      "description": "Indikáció:\r\nSebkezelési fázis: - \r\nSebtípus: - \r\nEgyéb feltétel: az elsődleges és másodlagos kötszerrel megegyező ideig."
+    },
+    {
+      "id": "32135417",
+      "euPointId": 80838,
+      "index": 1,
+      "description": "Indikáció: Arc, állcsont, szájüreg fejlődési rendellenességei, daganatos megbetegedései, maradandó baleseti (traumás) sérülése esetén, a stomatognath rendszer egyéb súlyos megbetegedései esetén, csontvelő-transzplantált betegnél góckutatás miatt elvégzett fogextrahálást követően."
+    },
+    {
+      "id": "32135419",
+      "euPointId": 80840,
+      "index": 1,
+      "description": "Indikáció: Arc, állcsont, szájüreg fejlődési rendellenességei, daganatos megbetegedései, maradandó baleseti (traumás) sérülése esetén, a stomatognath rendszer egyéb súlyos megbetegedései esetén, csontvelő-transzplantált betegnél góckutatás miatt elvégzett fogextrahálást követően."
+    },
+    {
+      "id": "32135421",
+      "euPointId": 80842,
+      "index": 1,
+      "description": "Indikáció: Arc, állcsont, szájüreg fejlődési rendellenességei, daganatos megbetegedései, maradandó baleseti (traumás) sérülése esetén, a stomatognath rendszer egyéb súlyos megbetegedései esetén, csontvelő-transzplantált betegnél góckutatás miatt elvégzett fogextrahálást követően."
+    },
+    {
+      "id": "32135425",
+      "euPointId": 80846,
+      "index": 1,
+      "description": "Indikáció: Arc, állcsont, szájüreg fejlődési rendellenességei, daganatos megbetegedései, maradandó baleseti (traumás) sérülése esetén, a stomatognath rendszer egyéb súlyos megbetegedései esetén, csontvelő-transzplantált betegnél góckutatás miatt elvégzett fogextrahálást követően."
+    },
+    {
+      "id": "32135427",
+      "euPointId": 80848,
+      "index": 1,
+      "description": "Indikáció: Arc, állcsont, szájüreg fejlődési rendellenességei, daganatos megbetegedései, maradandó baleseti (traumás) sérülése esetén, a stomatognath rendszer egyéb súlyos megbetegedései esetén, csontvelő-transzplantált betegnél góckutatás miatt elvégzett fogextrahálást követően."
+    },
+    {
+      "id": "32135429",
+      "euPointId": 80850,
+      "index": 1,
+      "description": "Indikáció: Arc, állcsont, szájüreg fejlődési rendellenességei, daganatos megbetegedései, maradandó baleseti (traumás) sérülése esetén, a stomatognath rendszer egyéb súlyos megbetegedései esetén, csontvelő-transzplantált betegnél góckutatás miatt elvégzett fogextrahálást követően."
+    },
+    {
+      "id": "32135431",
+      "euPointId": 80852,
+      "index": 1,
+      "description": "Indikáció: Arc, állcsont, szájüreg fejlődési rendellenességei, daganatos megbetegedései, maradandó baleseti (traumás) sérülése esetén, a stomatognath rendszer egyéb súlyos megbetegedései esetén, csontvelő-transzplantált betegnél góckutatás miatt elvégzett fogextrahálást követően."
+    },
+    {
+      "id": "32135447",
+      "euPointId": 81190,
+      "index": 1,
+      "description": "Indikáció: Dokumentált halláscsökkenés javítására, amennyiben a hallásvesztés 500, 1000 és 2000 Hz-n mért átlaga a 20 dB-t meghaladja."
+    },
+    {
+      "id": "32135448",
+      "euPointId": 81191,
+      "index": 1,
+      "description": "Indikáció: Dokumentált halláscsökkenés javítására, amennyiben a hallásvesztés 500, 1000 és 2000 Hz-n mért átlaga a 20 dB-t meghaladja."
+    },
+    {
+      "id": "32135449",
+      "euPointId": 81192,
+      "index": 1,
+      "description": "Indikáció: Dokumentált halláscsökkenés javítására, amennyiben a hallásvesztés 500, 1000 és 2000 Hz-n mért átlaga a 20 dB-t meghaladja."
+    },
+    {
+      "id": "32135452",
+      "euPointId": 81195,
+      "index": 1,
+      "description": "Indikáció: Dokumentált halláscsökkenés javítására, amennyiben a hallásvesztés 500, 1000 és 2000 Hz-n mért átlaga a 20 dB-t meghaladja és a hallásrehabilitáció légvezetéses úton az operált fül váladékozása vagy fejlődési rendellenesség miatt nem oldható meg."
+    },
+    {
+      "id": "32135453",
+      "euPointId": 81196,
+      "index": 1,
+      "description": "Indikáció: Dokumentált halláscsökkenés javítására, amennyiben a hallásvesztés 500, 1000 és 2000 Hz-n mért átlaga a 20 dB-t meghaladja és a hallásrehabilitáció légvezetéses úton az operált fül váladékozása vagy fejlődési rendellenesség miatt nem oldható meg."
+    },
+    {
+      "id": "32135454",
+      "euPointId": 81197,
+      "index": 1,
+      "description": "Indikáció: Dokumentált halláscsökkenés javítására, amennyiben a hallásvesztés 500, 1000 és 2000 Hz-n mért átlaga a 20 dB-t meghaladja és a hallásrehabilitáció légvezetéses úton az operált fül váladékozása vagy fejlődési rendellenesség miatt nem oldható meg."
+    },
+    {
+      "id": "32135457",
+      "euPointId": 80856,
+      "index": 1,
+      "description": "Indikáció: Arc, állcsont, szájüreg fejlődési rendellenességei, daganatos megbetegedései, maradandó baleseti (traumás) sérülése esetén, a stomatognath rendszer egyéb súlyos megbetegedései esetén, csontvelő-transzplantált betegnél góckutatás miatt elvégzett fogextrahálást követően."
+    },
+    {
+      "id": "32135531",
+      "euPointId": 80903,
+      "index": 1,
+      "description": "Indikáció: Önellátásra tartósan képtelen mozgáskorlátozottaknak."
+    },
+    {
+      "id": "32135532",
+      "euPointId": 80904,
+      "index": 1,
+      "description": "Indikáció: Önellátásra tartósan képtelen mozgáskorlátozottaknak."
+    },
+    {
+      "id": "32135533",
+      "euPointId": 80905,
+      "index": 1,
+      "description": "Indikáció: Súlyos coxarthrosis, gonarthrosis és lumbalis gerinc degeneratív elváltozása együttes fennállása, valamint csípőtáji törések után fennálló súlyos mozgásbeszűkülés, alsó végtagok súlyos bénulása."
+    },
+    {
+      "id": "32135539",
+      "euPointId": 80911,
+      "index": 1,
+      "description": "Indikáció: Enterostoma."
+    },
+    {
+      "id": "32135541",
+      "euPointId": 80913,
+      "index": 1,
+      "description": "Indikáció: Enterostoma."
+    },
+    {
+      "id": "32135543",
+      "euPointId": 80915,
+      "index": 1,
+      "description": "Indikáció: Urostoma."
+    },
+    {
+      "id": "32135545",
+      "euPointId": 80917,
+      "index": 1,
+      "description": "Indikáció: Urostoma."
+    },
+    {
+      "id": "32135547",
+      "euPointId": 80919,
+      "index": 1,
+      "description": "Indikáció: Kétrészes sztómazsákokhoz."
+    },
+    {
+      "id": "32135549",
+      "euPointId": 80921,
+      "index": 1,
+      "description": "Indikáció: Urostomás, colostomás, ileostomás betegeknek, akiknél dokumentáltan szükséges az egyenetlenségek kitöltése."
+    },
+    {
+      "id": "32135550",
+      "euPointId": 80922,
+      "index": 1,
+      "description": "Indikáció: Enterostoma."
+    },
+    {
+      "id": "32135551",
+      "euPointId": 80923,
+      "index": 1,
+      "description": "Indikáció: Irrigációs készletekhez."
+    },
+    {
+      "id": "32135552",
+      "euPointId": 80924,
+      "index": 1,
+      "description": "Indikáció: Enterostoma."
+    },
+    {
+      "id": "32135553",
+      "euPointId": 80925,
+      "index": 1,
+      "description": "Indikáció: Enterostoma."
+    },
+    {
+      "id": "32135555",
+      "euPointId": 80927,
+      "index": 1,
+      "description": "Indikáció: Enterostoma."
+    },
+    {
+      "id": "32135564",
+      "euPointId": 80936,
+      "index": 1,
+      "description": "Indikáció: Testen viselt vizeletgyűjtő zsákokhoz."
+    },
+    {
+      "id": "32135566",
+      "euPointId": 80595,
+      "index": 1,
+      "description": "Indikáció:\r\nSebkezelési fázis: Epitelizációs fázisban elsődleges kötszerként vagy kötésrögzítőként.\r\nSebtípus: -\r\nEgyéb feltétel: Kötésrögzítőként az elsődleges kötszerrel megegyező darabszámban és megegyező ideig. Elsődleges kötszerként 20 db/hónap.\r\nIdőbeli korlátozás (azonos sebre): 2 hónap."
+    },
+    {
+      "id": "32135567",
+      "euPointId": 80596,
+      "index": 1,
+      "description": "Indikáció:\r\nSebkezelési fázis: Exudációs vagy granulációs fázisban.\r\nSebtípus: közepesen vagy erősen váladékozó, nem fertőzött sebre.\r\nEgyéb feltétel: másodlagos kötszer és kötésrögzítő nélkül. Amennyiben a kötszer nem tapad, rendelhető kötésrögzítővel (filmkötszer vagy öntapadó pólya vagy ragtapasz vagy kötésrögzítő).\r\nIdőbeli korlátozás (azonos sebre): 2 hónap."
+    },
+    {
+      "id": "32135323",
+      "euPointId": 80805,
+      "index": 1,
+      "description": "Indikáció: Emlőmegtartó műtétek (subcutan mastectomia, quadrans resectio) után a hiányzó emlő térfogatának pótlására a teljes sebgyógyulást vagy sugárkezelést követően."
+    },
+    {
+      "id": "32135321",
+      "euPointId": 80803,
+      "index": 1,
+      "description": "Indikáció: Teljes vagy részleges emlőeltávolítás után a seb gyógyulásáig, a sugárterápia befejezéséig."
+    },
+    {
+      "id": "32135322",
+      "euPointId": 80804,
+      "index": 1,
+      "description": "Indikáció: Fejlődési rendellenesség esetén vagy teljes amputáció után a teljes sebgyógyulást, vagy sugárkezelést követően."
+    },
+    {
+      "id": "32135335",
+      "euPointId": 81137,
+      "index": 1,
+      "description": "Indikáció: Dokumentált halláscsökkenés javítására, amennyiben a hallásvesztés 500, 1000 és 2000 Hz-n mért átlaga a 20 dB-t meghaladja."
+    },
+    {
+      "id": "32135336",
+      "euPointId": 81138,
+      "index": 1,
+      "description": "Indikáció: Dokumentált halláscsökkenés javítására, amennyiben a hallásvesztés 500, 1000 és 2000 Hz-n mért átlaga a 20 dB-t meghaladja."
+    },
+    {
+      "id": "32135337",
+      "euPointId": 81139,
+      "index": 1,
+      "description": "Indikáció: Dokumentált halláscsökkenés javítására, amennyiben a hallásvesztés 500, 1000 és 2000 Hz-n mért átlaga a 20 dB-t meghaladja."
+    },
+    {
+      "id": "32135361",
+      "euPointId": 80809,
+      "index": 1,
+      "description": "Indikáció: Sérült szemcsonk."
+    },
+    {
+      "id": "32135367",
+      "euPointId": 80815,
+      "index": 1,
+      "description": "Indikáció: Szájpadlás veleszületett rendellenessége vagy daganatos megbetegedése következtében létrejött szájpadláshiány zárására."
+    },
+    {
+      "id": "32135368",
+      "euPointId": 80816,
+      "index": 1,
+      "description": "Indikáció: Enyhe és közepes obstruktív alvási apnoe."
+    },
+    {
+      "id": "32135369",
+      "euPointId": 80817,
+      "index": 1,
+      "description": "Indikáció: Down-kóros betegek jelentős szájpadelváltozása."
+    },
+    {
+      "id": "32135370",
+      "euPointId": 80820,
+      "index": 1,
+      "description": "Indikáció: Arc, állcsont, szájüreg fejlődési rendellenességei, daganatos megbetegedései, maradandó baleseti (traumás) sérülése esetén, a stomatognath rendszer egyéb súlyos megbetegedései esetén, csontvelő-transzplantált betegnél góckutatás miatt elvégzett fogextrahálást követően."
+    },
+    {
+      "id": "32135372",
+      "euPointId": 80822,
+      "index": 1,
+      "description": "Indikáció: Arc, állcsont, szájüreg fejlődési rendellenességei, daganatos megbetegedései, maradandó baleseti (traumás) sérülése esetén, a stomatognath rendszer egyéb súlyos megbetegedései esetén, csontvelő-transzplantált betegnél góckutatás miatt elvégzett fogextrahálást követően."
+    },
+    {
+      "id": "32135374",
+      "euPointId": 80824,
+      "index": 1,
+      "description": "Indikáció: Arc, állcsont, szájüreg fejlődési rendellenességei, daganatos megbetegedései, maradandó baleseti (traumás) sérülése esetén, a stomatognath rendszer egyéb súlyos megbetegedései esetén, csontvelő-transzplantált betegnél góckutatás miatt elvégzett fogextrahálást követően."
+    },
+    {
+      "id": "32135376",
+      "euPointId": 80826,
+      "index": 1,
+      "description": "Indikáció: Arc, állcsont, szájüreg fejlődési rendellenességei, daganatos megbetegedései, maradandó baleseti (traumás) sérülése esetén, a stomatognath rendszer egyéb súlyos megbetegedései esetén, csontvelő-transzplantált betegnél góckutatás miatt elvégzett fogextrahálást követően."
+    },
+    {
+      "id": "32135378",
+      "euPointId": 80828,
+      "index": 1,
+      "description": "Indikáció: Arc, állcsont, szájüreg fejlődési rendellenességei, daganatos megbetegedései, maradandó baleseti (traumás) sérülése esetén, a stomatognath rendszer egyéb súlyos megbetegedései esetén, csontvelő-transzplantált betegnél góckutatás miatt elvégzett fogextrahálást követően."
+    },
+    {
+      "id": "32135380",
+      "euPointId": 81155,
+      "index": 1,
+      "description": "Indikáció: Dokumentált halláscsökkenés javítására, amennyiben a hallásvesztés 500, 1000 és 2000 Hz-n mért átlaga az 50 dB-t meghaladja."
+    },
+    {
+      "id": "32135381",
+      "euPointId": 81156,
+      "index": 1,
+      "description": "Indikáció: Dokumentált halláscsökkenés javítására, amennyiben a hallásvesztés 500, 1000 és 2000 Hz-n mért átlaga az 50 dB-t meghaladja."
+    },
+    {
+      "id": "32135382",
+      "euPointId": 81157,
+      "index": 1,
+      "description": "Indikáció: Dokumentált halláscsökkenés javítására, amennyiben a hallásvesztés 500, 1000 és 2000 Hz-n mért átlaga az 50 dB-t meghaladja."
+    },
+    {
+      "id": "32135398",
+      "euPointId": 81173,
+      "index": 1,
+      "description": "Indikáció: Dokumentált halláscsökkenés javítására, amennyiben a hallásvesztés 500, 1000 és 2000 Hz-n mért átlaga a 90 dB-t meghaladja."
+    },
+    {
+      "id": "32135399",
+      "euPointId": 81174,
+      "index": 1,
+      "description": "Indikáció: Dokumentált halláscsökkenés javítására, amennyiben a hallásvesztés 500, 1000 és 2000 Hz-n mért átlaga a 90 dB-t meghaladja."
+    },
+    {
+      "id": "32135400",
+      "euPointId": 81175,
+      "index": 1,
+      "description": "Indikáció: Dokumentált halláscsökkenés javítására, amennyiben a hallásvesztés 500, 1000 és 2000 Hz-n mért átlaga a 90 dB-t meghaladja."
+    },
+    {
+      "id": "32135409",
+      "euPointId": 80830,
+      "index": 1,
+      "description": "Indikáció: Arc, állcsont, szájüreg fejlődési rendellenességei, daganatos megbetegedései, maradandó baleseti (traumás) sérülése esetén, a stomatognath rendszer egyéb súlyos megbetegedései esetén, csontvelő-transzplantált betegnél góckutatás miatt elvégzett fogextrahálást követően."
+    },
+    {
+      "id": "32135411",
+      "euPointId": 80832,
+      "index": 1,
+      "description": "Indikáció: Arc, állcsont, szájüreg fejlődési rendellenességei, daganatos megbetegedései, maradandó baleseti (traumás) sérülése esetén, a stomatognath rendszer egyéb súlyos megbetegedései esetén, csontvelő-transzplantált betegnél góckutatás miatt elvégzett fogextrahálást követően."
+    },
+    {
+      "id": "32135413",
+      "euPointId": 80834,
+      "index": 1,
+      "description": "Indikáció: Arc, állcsont, szájüreg fejlődési rendellenességei, daganatos megbetegedései, maradandó baleseti (traumás) sérülése esetén, a stomatognath rendszer egyéb súlyos megbetegedései esetén, csontvelő-transzplantált betegnél góckutatás miatt elvégzett fogextrahálást követően."
+    },
+    {
+      "id": "32135415",
+      "euPointId": 80836,
+      "index": 1,
+      "description": "Indikáció: Arc, állcsont, szájüreg fejlődési rendellenességei, daganatos megbetegedései, maradandó baleseti (traumás) sérülése esetén, a stomatognath rendszer egyéb súlyos megbetegedései esetén, csontvelő-transzplantált betegnél góckutatás miatt elvégzett fogextrahálást követően."
+    },
+    {
+      "id": "35843282",
+      "euPointId": 87123,
+      "index": 1,
+      "description": "Indikáció: Phlebothrombosis, thrombophlebitis, postthromboticus szindróma esetén, ha a sorozatgyártású kompressziós harisnya használata kontraindikált, valamint nyiroködéma komplex kezelésére."
+    },
+    {
+      "id": "35843284",
+      "euPointId": 87124,
+      "index": 1,
+      "description": "Indikáció: Phlebothrombosis, thrombophlebitis, kiterjedt alsóvégtagi varicositas, krónikus vénás elégtelenség, postthromboticus szindróma, angiodysplasia esetén, ha a sorozatgyártású kompressziós harisnya használata kontraindikált, valamint nyiroködéma komplex kezelésére."
+    },
+    {
+      "id": "35843288",
+      "euPointId": 87126,
+      "index": 1,
+      "description": "Indikáció: Phlebothrombosis, thrombophlebitis, kiterjedt alsóvégtagi varicositas, krónikus vénás elégtelenség, postthromboticus szindróma esetén, ha a sorozatgyártású kompressziós harisnya használata kontraindikált, valamint nyiroködéma komplex kezelésére."
+    },
+    {
+      "id": "35843298",
+      "euPointId": 87131,
+      "index": 1,
+      "description": "Indikáció: 1. Inzulinkezelésre szoruló diabetes mellitus, amennyiben\r\n- napi négyszeri vagy annál többszöri inzulinadás szükséges vagy\r\n- a beteg 6 évnél fiatalabb.\r\n2. Gesztációs diabetes."
+    },
+    {
+      "id": "32135537",
+      "euPointId": 82183,
+      "index": 1,
+      "description": "Indikáció: Mucoviscidosis, asthma bronchiale, krónikus bronchitis, bronchiectasia, postoperativ atelectasia, emphysema, légzőszervi neuromuscularis megbetegedések."
+    },
+    {
+      "id": "35843300",
+      "euPointId": 87132,
+      "index": 1,
+      "description": "Indikáció: 1. Inzulinkezelésre szoruló diabetes mellitus, amennyiben\r\n- napi négyszeri vagy annál többszöri inzulinadás szükséges vagy\r\n- a beteg 6 évnél fiatalabb.\r\n2. Gesztációs diabetes."
+    },
+    {
+      "id": "35843302",
+      "euPointId": 87133,
+      "index": 1,
+      "description": "Indikáció: Végtagok pareticus, bénult izmainak rehabilitációja céljára, valamint inkontinencia esetén."
+    },
+    {
+      "id": "35843306",
+      "euPointId": 87135,
+      "index": 1,
+      "description": "Indikáció: Radiális paresis, extensor ín sérülése, ulnaris paresis, rheumatoid arthritis."
+    },
+    {
+      "id": "35843308",
+      "euPointId": 87136,
+      "index": 1,
+      "description": "Indikáció: Csípőízületi kontraktúra kezelésére."
+    },
+    {
+      "id": "35843312",
+      "euPointId": 87138,
+      "index": 1,
+      "description": "Indikáció: Lumbago, postdiscectomias szindróma, spondylosis, spondylarthrosis, spondylolisthesis, fractura ossis pubis sine dislocatione."
+    },
+    {
+      "id": "35843316",
+      "euPointId": 87140,
+      "index": 1,
+      "description": "Indikáció: Spondylosis, discopathia, spondylarthrosis a nyaki szakaszon, torticollis, csigolyatumor, nyaki distorsio, degeneratív elváltozások, idegfájdalmak, egyszerű stabil törések, luxáció, luxációs törések primer nyújtását követően, dislocatiora hajlamos elváltozásoknál a fájdalom csökkentésére, megelőzésére."
+    },
+    {
+      "id": "35351337",
+      "euPointId": 86411,
+      "index": 1,
+      "description": "Indikáció: Emlő teljes vagy részleges eltávolítása után a külső (ideiglenes vagy végleges) protézis viselésére."
+    },
+    {
+      "id": "34767691",
+      "euPointId": 84702,
+      "index": 1,
+      "description": "Indikáció: Osteoporosis eredetű csigolyatörést követő rehabilitációban."
+    },
+    {
+      "id": "32135152",
+      "euPointId": 82419,
+      "index": 1,
+      "description": "Indikáció: Tartósan kanült viselők számára. Gégeexstirpatio, koponyaagysérülés, gerincvelősérülés, neurológiai megbetegedések miatt kétoldali gégemozgató ideg bénulása miatt elektroterápiában részesülő betegeknek, tumoros vagy nem tumoros eredetű gége- vagy légcsőszűkület."
+    },
+    {
+      "id": "32135156",
+      "euPointId": 82423,
+      "index": 1,
+      "description": "Indikáció: Tracheostoma esetén."
+    },
+    {
+      "id": "32135155",
+      "euPointId": 82422,
+      "index": 1,
+      "description": "Indikáció: Gégeexstirpatio után kanül használatakor, tracheostoma esetén."
+    },
+    {
+      "id": "32135591",
+      "euPointId": 82984,
+      "index": 1,
+      "description": "Indikáció: Arc, állcsont, szájüreg fejlődési rendellenességei, daganatos megbetegedései, maradandó baleseti (traumás) sérülése esetén; a stomatognath rendszer egyéb súlyos megbetegedései esetén; csontvelő-transzplantált beteg góckutatása miatt elvégzett fogextrahálást követően; kizárólag 18 éven aluli betegnek a fogazat fejlődési és alaki rendellenességei esetén."
+    },
+    {
+      "id": "34767700",
+      "euPointId": 84706,
+      "index": 1,
+      "description": "Indikáció: Scoliosis."
+    },
+    {
+      "id": "35056200",
+      "euPointId": 85967,
+      "index": 1,
+      "description": "Indikáció: Krónikus obstruktív légúti betegség."
+    },
+    {
+      "id": "35351339",
+      "euPointId": 86412,
+      "index": 1,
+      "description": "Indikáció: Emlő teljes vagy részleges eltávolítása után a külső (ideiglenes vagy végleges) protézis viselésére."
+    },
+    {
+      "id": "35843318",
+      "euPointId": 87141,
+      "index": 1,
+      "description": "Indikáció: Degeneratív elváltozások, idegfájdalmak, egyszerű stabil törések, luxatio, artritis; luxatios törések primer nyújtását követően diszlokációra hajlamos elváltozásoknál a fájdalom csökkentésére, megelőzésére."
+    },
+    {
+      "id": "35843320",
+      "euPointId": 87142,
+      "index": 1,
+      "description": "Indikáció: Distorsio, subluxatio, luxatio, arthritis, tendovaginitis, postoperatív állapot."
+    },
+    {
+      "id": "35843322",
+      "euPointId": 87143,
+      "index": 1,
+      "description": "Indikáció: Rheumatoid arthritis, n. radialis paresis, izomeredetű bénulások, központi idegrendszeri eredetű bénulás."
+    },
+    {
+      "id": "35843324",
+      "euPointId": 87144,
+      "index": 1,
+      "description": "Indikáció: Rheumatoid arthritis, n. radialis paresis, izomeredetű bénulások, központi idegrendszeri eredetű bénulás, fájdalmas csuklóízületi mozgások kiiktatása."
+    },
+    {
+      "id": "35843326",
+      "euPointId": 87145,
+      "index": 1,
+      "description": "Indikáció: Distorsio, subluxatio, luxatio, arthritis, tendovaginitis, postoperatív állapot, központi és perifériás idegbénulás."
+    },
+    {
+      "id": "35843328",
+      "euPointId": 87146,
+      "index": 1,
+      "description": "Indikáció: Postoperatív állapot, könyökízületi instabilitás, arthrosis, arthritis."
+    },
+    {
+      "id": "35351384",
+      "euPointId": 86434,
+      "index": 1,
+      "description": "Indikáció: Kerekesszékekhez, amennyiben a kerekesszék alapkiszereléséhez tartozó lábtámasz a beteg mérete, tömege, vagy speciális deformitás miatt alkalmatlan."
+    },
+    {
+      "id": "35843330",
+      "euPointId": 87147,
+      "index": 1,
+      "description": "Indikáció: Vállízület, álízület és felső végtag műtétei után, luxatio humeroscapularis, luxatio acromioclavicularis, contusio omii, humerus diaphysis középső 3/5-ének törései, velőűrsínezés után a stabilitás fokozására, lemezes OS után, ha a belső rögzítés mellett külső stabilizáció is szükséges; törés elhúzódó gyógyulása esetén."
+    },
+    {
+      "id": "35843332",
+      "euPointId": 87148,
+      "index": 1,
+      "description": "Indikáció: Pes adductus."
+    },
+    {
+      "id": "35843334",
+      "euPointId": 87149,
+      "index": 1,
+      "description": "Indikáció: Pes equinovarus."
+    },
+    {
+      "id": "35843336",
+      "euPointId": 87150,
+      "index": 1,
+      "description": "Indikáció: Veleszületett dongaláb, centrális vagy perifériás neurológiai károsodás miatt kialakult kóros lábtartás."
+    },
+    {
+      "id": "35843338",
+      "euPointId": 87151,
+      "index": 1,
+      "description": "Indikáció: Diabeteses neuropathias láb krónikus talpi fekéllyel."
+    },
+    {
+      "id": "35843340",
+      "euPointId": 87152,
+      "index": 1,
+      "description": "Indikáció: Pes excavatus, pes adductus, pes varus, pes valgus."
+    },
+    {
+      "id": "35843342",
+      "euPointId": 87153,
+      "index": 1,
+      "description": "Indikáció: Peroneus paresis, plaegia."
+    },
+    {
+      "id": "35843344",
+      "euPointId": 87154,
+      "index": 1,
+      "description": "Indikáció: Krónikus bokaízületi instabilitás, krónikus bokaízületi gyulladás, szalagsérülés konzervatív kezelése."
+    },
+    {
+      "id": "35843348",
+      "euPointId": 87156,
+      "index": 1,
+      "description": "Indikáció: Lábszártörés, szeptikus törés, osteosynthesis után, Achilles-ín sérülés."
+    },
+    {
+      "id": "35843350",
+      "euPointId": 87157,
+      "index": 1,
+      "description": "Indikáció: Centrális és perifériás bénulás."
+    },
+    {
+      "id": "35843352",
+      "euPointId": 87158,
+      "index": 1,
+      "description": "Indikáció: Centrális és perifériás bénulás."
+    },
+    {
+      "id": "35843354",
+      "euPointId": 87159,
+      "index": 1,
+      "description": "Indikáció: Krónikus bokaízületi megbetegedések esetén a bokaízület részleges tehermentesítésére, Achilles-ínszakadás postoperatív szakában."
+    },
+    {
+      "id": "35843356",
+      "euPointId": 87160,
+      "index": 1,
+      "description": "Indikáció: Krónikus bokaízületi megbetegedések esetén a bokaízület részleges tehermentesítésére, Achilles-ínszakadás postoperatív szakában."
+    },
+    {
+      "id": "35843358",
+      "euPointId": 87161,
+      "index": 1,
+      "description": "Indikáció: Alsó végtag veleszületett bénulása."
+    },
+    {
+      "id": "35843360",
+      "euPointId": 87162,
+      "index": 1,
+      "description": "Indikáció: Alsó végtag veleszületett bénulása."
+    },
+    {
+      "id": "35843362",
+      "euPointId": 87163,
+      "index": 1,
+      "description": "Indikáció: Térdízületi instabilitás."
+    },
+    {
+      "id": "35843364",
+      "euPointId": 87164,
+      "index": 1,
+      "description": "Indikáció: Térdműtétet követő kezelésre, amennyiben a műtét után átmeneti ideig (várhatóan 6 hétig) a térdizület mozgása csak korlátozott mozgástartományban engedélyezhető."
+    },
+    {
+      "id": "35843366",
+      "euPointId": 87165,
+      "index": 1,
+      "description": "Indikáció: Lezajlott degeneratív térdízületi betegség után 3 hónapnál hosszabb ideig tartó kezelésre."
+    },
+    {
+      "id": "35843368",
+      "euPointId": 87166,
+      "index": 1,
+      "description": "Indikáció: Nagyfokú térdízület-instabilitás esetén 18 év alatti betegek 6 hétnél hosszabb ideig tartó kezelésére."
+    },
+    {
+      "id": "35843370",
+      "euPointId": 87167,
+      "index": 1,
+      "description": "Indikáció: Nagyfokú térdízület-instabilitás esetén 18 év feletti betegek 6 hétnél hosszabb ideig tartó kezelésére."
+    },
+    {
+      "id": "35843372",
+      "euPointId": 87168,
+      "index": 1,
+      "description": "Indikáció: Lábszáramputációt követően a térdízületi kontraktúra megelőzésére."
+    },
+    {
+      "id": "35843374",
+      "euPointId": 87169,
+      "index": 1,
+      "description": "Indikáció: Osteoporosis (T-Score < -2,5)."
+    },
+    {
+      "id": "35843376",
+      "euPointId": 87170,
+      "index": 1,
+      "description": "Indikáció: Coxitis, előrehaladott coxarthrosis."
+    },
+    {
+      "id": "35843378",
+      "euPointId": 87171,
+      "index": 1,
+      "description": "Indikáció: Osteochondritis, Perthes-kór."
+    },
+    {
+      "id": "35843388",
+      "euPointId": 87176,
+      "index": 1,
+      "description": "Indikáció: Járógépet használó beteg részére, akinek egyedi méretvétel alapján egyedileg készített ortopéd cipőt emelt jogcímen rendeltek."
+    },
+    {
+      "id": "35843390",
+      "euPointId": 87177,
+      "index": 1,
+      "description": "Indikáció: Egy vagy több kézujj, ujjrész hiánya, kéz részleges vagy teljes veleszületett vagy szerzett hiánya."
+    },
+    {
+      "id": "35843392",
+      "euPointId": 87178,
+      "index": 1,
+      "description": "Indikáció: Kéz és alkar veleszületett vagy szerzett hiánya."
+    },
+    {
+      "id": "35843394",
+      "euPointId": 87179,
+      "index": 1,
+      "description": "Indikáció: Kéz és alkar veleszületett, vagy szerzett hiánya esetén a munkaképesség, tanulóképesség vagy önálló életvitelre való képesség visszanyerése céljából."
+    },
+    {
+      "id": "35843396",
+      "euPointId": 87180,
+      "index": 1,
+      "description": "Indikáció: Kéz és alkar veleszületett vagy szerzett hiánya."
+    },
+    {
+      "id": "35843398",
+      "euPointId": 87181,
+      "index": 1,
+      "description": "Indikáció: Alkar és felkar veleszületett vagy szerzett hiánya esetén."
+    },
+    {
+      "id": "35843400",
+      "euPointId": 87182,
+      "index": 1,
+      "description": "Indikáció: Alkar és felkar veleszületett vagy szerzett hiánya esetén."
+    },
+    {
+      "id": "35843404",
+      "euPointId": 87184,
+      "index": 1,
+      "description": "Indikáció: Felkar veleszületett vagy szerzett hiánya."
+    },
+    {
+      "id": "35843408",
+      "euPointId": 87186,
+      "index": 1,
+      "description": "Indikáció: Láb veleszületett vagy szerzett, részleges vagy teljes hiánya"
+    },
+    {
+      "id": "35843410",
+      "euPointId": 87187,
+      "index": 1,
+      "description": "Indikáció: Láb és lábszár veleszületett vagy szerzett hiánya."
+    },
+    {
+      "id": "35843412",
+      "euPointId": 87188,
+      "index": 1,
+      "description": "Indikáció: Láb és lábszár veleszületett vagy szerzett hiánya."
+    },
+    {
+      "id": "35843414",
+      "euPointId": 87189,
+      "index": 1,
+      "description": "Indikáció: Láb és lábszár veleszületett vagy szerzett hiánya."
+    },
+    {
+      "id": "35843416",
+      "euPointId": 87190,
+      "index": 1,
+      "description": "Indikáció: Láb és lábszár és comb veleszületett vagy szerzett hiánya."
+    },
+    {
+      "id": "35843418",
+      "euPointId": 87191,
+      "index": 1,
+      "description": "Indikáció: Láb és lábszár veleszületett vagy szerzett hiánya esetén, ideiglenes protézis legalább három hónapig történő kötelező viselése után, ha a csonk kialakult, és a protézis használója felkészült az eszköz viselésére."
+    },
+    {
+      "id": "35843420",
+      "euPointId": 87192,
+      "index": 1,
+      "description": "Indikáció: Láb és lábszár veleszületett vagy szerzett hiánya."
+    },
+    {
+      "id": "35843422",
+      "euPointId": 87193,
+      "index": 1,
+      "description": "Indikáció: Láb és lábszár veleszületett vagy szerzett hiánya."
+    },
+    {
+      "id": "35843424",
+      "euPointId": 87194,
+      "index": 1,
+      "description": "Indikáció: Láb, lábszár és comb veleszületett vagy szerzett hiánya."
+    },
+    {
+      "id": "35843426",
+      "euPointId": 87195,
+      "index": 1,
+      "description": "Indikáció: Láb, lábszár és comb veleszületett vagy szerzett hiánya."
+    },
+    {
+      "id": "35843428",
+      "euPointId": 87196,
+      "index": 1,
+      "description": "Indikáció: Láb, lábszár és comb veleszületett vagy szerzett hiánya."
+    },
+    {
+      "id": "35843430",
+      "euPointId": 87197,
+      "index": 1,
+      "description": "Indikáció: Láb és lábszár és comb veleszületett vagy szerzett hiánya."
+    },
+    {
+      "id": "35843432",
+      "euPointId": 87198,
+      "index": 1,
+      "description": "Indikáció: Láb, lábszár és comb veleszületett vagy szerzett hiánya esetén ideiglenes protézis legalább három hónapig történő kötelező viselése után, ha a csonk kialakult, és a protézis használója felkészült az eszköz viselésére."
+    },
+    {
+      "id": "35843434",
+      "euPointId": 87199,
+      "index": 1,
+      "description": "Indikáció: Láb, lábszár és comb veleszületett vagy szerzett hiánya."
+    },
+    {
+      "id": "35843436",
+      "euPointId": 87200,
+      "index": 1,
+      "description": "Indikáció: A comb fejlődési rendellenességre visszavezethető hiánya esetén."
+    },
+    {
+      "id": "35843438",
+      "euPointId": 87201,
+      "index": 1,
+      "description": "Indikáció: Láb, lábszár és comb veleszületett vagy szerzett hiánya."
+    },
+    {
+      "id": "35843442",
+      "euPointId": 87203,
+      "index": 1,
+      "description": "Indikáció: Nem verőér-szűkület miatti amputáció, valamint medence-resectio esetén 2. és 3. aktivitási szintű betegek részére, vagy 1. aktivitási szintű betegek részére dokumentáltan indokolt esetben."
+    },
+    {
+      "id": "35843444",
+      "euPointId": 87204,
+      "index": 1,
+      "description": "Indikáció: Láb, lábszár és comb veleszületett vagy szerzett hiánya."
+    },
+    {
+      "id": "35843446",
+      "euPointId": 87205,
+      "index": 1,
+      "description": "Indikáció: Láb, lábszár és comb veleszületett vagy szerzett hiánya."
+    },
+    {
+      "id": "35843448",
+      "euPointId": 87206,
+      "index": 1,
+      "description": "Indikáció: Láb, lábszár és comb veleszületett vagy szerzett hiánya."
+    },
+    {
+      "id": "35843450",
+      "euPointId": 87207,
+      "index": 1,
+      "description": "Indikáció: Kizárólag alsóvégtag-protézisekhez."
+    },
+    {
+      "id": "35843452",
+      "euPointId": 87208,
+      "index": 1,
+      "description": "Indikáció: Alopecia totalis, alopecia areata, hajas fejbőr skalpolásos leszakadása."
+    },
+    {
+      "id": "35843454",
+      "euPointId": 87209,
+      "index": 1,
+      "description": "Indikáció: Párja cipő másik lábra vagy kozmetikus művégtagra vagy alsóvégtag protézisre vagy külsőkengyeles járókészülékhez. Alsóvégtag-paralysis vagy súlyos paresis esetén rendelhető."
+    },
+    {
+      "id": "35843456",
+      "euPointId": 87210,
+      "index": 1,
+      "description": "Indikáció: Párja cipő másik lábra vagy kozmetikus művégtagra vagy alsóvégtag protézisre vagy külsőkengyeles járókészülékhez."
+    },
+    {
+      "id": "35843462",
+      "euPointId": 87213,
+      "index": 1,
+      "description": "Indikáció: Ha a láb equinus, calcaneus, cavus, adductus, varus deformitása áll fenn (Dimeglio>0), vagy nagymértékű nyirokpangás miatti deformitás esetén, vagy belső szandálos járókészülékhez, vagy az alsó végtag rövidülésének korrekciójára, ha legfeljebb 4,50 cm magas emelés szükséges. Korrekció jelzése: /A/C/E. Alsóvégtag-paralysis vagy súlyos paresis esetén rendelhető."
+    },
+    {
+      "id": "35843464",
+      "euPointId": 87214,
+      "index": 1,
+      "description": "Indikáció: Ha a láb equinus, calcaneus, cavus, adductus, varus deformitása áll fenn (Dimeglio>0), vagy nagymértékű nyirokpangás miatti deformitás esetén, vagy belső szandálos járókészülékhez, vagy az alsó végtag rövidülésének korrekciójára, ha legfeljebb 4,50 cm magas emelés szükséges. Korrekció jelzése: /A/C/E."
+    },
+    {
+      "id": "35843466",
+      "euPointId": 87215,
+      "index": 1,
+      "description": "Indikáció: 4,50 cm-t meghaladó alsóvégtag-rövidülés esetén, 25 cm-ig tartó emeléssel vagy mobilizátor alkalmazásánál vagy csonkolt lábak Pirogov, Chopart, Lisfranc szintű vagy bármely metatarsus bázisáig terjedő csonkolás esetén. Alsóvégtag-paralysis vagy súlyos paresis esetén rendelhető."
+    },
+    {
+      "id": "35843468",
+      "euPointId": 87216,
+      "index": 1,
+      "description": "Indikáció: 4,50 cm-t meghaladó alsóvégtag-rövidülés esetén 25 cm-ig tartó emeléssel vagy mobilizátor alkalmazásánál vagy csonkolt lábak Pirogov, Chopart, Lisfranc szintű vagy bármely metatarsus bázisáig terjedő csonkolás esetén."
+    },
+    {
+      "id": "35843470",
+      "euPointId": 87217,
+      "index": 1,
+      "description": "Indikáció: 4,50 cm-t meghaladó alsóvégtag-rövidülés esetén, 25 cm-ig tartó külső-belső emeléssel és a láb equinus, calcaneus, cavus, valgus (CVPTV érték>3), varus (Dimeglio>0), adductus deformitása vagy nagy mértékű nyirokpangás miatti deformitása esetén. Alsóvégtag-paralysis vagy súlyos paresis esetén rendelhető."
+    },
+    {
+      "id": "35843472",
+      "euPointId": 87218,
+      "index": 1,
+      "description": "Indikáció: 4,50 cm-t meghaladó alsóvégtag-rövidülés esetén, 25 cm-ig tartó külső-belső emeléssel és a láb equinus, calcaneus, cavus, valgus (CVPTV érték>3), varus (Dimeglio>0), adductus deformitása vagy nagymértékű nyirokpangás miatti deformitása esetén."
+    },
+    {
+      "id": "35843474",
+      "euPointId": 87219,
+      "index": 1,
+      "description": "Indikáció: Kialakult angiopathia vagy olyan fokú neuropathia esetén, ahol a 128-as rezgésszámú hangvillával kimutatottan a 8 fokozatú skálán belül 5-ös érték alatti a beteg vibrációs érzésküszöbe vagy a lábon seb, fekély, vagy Compartment szindróma vagy Charcot-láb alakult ki. Gördülő talppal, speciális lábortézissel, amennyiben a végtaghossz különbsége nem haladja meg a 1,5 cm-t. Alsóvégtag-paralysis vagy súlyos paresis esetén rendelhető."
+    },
+    {
+      "id": "35843476",
+      "euPointId": 87220,
+      "index": 1,
+      "description": "Indikáció: Kialakult angiopathia vagy olyan fokú neuropathia esetén, ahol a 128-as rezgésszámú hangvillával kimutatottan a 8 fokozatú skálán belül 5-ös érték alatti a beteg vibrációs érzésküszöbe vagy a lábon seb, fekély, vagy Compartment szindróma vagy Charcot-láb alakult ki. Gördülő talppal, speciális lábortézissel, amennyiben a végtaghossz különbsége nem haladja meg a 1,5 cm-t."
+    },
+    {
+      "id": "35843478",
+      "euPointId": 87221,
+      "index": 1,
+      "description": "Indikáció: A láb hosszboltozatai süllyedésekor, pronált vagy szupinált saroktengely esetén a járásbiztonság növelésére."
+    },
+    {
+      "id": "35843480",
+      "euPointId": 87222,
+      "index": 1,
+      "description": "Indikáció: A láb hosszboltozatai süllyedésekor, pronált vagy szupinált saroktengely esetén a járásbiztonság növelésére."
+    },
+    {
+      "id": "35843482",
+      "euPointId": 87223,
+      "index": 1,
+      "description": "Indikáció: Vérkeringés károsodás miatt kialakult ulcus vagy annak veszélye, súlyos metatarsalgia, vagy előláb csonkolás tehermentesítésére."
+    },
+    {
+      "id": "35843484",
+      "euPointId": 87224,
+      "index": 1,
+      "description": "Indikáció: Vérkeringés károsodás miatt kialakult ulcus vagy annak veszélye, súlyos metatarsalgia, vagy előláb csonkolás tehermentesítésére."
+    },
+    {
+      "id": "35843486",
+      "euPointId": 87225,
+      "index": 1,
+      "description": "Indikáció: Saroksarkantyú vagy Achilles-ín szakadás, sérülés esetén anti-shock sarok beépítése a lépés-stressz csökkentésére."
+    },
+    {
+      "id": "35843488",
+      "euPointId": 87226,
+      "index": 1,
+      "description": "Indikáció: Saroksarkantyú vagy Achilles-ín szakadás, sérülés esetén anti-shock sarok beépítése a lépés-stressz csökkentésére."
+    },
+    {
+      "id": "35843490",
+      "euPointId": 87227,
+      "index": 1,
+      "description": "Indikáció: Fokozott tengelykorrekciós igény esetén a járásbiztonság növeléséhez."
+    },
+    {
+      "id": "35843492",
+      "euPointId": 87228,
+      "index": 1,
+      "description": "Indikáció: Fokozott tengelykorrekciós igény esetén a járásbiztonság növeléséhez."
+    },
+    {
+      "id": "35843494",
+      "euPointId": 87229,
+      "index": 1,
+      "description": "Indikáció: 35 feletti testtömegindexnél (BMI), vagy spasztikus láb esetén \"sarokfészek\" kialakítása izom disbalance korrekciójára."
+    },
+    {
+      "id": "35843496",
+      "euPointId": 87230,
+      "index": 1,
+      "description": "Indikáció: 35 feletti testtömegindexnél (BMI), vagy spasztikus láb esetén \"sarokfészek\" kialakítása izom disbalance korrekciójára."
+    },
+    {
+      "id": "35843498",
+      "euPointId": 87231,
+      "index": 1,
+      "description": "Indikáció: Ortopéd cipő téli járásbiztonságának fokozása."
+    },
+    {
+      "id": "35843500",
+      "euPointId": 87232,
+      "index": 1,
+      "description": "Indikáció: Ortopéd cipő téli járásbiztonságának fokozása."
+    },
+    {
+      "id": "35843502",
+      "euPointId": 87233,
+      "index": 1,
+      "description": "Indikáció: A talpon kialakult seb, fekély, fokozott nyomásérzékenység vagy ezek kialakulásának veszélye esetén."
+    },
+    {
+      "id": "35843504",
+      "euPointId": 87234,
+      "index": 1,
+      "description": "Indikáció: A talpon kialakult seb, fekély, fokozott nyomásérzékenység vagy ezek kialakulásának veszélye esetén."
+    },
+    {
+      "id": "35843506",
+      "euPointId": 87235,
+      "index": 1,
+      "description": "Indikáció: A cipő felvételét gátló társult betegség."
+    },
+    {
+      "id": "35843508",
+      "euPointId": 87236,
+      "index": 1,
+      "description": "Indikáció: A cipő felvételét gátló társult betegség."
+    },
+    {
+      "id": "35843510",
+      "euPointId": 87237,
+      "index": 1,
+      "description": "Indikáció: Erősen deformált reziduális dongaláb, bénult kontraktúrás láb, nyeles kapta készítése esetén 3D minta alapján. Minősített gyártó írásos szakvéleménye alapján az orvos ellenjegyzése után. A kaptát a gyártó a kihordási idő végéig megőrzi."
+    },
+    {
+      "id": "35843512",
+      "euPointId": 87238,
+      "index": 1,
+      "description": "Indikáció: Erősen deformált reziduális dongaláb, bénult kontraktúrás láb, nyeles kapta készítése esetén 3D minta alapján. Minősített gyártó írásos szakvéleménye alapján az orvos ellenjegyzése után. A kaptát a gyártó a kihordási idő végéig megőrzi."
+    },
+    {
+      "id": "35843514",
+      "euPointId": 87239,
+      "index": 1,
+      "description": "Indikáció: Fokozott calcaneo-valgus vagy varus korrigálására. Csak ortopédiailag megfelelő szerkezetű, kemény kérgű cipőre építhető."
+    },
+    {
+      "id": "35843516",
+      "euPointId": 87240,
+      "index": 1,
+      "description": "Indikáció: Fokozott calcaneo-valgus vagy varus korrigálására. Csak ortopédiailag megfelelő szerkezetű, kemény kérgű cipőre építhető."
+    },
+    {
+      "id": "35843518",
+      "euPointId": 87241,
+      "index": 1,
+      "description": "Indikáció: A lábat érintő betegség esetén, ha a láb fokozott mechanikai vagy hővédelme szükséges."
+    },
+    {
+      "id": "35843520",
+      "euPointId": 87242,
+      "index": 1,
+      "description": "Indikáció: A lábat érintő betegség esetén, ha a láb fokozott mechanikai vagy hővédelme szükséges."
+    },
+    {
+      "id": "35843522",
+      "euPointId": 87243,
+      "index": 1,
+      "description": "Indikáció: A betegség kezelésére előírt, zárt konstrukciójú lábbelihez a cipő vízgőz háztartásának javítására."
+    },
+    {
+      "id": "35843524",
+      "euPointId": 87244,
+      "index": 1,
+      "description": "Indikáció: A betegség kezelésére előírt, zárt konstrukciójú lábbelihez a cipő vízgőz háztartásának javítására."
+    },
+    {
+      "id": "35843526",
+      "euPointId": 87245,
+      "index": 1,
+      "description": "Indikáció: Láb, lábszár, comb vagy medence csonkolása után."
+    },
+    {
+      "id": "35843528",
+      "euPointId": 87246,
+      "index": 1,
+      "description": "Indikáció: Láb, lábszár vagy comb csonkolása utáni nagyfokú ödéma esetén."
+    },
+    {
+      "id": "35843530",
+      "euPointId": 87247,
+      "index": 1,
+      "description": "Indikáció: Láb, lábszár, comb vagy medence csonkolása után atrophias, csontos, valamint bőrplasztikázott és heges csonkra."
+    },
+    {
+      "id": "35843532",
+      "euPointId": 87248,
+      "index": 1,
+      "description": "Indikáció: Alsó végtag protézishez normál csonk esetén."
+    },
+    {
+      "id": "35843534",
+      "euPointId": 87249,
+      "index": 1,
+      "description": "Indikáció: Csővázas alsó végtag protézishez"
+    },
+    {
+      "id": "35843546",
+      "euPointId": 87255,
+      "index": 1,
+      "description": "Indikáció: Alsóvégtagot érintő súlyos mozgáskorlátozottság esetén."
+    },
+    {
+      "id": "35843548",
+      "euPointId": 87256,
+      "index": 1,
+      "description": "Indikáció: Paraplegia, hemiplegia, ataxia esetén."
+    },
+    {
+      "id": "35843550",
+      "euPointId": 87257,
+      "index": 1,
+      "description": "Indikáció: Alsóvégtagok ízületeinek kopásos fájdalma, gyulladása, fejlődési rendellenessége, bénulása vagy időskori gyengesége, alsóvégtag-sérülések postoperatív vagy konzervatív ellátására, alsóvégtag amputáció és protetizálás postoperatív fázisában, egyensúlyzavar esetén."
+    },
+    {
+      "id": "35843552",
+      "euPointId": 87258,
+      "index": 1,
+      "description": "Indikáció: Alsóvégtagok ízületeinek kopásos fájdalma, gyulladása, fejlődési rendellenessége, bénulása vagy időskori gyengesége esetén, alsóvégtag-sérülések postoperatív vagy konzervatív ellátására, alsóvégtag amputáció és protetizálás postoperatív fázisában, egyensúlyzavar esetén."
+    },
+    {
+      "id": "35843556",
+      "euPointId": 87260,
+      "index": 1,
+      "description": "Indikáció: Mozgássérült vagy önálló mozgásra nem képes gyermekek részére, akik különféle megtámasztást, rögzítést igényelnek a szállításukhoz."
+    },
+    {
+      "id": "35843558",
+      "euPointId": 87261,
+      "index": 1,
+      "description": "Indikáció: Mozgássérült vagy önálló mozgásra nem képes gyermekek és felnőttek részére, akik különféle megtámasztást, rögzítést igényelnek a szállításukhoz."
+    },
+    {
+      "id": "35843560",
+      "euPointId": 87262,
+      "index": 1,
+      "description": "Indikáció: Veleszületett vagy szerzett súlyos mozgásfogyatékosság, kommunikációs hiányosságok vagy koordinációs zavarok esetén, amennyiben a beteg önmagát ellátni, önállóan tartósan ülni nem képes, mozgásához állandó személyi segítséget igényel, mozgatását állandó felügyelet mellett csak speciális kerekesszékkel lehet biztosítani."
+    },
+    {
+      "id": "35843562",
+      "euPointId": 87263,
+      "index": 1,
+      "description": "Indikáció: Veleszületett vagy szerzett súlyos mozgásfogyatékosság, kommunikációs hiányosságok vagy koordinációs zavarok esetén, amennyiben a beteg önmagát ellátni, önállóan tartósan ülni nem képes, mozgásához állandó személyi segítséget igényel, mozgatását állandó felügyelet mellett csak speciális kerekesszékkel lehet biztosítani."
+    },
+    {
+      "id": "35843568",
+      "euPointId": 87266,
+      "index": 1,
+      "description": "Indikáció: Nagyfokú végleges járásnehezítettség esetén, ha a beteg egyéb járást segítő eszközzel hosszabb távú helyváltoztatásra képtelen."
+    },
+    {
+      "id": "35843570",
+      "euPointId": 87267,
+      "index": 1,
+      "description": "Indikáció: Nagyfokú végleges járásnehezítettség esetén, ha a beteg egyéb járást segítő eszközzel hosszabb távú helyváltoztatásra képtelen."
+    },
+    {
+      "id": "35843572",
+      "euPointId": 87268,
+      "index": 1,
+      "description": "Indikáció: Nagyfokú végleges járásnehezítettséggel rendelkező mozgáskorlátozott számára, ha \r\n- a beteg egyéb járást segítő eszközzel hosszabb távú helyváltoztatásra képtelen és\r\n- mentális és fizikai állapota alapján alkalmas mechanikus kerekesszék használatára és \r\n- képes standard kerekesszékkel önállóan legalább 150 méter megtételére, manőverezésre és \r\n- 3-5%-os emelkedő és lejtő, valamint 2 cm magas küszöb nem jelent akadályt számára és\r\n- a következő feltételek bármelyike teljesül: 1. alap-, közép- vagy felsőfokú képzésben vesz részt, 2. teljes vagy részmunkaidőben foglalkoztatott, vagy 3. kiskorú gyermeket nevel."
+    },
+    {
+      "id": "35843574",
+      "euPointId": 87269,
+      "index": 1,
+      "description": "Indikáció: Nagyfokú végleges járásnehezítettséggel rendelkező mozgáskorlátozott számára, ha \r\n- a beteg egyéb járást segítő eszközzel hosszabb távú helyváltoztatásra képtelen és\r\n- mentális és fizikai állapota alapján alkalmas mechanikus kerekesszék használatára és \r\n- képes standard kerekesszékkel önállóan legalább 150 méter megtételére, manőverezésre és \r\n- 3-5%-os emelkedő és lejtő, valamint 2 cm magas küszöb nem jelent akadályt számára és\r\n- a következő feltételek bármelyike teljesül: 1. alap-, közép- vagy felsőfokú képzésben vesz részt, 2. teljes vagy részmunkaidőben foglalkoztatott, vagy 3. kiskorú gyermeket nevel."
+    },
+    {
+      "id": "35843576",
+      "euPointId": 87270,
+      "index": 1,
+      "description": "Indikáció: Nagyfokú végleges járásnehezítettség esetén, ha a beteg egyéb járást segítő eszközzel hosszabb távú helyváltoztatásra képtelen."
+    },
+    {
+      "id": "35843578",
+      "euPointId": 87271,
+      "index": 1,
+      "description": "Indikáció: Nagyfokú végleges járásnehezítettség esetén, ha a beteg egyéb járást segítő eszközzel hosszabb távú helyváltoztatásra képtelen."
+    },
+    {
+      "id": "35843580",
+      "euPointId": 87272,
+      "index": 1,
+      "description": "Indikáció: Nagyfokú végleges járásnehezítettség esetén, ha a beteg egyéb járást segítő eszközzel hosszabb távú helyváltoztatásra képtelen, emellett olyan fokú felső végtagi károsodása van, amely miatt mechanikus kerekesszék hajtására képtelen."
+    },
+    {
+      "id": "35843594",
+      "euPointId": 87279,
+      "index": 1,
+      "description": "Indikáció: Felfekvés megelőzésére, kialakult felfekvés kezelésére érzéskieséssel rendelkező, járásképtelen, mozgássérült betegeknek, akiknek az állapota végleges."
+    },
+    {
+      "id": "35843596",
+      "euPointId": 87280,
+      "index": 1,
+      "description": "Indikáció: Felfekvés megelőzésére, kialakult felfekvés kezelésére érzéskieséssel rendelkező, járásképtelen, mozgássérült betegeknek, akiknek az állapota végleges."
+    },
+    {
+      "id": "35843598",
+      "euPointId": 87281,
+      "index": 1,
+      "description": "Indikáció: Kialakult felfekvés kezelésére érzéskieséssel rendelkező, járásképtelen, mozgássérült betegeknek, akiknek az állapota végleges."
+    },
+    {
+      "id": "35843600",
+      "euPointId": 87282,
+      "index": 1,
+      "description": "Indikáció: Felfekvés megelőzésére kerekesszéket használó, érzéskieséssel nem rendelkező, járásképtelen, mozgássérült betegnek."
+    },
+    {
+      "id": "35843602",
+      "euPointId": 87283,
+      "index": 1,
+      "description": "Indikáció: Felfekvés megelőzésére, kialakult felfekvés kezelésére érzéskieséssel rendelkező, járásképtelen, mozgássérült betegeknek, akiknek az állapota végleges."
+    },
+    {
+      "id": "35843608",
+      "euPointId": 87286,
+      "index": 1,
+      "description": "Indikáció: Tartós vagy maradandó mozgáskárosodással élőknek, egyensúlyzavarban szenvedőknek."
+    },
+    {
+      "id": "35843255",
+      "euPointId": 87110,
+      "index": 1,
+      "description": "Indikáció: Sebkezelési fázis: Exudációs fázisban.\r\nSebtípus: közepesen vagy erősen váladékozó, fertőzött, felületes vagy üreges sebre.\r\nEgyéb feltétel: másodlagos kötszer nélkül, kötésrögzítővel. Kötésrögzítő lehet: filmkötszer vagy ragtapasz vagy kötésrögzítő. Időbeli korlátozás (azonos sebre): 2 hónap."
+    },
+    {
+      "id": "38391971",
+      "euPointId": 102821,
+      "index": 1,
+      "description": "Indikáció: 18 éves kor alatti égési sérültek részére is rendelhető a hegesedés következtében kialakuló kontraktúrák megelőzése céljából."
+    },
+    {
+      "id": "38391977",
+      "euPointId": 102823,
+      "index": 1,
+      "description": "Indikáció: 18 éves kor alatti égési sérültek részére is rendelhető a hegesedés következtében kialakuló kontraktúrák megelőzése céljából."
+    },
+    {
+      "id": "38393256",
+      "euPointId": 102827,
+      "index": 1,
+      "description": "Indikáció: 18 éves kor alatti égési sérültek részére is rendelhető a hegesedés következtében kialakuló kontraktúrák megelőzése céljából."
+    },
+    {
+      "id": "37153529",
+      "euPointId": 99636,
+      "index": 1,
+      "description": "Indikáció: Képalkotó diagnosztikai vizsgálattal igazolt háti strukturális deformitás, súlyosabb fokú scoliosis esetén, ha a beteg ülő helyzetben a törzs függőleges megtartására önerőből képtelen."
+    },
+    {
+      "id": "37764773",
+      "euPointId": 100862,
+      "index": 1,
+      "description": "Indikáció: Inzulinkezelésre szoruló diabetes mellitus"
+    },
+    {
+      "id": "37952422",
+      "euPointId": 101319,
+      "index": 1,
+      "description": "Indikáció: Tartósan (6 héten túl) gyomor-bél rendszerbe mesterséges táplálást és folyadékpótlást igénylő beteg: neurológiai megbetegedések miatt fellépő nyelészavar vagy nyelési képtelenség, veleszületett vagy tumoros vagy nem tumoros eredetű nyelőcső, szájüregi vagy a garatot, gégét érintő elváltozás, amely nyelészavart okoz és/vagy aspiráció veszélyével fenyeget olyan gyomor-bélrendszeri vagy egyéb eredetű betegség, ahol a fizikai állapota, terhelhetősége miatt a tápláltsági szint csak teljesen vagy részlegesen mesterséges táplálással biztosítható."
+    },
+    {
+      "id": "37701323",
+      "euPointId": 100741,
+      "index": 1,
+      "description": "Indikáció: Mesterséges táplálásra szoruló betegek részére."
+    },
+    {
+      "id": "38795756",
+      "euPointId": 103425,
+      "index": 1,
+      "description": "Indikáció: Veleszületett vagy szerzett krónikus nyiroködéma kompressziós kezelése után fenntartó kezelésre."
+    },
+    {
+      "id": "38795759",
+      "euPointId": 103426,
+      "index": 1,
+      "description": "Indikáció: Varix műtét után kizárólag 6 hónapig, valamint krónikus vénás elégtelenség, kiterjedt alsóvégtagi varicositas, mechanikus trombózis profilaxis, postthromboticus szindróma, gyógyult lábszárfekély fenntartó kezelése, angiodysplasia, veleszületett vagy szerzett krónikus nyiroködéma aktív ödéma-mentesítő kezelése után fenntartó kezelésre."
+    },
+    {
+      "id": "38795762",
+      "euPointId": 103427,
+      "index": 1,
+      "description": "Indikáció: Postthromboticus szindróma, krónikus vénás elégtelenség dekompenzált stádiuma, krónikus vénás-lymphás elégtelenség, angiolymptahicus szindróma, veleszületett vagy szerzett krónikus nyiroködéma, lipödéma kompressziós kezelése után fenntartó kezelésre."
+    },
+    {
+      "id": "38795765",
+      "euPointId": 103428,
+      "index": 1,
+      "description": "Indikáció: Postthromboticus szindróma, krónikus vénás elégtelenség dekompenzált stádiuma, veleszületett vagy szerzett krónikus nyiroködéma, angiodysplasia, elephantiasis, lipödéma kompressziós kezelése után fenntartó kezelésre."
+    },
+    {
+      "id": "37701185",
+      "euPointId": 100672,
+      "index": 1,
+      "description": "Indikáció: 18 éves kor alatti égési sérültek részére is rendelhető a hegesedés következtében kialakuló kontraktúrák megelőzése céljából"
+    },
+    {
+      "id": "37701189",
+      "euPointId": 100674,
+      "index": 1,
+      "description": "Indikáció: 18 éves kor alatti égési sérültek részére is rendelhető a hegesedés következtében kialakuló kontraktúrák megelőzése céljából"
+    },
+    {
+      "id": "37701203",
+      "euPointId": 100681,
+      "index": 1,
+      "description": "Indikáció: 18 éves kor alatti égési sérültek részére is rendelhető a hegesedés következtében kialakuló kontraktúrák megelőzése céljából"
+    },
+    {
+      "id": "37701205",
+      "euPointId": 100682,
+      "index": 1,
+      "description": "Indikáció: 18 éves kor alatti égési sérültek részére is rendelhető a hegesedés következtében kialakuló kontraktúrák megelőzése céljából"
+    },
+    {
+      "id": "37701209",
+      "euPointId": 100684,
+      "index": 1,
+      "description": "Indikáció: Üreges sebre. Alginátokkal együtt nem rendelhető."
+    },
+    {
+      "id": "37701215",
+      "euPointId": 100687,
+      "index": 1,
+      "description": "Indikáció: A láb, lábszár centrális vagy perifériális bénulásos kórképei, proszupinációs izomegyensúly zavar (disbalance). \r\nMegtartott térd extensio, stabil térdízület. \r\nPlantarflexio izomereje megtartott. \r\nSpazmus esetén Módosított Asworth Skála (MAS) szerinti érték: 1. \r\nKontraindikáció: jelentős görcsös bénulás (spaszticitás), jelentős bokaduzzanat, fekély által veszélyeztetett diabéteszes láb"
+    },
+    {
+      "id": "37701217",
+      "euPointId": 100688,
+      "index": 1,
+      "description": "Indikáció: A láb, lábszár centrális vagy perifériális bénulásos kórképei és a következő kórképek valamelyike: proszupinációs izom-egyensúly zavar (disbalance) vagy boka instabilitás vagy spazmus [Módosított Asworth Skála (MAS) szerinti érték: 1-2) vagy a láb plantarflexio izomerejének csökkenése (mért izomerő 0-3) vagy crouchgait (guggoló járás) vagy quadriceps paresis (a térd extensio izomerejének csökkenése, mért izomerő 2-3).\r\n  \r\nKontraindikáció: jelentős görcsös bénulás (spaszticitás), jelentős bokaduzzanat, fekély által veszélyeztetett diabéteszes láb"
+    },
+    {
+      "id": "37701221",
+      "euPointId": 100690,
+      "index": 1,
+      "description": "Indikáció: Inzulinkezelésre szoruló diabetes mellitus"
+    },
+    {
+      "id": "37701227",
+      "euPointId": 100693,
+      "index": 1,
+      "description": "Indikáció: 1. Tracheostoma vagy gastrostoma esetén, időbeli korlátozás nélkül. 2. A 02 Kötszerek indikációjában foglaltak szerinti sebkezelés esetén az első ellenjegyzésig nem rendelhető, ezt követően az ellenjegyzésben foglaltak szerinti mennyiségben és időtartamban rendelhető."
+    },
+    {
+      "id": "37701233",
+      "euPointId": 100696,
+      "index": 1,
+      "description": "Indikáció: Obstruktív légúti megbetegedés spontán váladékürítési képtelenséggel, légzőizom hypotonia, rekeszizom hypotonia, Guillain-Barre szindróma okozta légzésképtelenség, tracheostoma, gége- és algarattumor, gégesérülés, gégestenosis, tracheaszűkület."
+    },
+    {
+      "id": "37701245",
+      "euPointId": 100702,
+      "index": 1,
+      "description": "Indikáció: Hasfali sérv, operált hasfali sérv, köldök sérv."
+    },
+    {
+      "id": "37701247",
+      "euPointId": 100703,
+      "index": 1,
+      "description": "Indikáció: Lágyéksérv."
+    },
+    {
+      "id": "37701249",
+      "euPointId": 100704,
+      "index": 1,
+      "description": "Indikáció: Heresérv, combsérv."
+    },
+    {
+      "id": "37701251",
+      "euPointId": 100705,
+      "index": 1,
+      "description": "Indikáció: Inzulinkezelésre szoruló diabetes mellitus."
+    },
+    {
+      "id": "37701267",
+      "euPointId": 100713,
+      "index": 1,
+      "description": "Indikáció: Tinnitust előidéző szervi megbetegedések kizárása esetén gégészeti, neurológiai, otoneurológiai, szemészeti akut vagy krónikus kórfolyamat megítélésének függvényében, szájon át történő vagy infúziós kezelés eredménytelensége esetén, vagy ha tartós eredmény nem mutatkozott a nem eszközös terápia mellett."
+    },
+    {
+      "id": "37701269",
+      "euPointId": 100714,
+      "index": 1,
+      "description": "Indikáció: Strabizmus, amblyopia, diplopia."
+    },
+    {
+      "id": "37701271",
+      "euPointId": 100715,
+      "index": 1,
+      "description": "Indikáció: Izolált peroneus-bénulás, ha a quadriceps és az Achilles izomereje megtartott és a bénulás nem spasztikus eredetű"
+    },
+    {
+      "id": "37701273",
+      "euPointId": 100716,
+      "index": 1,
+      "description": "Indikáció: Foghiánytípusok osztályozásának megfelelően tervezett fogpótlás esetén."
+    },
+    {
+      "id": "37701275",
+      "euPointId": 100717,
+      "index": 1,
+      "description": "Indikáció: Foghiánytípusok osztályozásának megfelelően tervezett fogpótlás esetén."
+    },
+    {
+      "id": "37701277",
+      "euPointId": 100718,
+      "index": 1,
+      "description": "Indikáció: Foghiánytípusok osztályozásának megfelelően tervezett fogpótlás esetén."
+    },
+    {
+      "id": "37701279",
+      "euPointId": 100719,
+      "index": 1,
+      "description": "Indikáció: Foghiánytípusok osztályozásának megfelelően tervezett fogpótlás esetén."
+    },
+    {
+      "id": "37701281",
+      "euPointId": 100720,
+      "index": 1,
+      "description": "Indikáció: Foghiánytípusok osztályozásának megfelelően tervezett fogpótlás esetén."
+    },
+    {
+      "id": "37701283",
+      "euPointId": 100721,
+      "index": 1,
+      "description": "Indikáció: Foghiánytípusok osztályozásának megfelelően tervezett fogpótlás esetén."
+    },
+    {
+      "id": "37701285",
+      "euPointId": 100722,
+      "index": 1,
+      "description": "Indikáció: Foghiánytípusok osztályozásának megfelelően tervezett fogpótlás esetén."
+    },
+    {
+      "id": "37701287",
+      "euPointId": 100723,
+      "index": 1,
+      "description": "Indikáció: Foghiánytípusok osztályozásának megfelelően tervezett fogpótlás esetén."
+    },
+    {
+      "id": "37701289",
+      "euPointId": 100724,
+      "index": 1,
+      "description": "Indikáció: Foghiánytípusok osztályozásának megfelelően tervezett fogpótlás esetén."
+    },
+    {
+      "id": "37701291",
+      "euPointId": 100725,
+      "index": 1,
+      "description": "Indikáció: Foghiánytípusok osztályozásának megfelelően tervezett fogpótlás esetén."
+    },
+    {
+      "id": "37701293",
+      "euPointId": 100726,
+      "index": 1,
+      "description": "Indikáció: Foghiányok pótlására, a szakma szabályai szerint"
+    },
+    {
+      "id": "37701295",
+      "euPointId": 100727,
+      "index": 1,
+      "description": "Indikáció: Foghiányok pótlására, a szakma szabályai szerint"
+    },
+    {
+      "id": "37701299",
+      "euPointId": 100729,
+      "index": 1,
+      "description": "Indikáció: Foghiányok pótlására, a szakma szabályai szerint"
+    },
+    {
+      "id": "37701301",
+      "euPointId": 100730,
+      "index": 1,
+      "description": "Indikáció: Foghiányok pótlására, a szakma szabályai szerint"
+    },
+    {
+      "id": "37701303",
+      "euPointId": 100731,
+      "index": 1,
+      "description": "Indikáció: Foghiányok pótlására, a szakma szabályai szerint"
+    },
+    {
+      "id": "37701305",
+      "euPointId": 100732,
+      "index": 1,
+      "description": "Indikáció: Foghiányok pótlására, a szakma szabályai szerint"
+    },
+    {
+      "id": "37701309",
+      "euPointId": 100734,
+      "index": 1,
+      "description": "Indikáció: Foghiányok pótlására, a szakma szabályai szerint"
+    },
+    {
+      "id": "37701315",
+      "euPointId": 100737,
+      "index": 1,
+      "description": "Indikáció: Vizeletürítés akadályozottsága, neuromuscularis hólyagdiszfunkció, gerincvelősérülés okozta hólyagdiszfunkció, hólyagnyakszűkület, hólyag rosszindulatú daganatai, hólyag jóindulatú daganatai, húgycsőszűkület, húgycső rosszindulatú daganatai, húgycső jóindulatú daganatai, prostata-hyperplasia, prostata-gyulladás."
+    },
+    {
+      "id": "37701317",
+      "euPointId": 100738,
+      "index": 1,
+      "description": "Indikáció: Vizeletürítés akadályozottsága, neuromuscularis hólyagdiszfunkció, gerincvelősérülés okozta hólyagdiszfunkció, hólyagnyakszűkület, hólyag rosszindulatú daganatai, hólyag jóindulatú daganatai, húgycsőszűkület, húgycső rosszindulatú daganatai, húgycső jóindulatú daganatai, prostata-hyperplasia, prostata-gyulladás."
+    },
+    {
+      "id": "37701321",
+      "euPointId": 100740,
+      "index": 1,
+      "description": "Indikáció: Vakság egyik vagy mindkét szemen, egyik szem vak, a másik szem csökkentlátó, csökkentlátás mindkét szemen."
+    },
+    {
+      "id": "37701325",
+      "euPointId": 100742,
+      "index": 1,
+      "description": "Indikáció: Mesterséges táplálásra szoruló betegek részére."
+    },
+    {
+      "id": "37701327",
+      "euPointId": 100743,
+      "index": 1,
+      "description": "Indikáció: Tracheotomia, gége-, algarat tumor, gégesérülés, gége stenosis."
+    },
+    {
+      "id": "37701329",
+      "euPointId": 100744,
+      "index": 1,
+      "description": "Indikáció: Mesterséges táplálás, katéterek leszívása (trachea és egyéb), hólyagöblítés, végbélöblítés és beöntés."
+    },
+    {
+      "id": "37701331",
+      "euPointId": 100745,
+      "index": 1,
+      "description": "Indikáció: Kialakult felfekvés esetén járásképtelen, mozgássérült betegek számára, akiknek az állapota végleges."
+    },
+    {
+      "id": "37701333",
+      "euPointId": 100746,
+      "index": 1,
+      "description": "Indikáció: Nagyfokú rövidlátás: -8,00D felett, nagyfokú távollátás: +6,00D felett, irreguláris astigmia, egy- vagy kétoldali aphakia, keratoconus."
+    },
+    {
+      "id": "38795771",
+      "euPointId": 103430,
+      "index": 1,
+      "description": "Indikáció: Kizárólag társadalombiztosítási támogatással rendelt inzulinpumpához"
+    },
+    {
+      "id": "38013250",
+      "euPointId": 101689,
+      "index": 1,
+      "description": "Indikáció: 18 év feletti betegek számára, akik szenzor támogatására jogosultak"
+    },
+    {
+      "id": "38013244",
+      "euPointId": 101687,
+      "index": 1,
+      "description": "Indikáció: \r\n1-es típusú diabetes mellitus vagy cisztás fibrózishoz társuló inzulinkezelést igénylő diabetesben szenvedők részére legfeljebb 6 hónapra az alábbi indikációkban:\r\n- inzulinpumpa beállítása, illetve inzulinterápia váltás esetén, vagy\r\n- dokumentált hipoglikémiaérzet zavara esetén, vagy\r\n- súlyos hipoglikémia (vércukor <3,0 mmol/l) jelentkezik legalább 1 ízben 3 hónap alatt, vagy\r\n- havonta 5 alkalommal észlelhető klinikai tünetekkel járó és dokumentált hipoglikémia esetén, vagy\r\n- krónikusan rossz glikémiás állapot (HbA1c érték 1 éven keresztül, 4 méréssel megerősítve minden esetben 8,0% felett), vagy\r\n- várandósság idejére, illetve gesztációs diabetes esetén, vagy\r\n- prekoncepcionális gondozás, vagy lombikprogram során\r\n\r\nIsmételt (6 hónapon túli) rendelés indikációi:\r\n- a szenzorhasználat a 6 hónap 70%-át ténylegesen lefedi, és \r\n- a hipoglikémiás epizódok száma csökken, vagy\r\n- súlyos hipoglikémiás epizód nem fordul elő, vagy \r\n- a glikémiás céltartományban eltöltött idő (Time In Range=TIR; 3,9-10,0 mmol/l) növekszik, vagy \r\n- a HbA1c érték az egyéni céltartományban van"
+    },
+    {
+      "id": "38013247",
+      "euPointId": 101688,
+      "index": 1,
+      "description": "Indikáció: 18 év feletti betegek számára, akik\r\n- támogatással rendelt inzulinpumpával rendelkeznek és\r\n- szenzor támogatására jogosultak"
+    },
+    {
+      "id": "38013253",
+      "euPointId": 101690,
+      "index": 1,
+      "description": "Indikáció: \r\n- legalább 6 hónap igazolt, átlagosan 75% feletti szenzorhasználat\r\n- HbA1c-értéke ismételten >7,0%, prekoncepcionális gondozás során >6,5%, vagy\r\n- napi vércukor-ingadozása jelentős (>=10,0 mmol/l), vagy\r\n- hajnali jelenség igazolható (reggeli éhomi vércukor ismételten >8,0 mmol/l), vagy \r\n- havonta legalább 3 alkalommal észlelhető klinikai tünetekkel járó hypoglykaemia, vagy\r\n- hypoglykaemia-érzet csökkenése vagy elvesztése dokumentálható, vagy\r\n- súlyos hypoglykaemia (vércukor <3,0 mmol/l) jelentkezik legalább 1 ízben 6 hónap alatt.\r\n\r\nIsmétlődő (évi >=3 alkalommal jelentkező), súlyos (kórházi felvételt igénylő), nem a beteg együttműködési hiánya okozta ketoacidosis esetén a HbA1c-értéktől és diabetes-tartamtól függetlenül is rendelhető 1-es típusú diabetesben.\r\n  \r\nIsmételt rendelés esetén: a pumpakezelés kezdetéhez képest legalább 10%os javulás a következő anyagcsere paraméterekben: TIR, TBR, GMI és az Auto módban eltöltött idő legalább 80%."
+    },
+    {
+      "id": "38013256",
+      "euPointId": 101691,
+      "index": 1,
+      "description": "Indikáció:  \r\n1-es típusú diabetes mellitus vagy cisztás fibrózishoz társuló inzulinkezelést igénylő diabetesben szenvedők részére legfeljebb 6 hónapra az alábbi indikációkban:\r\n- inzulinpumpa beállítása, illetve inzulinterápia váltás esetén, vagy\r\n- dokumentált hipoglikémia-érzet zavara esetén, vagy\r\n- súlyos hipoglikémia (vércukor <3,0 mmol/l) jelentkezik legalább 1 ízben 3 hónap alatt, vagy\r\n- havonta 5 alkalommal észlelhető klinikai tünetekkel járó és dokumentált hipoglikémia esetén, vagy\r\n- krónikusan rossz glikémiás állapot (HbA1c érték 1 éven keresztül, 4 méréssel megerősítve minden esetben 8,0% felett), vagy\r\n- várandósság idejére, illetve gesztációs diabetes esetén, vagy\r\n- prekoncepcionális gondozás, vagy lombikprogram során \r\n\r\nIsmételt (6 hónapon túli) rendelés indikációi:\r\n- a szenzorhasználat a 6 hónap 70%-át ténylegesen lefedi, és\r\n- a hipoglikémiás epizódok száma csökken, vagy\r\n- súlyos hipoglikémiás epizód nem fordul elő, vagy\r\n- a glikémiás céltartományban eltöltött idő (Time In Range=TIR; 3,9-10,0 mmol/l) növekszik, vagy\r\n- a HbA1c érték az egyéni céltartományban van"
+    },
+    {
+      "id": "38013259",
+      "euPointId": 101692,
+      "index": 1,
+      "description": "Indikáció: Kizárólag társadalombiztosítási támogatással rendelt inzulinpumpához."
+    },
+    {
+      "id": "38013262",
+      "euPointId": 101693,
+      "index": 1,
+      "description": "Indikáció:\r\n- HbA1c-értéke ismételten >7,0%, prekoncepcionális gondozás során >6,5%, vagy\r\n- napi vércukoringadozása jelentős (>=10,0 mmol/l), vagy \r\n- hajnali jelenség igazolható (reggeli éhomi vércukor ismételten >8,0 mmol/l), vagy \r\n- havonta legalább 3 alkalommal észlelhető klinikai tünetekkel járó hypoglykaemia, vagy \r\n- hypoglykaemiaérzet csökkenése vagy elvesztése dokumentálható, vagy \r\n- súlyos hypoglykaemia (vércukor <3,0 mmol/l) jelentkezik legalább 1 ízben 6 hónap alatt.\r\nIsmétlődő (évi >=3 alkalommal jelentkező), súlyos (kórházi felvételt igénylő), nem a beteg együttműködési hiánya okozta ketoacidosis esetén a HbA1c-értéktől és diabetes-tartamtól függetlenül is rendelhető 1-es típusú diabetesben.\r\n\r\nIsmételt rendelés esetén:\r\n- az utolsó fél évben mért HbA1c-értékek átlaga <8,0%, és\r\n- az utolsó fél évben mért napi vércukoringadozás kisebb, mint a pumpakezelés megkezdése előtti érték, vagy\r\n- a hypoglykaemiás epizódok száma csökkent a pumpakezelés előtti időszakhoz viszonyítva, vagy\r\n- a beharangozó tünetek nélküli hypoglykaemiák száma csökkent a pumpakezelés előtti időszakhoz viszonyítva."
+    },
+    {
+      "id": "38013265",
+      "euPointId": 101694,
+      "index": 1,
+      "description": "Indikáció: Kizárólag társadalombiztosítási támogatással rendelt inzulinpumpához."
+    },
+    {
+      "id": "38013268",
+      "euPointId": 101695,
+      "index": 1,
+      "description": "Indikáció: 18 év alatti betegek részére vagy a nappali tagozaton középiskolai vagy felsőfokú tanulmányokat folytató betegek számára\r\na tanulmányok befejezéséig, de legfeljebb 24 éves korig, akik szenzor támogatására jogosultak."
+    },
+    {
+      "id": "38013271",
+      "euPointId": 101696,
+      "index": 1,
+      "description": "Indikáció:\r\n- legalább 6 hónap igazolt, átlagosan 75% feletti szenzorhasználat\r\n- HbA1c-értéke ismételten >7,0%, prekoncepcionális gondozás során >6,5%, vagy\r\n- napi vércukor-ingadozása jelentős (>=10,0 mmol/l), vagy\r\n- hajnali jelenség igazolható (reggeli éhomi vércukor ismételten >8,0 mmol/l), vagy\r\n- havonta legalább 3 alkalommal észlelhető klinikai tünetekkel járó hypoglykaemia, vagy\r\n- hypoglykaemia-érzet csökkenése vagy elvesztése dokumentálható, vagy\r\n- súlyos hypoglykaemia (vércukor <3,0 mmol/l) jelentkezik legalább 1 ízben 6 hónap alatt.\r\n\r\nIsmétlődő (évi >=3 alkalommal jelentkező), súlyos (kórházi felvételt igénylő), nem a beteg együttműködési hiánya okozta ketoacidosis esetén a HbA1c-értéktől és diabetes-tartamtól függetlenül is rendelhető 1-es típusú diabetesben.\r\n  \r\nIsmételt rendelés esetén:\r\na pumpakezelés kezdetéhez képest legalább 10%-os javulás a következő anyagcsere paraméterekben: TIR, TBR, GMI és az Auto módban eltöltött idő legalább 80%."
+    },
+    {
+      "id": "38013274",
+      "euPointId": 101697,
+      "index": 1,
+      "description": "Indikáció: 1-es típusú diabetes mellitus vagy cisztás fibrózishoz társuló inzulinkezelést igénylő diabetesben szenvedők részére legfeljebb 6 hónapra \r\nIsmételt (6 hónapon túli) rendelés indikációi: \r\n- a 6 hónapra felírt szenzor dokumentáltan ténylegesen felhasználásra került"
+    },
+    {
+      "id": "38013277",
+      "euPointId": 101698,
+      "index": 1,
+      "description": "Indikáció:\r\n- HbA1c-értéke ismételten >7,0%, prekoncepcionális gondozás során >6,5%, vagy\r\n- napi vércukoringadozás jelentős (>=10,0 mmol/l), vagy\r\n- hajnali jelenség igazolható (reggeli éhomi vércukor ismételten >8,0 mmol/l), vagy\r\n- havonta legalább 3 alkalommal észlelhető klinikai tünetekkel járó hypoglykaemia, vagy\r\n- hypoglykaemia-érzet csökkenése vagy elvesztése dokumentálható, vagy\r\n- súlyos hypoglykaemia (vércukor <3,0 mmol/l) jelentkezik legalább 1 ízben 6 hónap alatt\r\nIsmétlődő (évi >=3 alkalommal jelentkező), súlyos (kórházi felvételt igénylő), nem a beteg együttműködési hiánya okozta ketoacidosis esetén a HbA1c-értéktől és diabetes-tartamtól függetlenül is rendelhető 1-es típusú diabetesben.\r\n\r\nIsmételt rendelés esetén:\r\n- az utolsó fél évben mért HbA1c-értékek átlaga <8,0%, és\r\n- az utolsó fél évben mért napi vércukor-ingadozás kisebb, mint a pumpakezelés megkezdése előtti érték, vagy\r\n- a hypoglykaemiás epizódok száma csökkent a pumpakezelés előtti időszakhoz viszonyítva, vagy\r\n- a beharangozó tünetek nélküli hypoglykaemiák száma csökkent a pumpakezelés előtti időszakhoz viszonyítva."
+    },
+    {
+      "id": "38013280",
+      "euPointId": 101699,
+      "index": 1,
+      "description": "Indikáció: Kizárólag társadalombiztosítási támogatással rendelt inzulinpumpához"
+    },
+    {
+      "id": "38013283",
+      "euPointId": 101700,
+      "index": 1,
+      "description": "Indikáció: 1-es típusú diabetes mellitus vagy cisztás fibrózishoz társuló inzulinkezelést igénylő diabetesben szenvedők részére legfeljebb 6 hónapra \r\nIsmételt (6 hónapon túli) rendelés indikációi:\r\n- a 6 hónapra felírt szenzor dokumentáltan ténylegesen felhasználásra került"
+    },
+    {
+      "id": "38013286",
+      "euPointId": 101701,
+      "index": 1,
+      "description": "Indikáció: 18 év alatti betegek részére vagy a nappali tagozaton középiskolai vagy felsőfokú tanulmányokat folytató betegek számára a tanulmányok befejezéséig, de legfeljebb 24 éves korig, akik\r\n- támogatással rendelt inzulinpumpával rendelkeznek és \r\n- szenzor támogatására jogosultak"
+    },
+    {
+      "id": "38391965",
+      "euPointId": 102819,
+      "index": 1,
+      "description": "Indikáció: 18 éves kor alatti égési sérültek részére is rendelhető a hegesedés következtében kialakuló kontraktúrák megelőzése céljából."
+    },
+    {
+      "id": "39159360",
+      "euPointId": 104140,
+      "index": 1,
+      "description": "Indikáció: 3 éves kortól, napi 300 ml össz-vizeletvesztés felett, gyógyszeresen, műtétileg, speciális tornával vagy ingerlők alkalmazásával dokumentáltan nem kezelhető neurogén hólyag és inkontinenciával járó hólyag-hiperaktivitás, középsúlyos és súlyos stressz-inkontinencia vagy egyéb meghatározott középsúlyos és súlyos inkontinencia esetén, vagy pszichiátriai vizsgálattal dokumentált inkontinencia."
+    },
+    {
+      "id": "38839814",
+      "euPointId": 103620,
+      "index": 1,
+      "description": "Indikáció: Vénás és artériás eredetű fekély, sipoly, decubitus, neuropathiás fekély, epidermolysis bullosa, krónikus nyiroködéma, vasculitis, coagulopathia, traumás sebek, termikus károsodás, tracheostoma, Kock-rezervoár, bőrtranszplantáció."
+    },
+    {
+      "id": "38839817",
+      "euPointId": 103621,
+      "index": 1,
+      "description": "Indikáció: Felnőttkori alvásfüggő légzészavar esetén, amennyiben az AHI>15, és a tényleges alvásidő >10%-ában az oxigén szaturáció 90% alatt van."
+    },
+    {
+      "id": "38839820",
+      "euPointId": 103622,
+      "index": 1,
+      "description": "Indikáció: Felnőttkori alvásfüggő légzészavar esetén, amennyiben a gázcsere CPAP titrálás során 12 vízcentiméter nyomáson sem stabilizálható, vagy restriktív légzészavart okozó emphysema pulmonum, asthma bronchiale, légzési elégtelenséget okozó kyphoscoliosis esetén vagy Pickwick-szindrómában."
+    },
+    {
+      "id": "38839823",
+      "euPointId": 103623,
+      "index": 1,
+      "description": "Indikáció:\r\nSebkezelési fázis: Exudációs vagy granulációs fázisban.\r\nSebtípus: közepesen vagy erősen váladékozó, nem fertőzött sebre.\r\nEgyéb feltétel: másodlagos kötszer és főszabályként kötésrögzítő nélkül. Amennyiben azonban a kötszer nem tapad, rendelhető kötésrögzítővel (filmkötszer vagy öntapadó pólya vagy ragtapasz vagy kötésrögzítő).\r\nIdőbeli korlátozás (azonos sebre): 2 hónap.\r\nAz eszköz rendelésekor a sebről fotódokumentációt kell készíteni, melyet az egészségügyi dokumentáció részeként kell kezelni, megőrizni. A fotódokumentációt úgy kell elkészíteni, hogy elősegítse az orvosi indikáció fennállásának megállapítását és ellenőrzését. Az eszköz papíralapú vényen nem rendelhető."
+    },
+    {
+      "id": "38839829",
+      "euPointId": 103625,
+      "index": 1,
+      "description": "Indikáció: Központi idegrendszeri érintettség vagy egyéb neuromuscularis megbetegedés vagy mozgásszerveket érintő rendszerbetegség részeként fennálló súlyos fokú háti, ágyéki scoliosis esetén, ha a beteg a deformitás foka, vagy egyéb súlyos tartó- és mozgásrendszeri összetett betegség miatt nem képes az álló helyzetre kifejlesztett korzettet hordani, illetve az alapbetegsége miatt az ülés/törzs stabilitását nem képes megtartani vagy az nagyon gyenge, instabil."
+    },
+    {
+      "id": "38839832",
+      "euPointId": 103626,
+      "index": 1,
+      "description": "Indikáció: 18 év alatti betegeknél alvásfüggő légzészavar esetén, amennyiben a gázcsere CPAP titrálás során 10 vízcentiméter nyomáson sem stabilizálható."
+    },
+    {
+      "id": "38839835",
+      "euPointId": 103627,
+      "index": 1,
+      "description": "Indikáció: 18 év alatti betegeknél súlyos fokú alvási apnoe esetén, amennyiben az AHI>10, a diagnosztika során a légút teljes összeesése tapasztalható, és az anatómiai obstrukció sebészeti úton nem távolítható el."
+    },
+    {
+      "id": "38839857",
+      "euPointId": 103636,
+      "index": 1,
+      "description": "Indikáció: Kizárólag társadalombiztosítási támogatással rendelt elektromos motorral meghajtott kerekesszékekhez vagy elektromos mopedekhez."
+    },
+    {
+      "id": "38839866",
+      "euPointId": 103639,
+      "index": 1,
+      "description": "Indikáció: Olyan önálló életvitelt folytató, műlábbal és ortézissel is tartós kültéri járásra képtelen mozgáskorlátozott személy részére, aki más módon önerőből, biztonságosan, az esetleges akadályokat legyőzve a mindennapi életvitelhez szükséges távolságot megtenni képtelen."
+    },
+    {
+      "id": "35351335",
+      "euPointId": 86410,
+      "index": 1,
+      "description": "Indikáció: fejlődési rendellenesség vagy rosszindulatú elváltozás miatti emlőműtét után végzett helyreállító (plasztikai) sebészeti beavatkozást követő 12 hónapig."
+    },
+    {
+      "id": "39076470",
+      "euPointId": 104031,
+      "index": 1,
+      "description": "Indikáció: 3 éves kortól, napi 300 ml össz-vizeletvesztés felett, gyógyszeresen, műtétileg, speciális tornával vagy ingerlők alkalmazásával dokumentáltan nem kezelhető neurogén hólyag és inkontinenciával járó hólyag-hiperaktivitás, középsúlyos és súlyos stressz-inkontinencia vagy egyéb meghatározott középsúlyos és súlyos inkontinencia esetén, vagy pszichiátriai vizsgálattal dokumentált inkontinencia."
+    }
+  ],
+  "euPoints": [
+    {
+      "id": 76214,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80947,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80948,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80613,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80614,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80615,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80616,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80617,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80618,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80619,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80620,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80621,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80623,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80624,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80625,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80626,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81175,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80830,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80832,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80834,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80836,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80838,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80840,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80842,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80627,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80622,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80846,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80848,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80850,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80722,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80961,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80644,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80645,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80647,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80732,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80737,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80738,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80739,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80740,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80741,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80742,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80743,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80744,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80745,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80746,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80747,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81060,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81061,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81062,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81063,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81064,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80650,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80651,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80652,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80653,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80964,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80965,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80968,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80750,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80752,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80753,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80754,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80755,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80756,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80757,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80758,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80759,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80762,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80763,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80764,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80765,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80859,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81197,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80856,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81083,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81084,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81085,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81094,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81095,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81096,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81097,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81098,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81198,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81199,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81205,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81206,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81207,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81212,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81213,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81216,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81217,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81218,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81219,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81220,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81221,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81222,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81099,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81100,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81101,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81102,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81223,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80596,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80600,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80601,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80607,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80608,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80940,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81103,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81104,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81105,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81114,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81115,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81116,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81117,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81118,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80802,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80803,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80804,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81224,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81225,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80896,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80903,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80904,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80805,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80807,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81137,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81138,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81139,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80905,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80911,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80912,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80913,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80915,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80916,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80917,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80918,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80919,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80920,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80921,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80922,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80923,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80924,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80925,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80926,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80927,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80931,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80932,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80933,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80935,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80936,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81150,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81151,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81152,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81153,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81154,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80809,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80810,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80815,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80816,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80817,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80820,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80822,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80595,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81178,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81179,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80852,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81185,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81186,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81187,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81188,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81189,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81190,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81191,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81173,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81174,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80979,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80654,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80657,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80658,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80659,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80661,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80662,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80664,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80824,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80826,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80828,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81155,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81156,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81157,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81158,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81159,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81166,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81167,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81168,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81169,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81170,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81171,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81172,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80989,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80992,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80995,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80998,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81001,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81002,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81192,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81193,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81194,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81195,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81196,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80677,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80678,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80680,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80681,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80682,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80683,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80684,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80685,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80687,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80690,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80692,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80696,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81008,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81011,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81014,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81017,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81019,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81005,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81022,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81023,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81024,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81025,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81026,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81027,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81029,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81030,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80699,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80701,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80709,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80710,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80711,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80712,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81031,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81034,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81035,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81042,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81043,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81044,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81045,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81046,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81047,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81048,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81049,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81050,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 81051,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80944,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 80945,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 82174,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 82176,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 82177,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 82178,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 82179,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 82183,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87247,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87248,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87249,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87279,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87280,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87281,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87282,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87283,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87160,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87161,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 86411,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 86412,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87162,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87163,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87164,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87165,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87166,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87167,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87168,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87169,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87170,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87171,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87172,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87176,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87177,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87178,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87179,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87180,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87110,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87262,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87145,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87146,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87147,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87148,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87149,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87150,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87151,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 82981,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 82982,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 82983,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 82984,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 82985,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87181,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87182,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87184,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87185,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87186,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87187,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87188,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87189,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87190,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87191,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87192,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 82422,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 84702,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 84703,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 84706,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 85966,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 85967,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 86429,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 86430,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 86431,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 86433,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87193,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87194,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 86434,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87197,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87198,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87199,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87200,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87201,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87123,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87195,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87203,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87204,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87205,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87206,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87124,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87196,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87216,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87217,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87218,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87219,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87220,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87221,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87222,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87223,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87225,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87226,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87227,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87228,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87229,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87230,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87231,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87232,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87233,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87152,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87153,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87154,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87156,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87157,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87158,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87159,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87286,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 82423,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 82419,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87126,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87135,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87136,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87138,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87139,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87140,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87141,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87142,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87143,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87263,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87266,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87267,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87270,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87271,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87131,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87132,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87133,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87207,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87208,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87209,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87210,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87234,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87235,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87236,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87237,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87238,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87144,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87255,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87256,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87257,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87258,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87260,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87261,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87272,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87268,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87269,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87213,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87214,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87215,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87224,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87239,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87240,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87241,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87242,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87243,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87244,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87245,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 87246,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 101310,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 101314,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 101315,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 101319,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 104140,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 100862,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 100741,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 101687,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 101688,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 101689,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 101690,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 101691,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 101692,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 99639,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 101693,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 101694,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 101695,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 101696,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 101698,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 101699,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 99636,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 101701,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 101697,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 101700,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 100742,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 100740,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 100743,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 100744,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 100745,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 100746,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 100682,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 100684,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 100687,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 100688,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 100689,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 100690,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 100691,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 103628,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 103632,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 103633,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 103636,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 103637,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 103638,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 100704,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 100705,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 100672,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 100673,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 100674,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 103611,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 103613,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 103614,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 103615,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 103616,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 103639,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 103610,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 103426,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 103427,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 103428,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 103430,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 86410,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 102827,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 102825,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 102819,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 102821,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 102823,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 103612,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 104031,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 104032,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 104033,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 104034,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 104035,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 103425,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 103634,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 103635,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 103620,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 103621,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 103622,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 103623,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 103624,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 103625,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 103626,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 100713,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 100714,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 100715,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 100716,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 100717,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 100718,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 100719,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 100720,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 100721,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 100722,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 100723,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 100724,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 100725,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 100726,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 100727,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 100729,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 100730,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 100731,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 100732,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 100734,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 100735,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 100702,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 100703,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 100737,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 100738,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 100736,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 100675,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 100676,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 100677,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 100678,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 100681,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 100693,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 100696,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    },
+    {
+      "id": 103627,
+      "code": "",
+      "name": "",
+      "groupCode": ""
+    }
+  ]
+}
