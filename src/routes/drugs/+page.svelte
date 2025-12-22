@@ -29,6 +29,7 @@
 	import { ingredientParserService } from '$lib/services/ingredient-parser-service';
 	import { specialtyService } from '$lib/services/specialty-service';
 	import { getManualPairing, saveManualPairing, type ManualPairing } from '$lib/utils/manual-pairing-store';
+	import { formatBoxedWarning } from '$lib/utils/fda-text-formatter';
 	import DrugAutocomplete from '$lib/components/ui/DrugAutocomplete.svelte';
 	import DrugInfoModal from '$lib/components/ui/DrugInfoModal.svelte';
 	import FdaContentDisplay from '$lib/components/ui/FdaContentDisplay.svelte';
@@ -273,7 +274,7 @@
 
 	/**
 	 * Manual EMA search when auto-lookup fails
-	 * Allows user to search with INN/brand names directly
+	 * Uses direct INN search - user enters English terms directly
 	 */
 	async function handleManualEmaSearch() {
 		if (!manualEmaSearch.trim() || !selectedDrug) return;
@@ -284,11 +285,8 @@
 		try {
 			await emaService.initialize();
 
-			// Search by INN or brand name
-			const result = await emaService.findEmaData({
-				activeIngredient: manualEmaSearch.trim(),
-				name: manualEmaSearch.trim()
-			});
+			// Use direct INN search (no translation - user enters English)
+			const result = await emaService.searchDirectByInn(manualEmaSearch.trim());
 
 			if (result?.matched) {
 				manualEmaResults = result;
@@ -1163,13 +1161,14 @@
 									{@const label = currentIngredient.result.label}
 									<!-- Boxed Warning -->
 									{#if label.boxedWarning}
-										<div class="border-2 border-red-500 rounded-lg overflow-hidden">
-											<div class="px-4 py-2 bg-red-500/20 border-b border-red-500 flex items-center gap-2">
-												<Ban class="h-5 w-5 text-red-400" />
-												<span class="font-semibold text-red-400">BOXED WARNING</span>
+										<div class="boxed-warning-container border-2 border-red-500 rounded-lg overflow-hidden">
+											<div class="px-4 py-3 bg-red-500/20 border-b border-red-500 flex items-center gap-2">
+												<Ban class="h-6 w-6 text-red-400" />
+												<span class="font-bold text-red-400 text-lg uppercase tracking-wide">BOXED WARNING</span>
+												<span class="text-red-400/60 text-sm ml-2">(Fekete dobozos figyelmeztetés)</span>
 											</div>
-											<div class="p-4 bg-red-500/5">
-												<p class="text-sm text-red-300 whitespace-pre-wrap leading-relaxed">{label.boxedWarning}</p>
+											<div class="boxed-warning-content p-4 bg-red-500/5">
+												{@html formatBoxedWarning(label.boxedWarning)}
 											</div>
 										</div>
 									{/if}
@@ -1244,13 +1243,14 @@
 
 								<!-- Boxed Warning (Black Box) - Keep prominent -->
 								{#if fdaData.label.boxedWarning}
-									<div class="border-2 border-red-500 rounded-lg overflow-hidden">
-										<div class="px-4 py-2 bg-red-500/20 border-b border-red-500 flex items-center gap-2">
-											<Ban class="h-5 w-5 text-red-400" />
-											<span class="font-semibold text-red-400">BOXED WARNING (Fekete dobozos figyelmeztetés)</span>
+									<div class="boxed-warning-container border-2 border-red-500 rounded-lg overflow-hidden">
+										<div class="px-4 py-3 bg-red-500/20 border-b border-red-500 flex items-center gap-2">
+											<Ban class="h-6 w-6 text-red-400" />
+											<span class="font-bold text-red-400 text-lg uppercase tracking-wide">BOXED WARNING</span>
+											<span class="text-red-400/60 text-sm ml-2">(Fekete dobozos figyelmeztetés)</span>
 										</div>
-										<div class="p-4 bg-red-500/5">
-											<p class="text-sm text-red-300 whitespace-pre-wrap leading-relaxed">{fdaData.label.boxedWarning}</p>
+										<div class="boxed-warning-content p-4 bg-red-500/5">
+											{@html formatBoxedWarning(fdaData.label.boxedWarning)}
 										</div>
 									</div>
 								{/if}
@@ -1968,5 +1968,103 @@
 	:global(.eligibility-card:hover) {
 		transform: translate(-2px, -2px);
 		box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+	}
+
+	/* Boxed Warning Styling */
+	:global(.boxed-warning-content) {
+		font-size: 0.9375rem;
+		line-height: 1.75;
+	}
+
+	:global(.boxed-warning-content .boxed-paragraph) {
+		color: rgb(252, 165, 165); /* red-300 */
+		margin-bottom: 1rem;
+	}
+
+	:global(.boxed-warning-content .boxed-subsection) {
+		display: block;
+		margin: 1.25rem 0 0.75rem 0;
+		padding: 0.5rem 0.75rem;
+		background: rgba(239, 68, 68, 0.15);
+		border-left: 3px solid rgb(239, 68, 68);
+		border-radius: 0 0.25rem 0.25rem 0;
+	}
+
+	:global(.boxed-warning-content .boxed-section-number) {
+		color: rgb(248, 113, 113); /* red-400 */
+		font-weight: 700;
+		font-size: 1.125rem;
+		font-family: ui-monospace, monospace;
+		margin-right: 0.5rem;
+	}
+
+	:global(.boxed-warning-content .boxed-section-title) {
+		color: rgb(254, 202, 202); /* red-200 */
+		font-weight: 600;
+		font-size: 1.125rem;
+	}
+
+	:global(.boxed-warning-content .boxed-keyword) {
+		background: rgba(239, 68, 68, 0.35);
+		color: rgb(254, 202, 202);
+		padding: 0.125rem 0.5rem;
+		border-radius: 0.25rem;
+		font-weight: 700;
+		font-size: 1rem;
+		text-transform: uppercase;
+		letter-spacing: 0.025em;
+	}
+
+	:global(.boxed-warning-content .boxed-action) {
+		color: rgb(134, 239, 172); /* green-300 */
+		font-weight: 600;
+	}
+
+	:global(.boxed-warning-content .boxed-ref) {
+		color: rgb(147, 197, 253); /* blue-300 */
+		font-weight: 500;
+		font-family: ui-monospace, monospace;
+		font-size: 0.875rem;
+	}
+
+	:global(.boxed-warning-content .boxed-see-ref) {
+		color: rgb(147, 197, 253);
+		font-style: italic;
+		font-size: 0.875rem;
+	}
+
+	:global(.boxed-warning-content .boxed-value) {
+		color: rgb(251, 191, 36); /* amber-400 */
+		font-weight: 600;
+		font-family: ui-monospace, monospace;
+		background: rgba(251, 191, 36, 0.1);
+		padding: 0.125rem 0.25rem;
+		border-radius: 0.125rem;
+	}
+
+	:global(.boxed-warning-content .boxed-list-item) {
+		display: block;
+		padding-left: 1.5rem;
+		margin: 0.5rem 0;
+		position: relative;
+		color: rgb(252, 165, 165);
+	}
+
+	:global(.boxed-warning-content .boxed-list-number) {
+		color: rgb(248, 113, 113);
+		font-weight: 700;
+		font-family: ui-monospace, monospace;
+		margin-right: 0.5rem;
+	}
+
+	:global(.boxed-warning-content .boxed-bullet-item) {
+		display: block;
+		padding-left: 1rem;
+		margin: 0.5rem 0;
+		color: rgb(252, 165, 165);
+	}
+
+	:global(.boxed-warning-content .boxed-bullet-item::before) {
+		content: '';
 	}
 </style>

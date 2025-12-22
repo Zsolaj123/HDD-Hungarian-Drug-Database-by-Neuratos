@@ -557,6 +557,31 @@
 		font-style: italic;
 	}
 
+	/* Subsection headers with section numbers */
+	.fda-formatted-content :global(.fda-subsection-header) {
+		display: block;
+		margin: 1.25rem 0 0.75rem 0;
+		padding: 0.5rem 0.75rem;
+		background: rgba(71, 85, 105, 0.2);
+		border-left: 3px solid rgb(96, 165, 250); /* blue-400 */
+		border-radius: 0 0.25rem 0.25rem 0;
+	}
+
+	.fda-formatted-content :global(.fda-section-number) {
+		color: rgb(96, 165, 250); /* blue-400 */
+		font-weight: 700;
+		font-size: 1.125rem;
+		font-family: ui-monospace, monospace;
+		margin-right: 0.5rem;
+	}
+
+	.fda-formatted-content :global(.fda-section-title) {
+		color: rgb(226, 232, 240); /* slate-200 */
+		font-weight: 600;
+		font-size: 1.125rem;
+		text-transform: capitalize;
+	}
+
 	/* Scrollbar styling */
 	.fda-content-display ::-webkit-scrollbar {
 		width: 10px;

@@ -460,6 +460,19 @@ export function formatSectionContent(content: string): string {
 	// Pre-process: format drug interaction tables into HTML tables
 	formatted = formatDrugInteractionTables(formatted);
 
+	// Pre-process: Add line breaks before section numbers like "5.1 Title" or "5.2 Risk"
+	// Pattern: number.number followed by space and capitalized word (subsection header)
+	formatted = formatted.replace(
+		/([.!?:]\s*)(\d+\.\d+)\s+([A-Z][A-Za-z\s]+?)(?=\s|$)/g,
+		'$1<br/><span class="fda-subsection-header"><span class="fda-section-number">$2</span> <span class="fda-section-title">$3</span></span>'
+	);
+
+	// Also handle section numbers at start of text
+	formatted = formatted.replace(
+		/^(\d+\.\d+)\s+([A-Z][A-Za-z\s]+?)(?=\s|$)/gm,
+		'<span class="fda-subsection-header"><span class="fda-section-number">$1</span> <span class="fda-section-title">$2</span></span>'
+	);
+
 	// Pre-process: split on semicolons and numbered lists for better line breaks
 	formatted = splitOnSemicolonLists(formatted);
 	formatted = splitNumberedLists(formatted);
@@ -664,4 +677,81 @@ export function getFdaContentStats(text: string | null): {
 		severity: getContentSeverity(text),
 		readTime: `${readTimeMinutes} min`
 	};
+}
+
+/**
+ * Format boxed warning content with enhanced styling
+ * Handles section numbers, bullet points, and emphasis for black box warnings
+ */
+export function formatBoxedWarning(content: string): string {
+	if (!content || content.trim().length === 0) {
+		return content;
+	}
+
+	let formatted = content;
+
+	// Add line breaks before section numbers like "5.1 Title"
+	formatted = formatted.replace(
+		/([.!?:]\s*)(\d+\.\d+)\s+([A-Z][A-Za-z\s]+?)(?=\s|$)/g,
+		'$1<br/><span class="boxed-subsection"><span class="boxed-section-number">$2</span> <span class="boxed-section-title">$3</span></span>'
+	);
+
+	// Section numbers at start
+	formatted = formatted.replace(
+		/^(\d+\.\d+)\s+([A-Z][A-Za-z\s]+?)(?=\s|$)/gm,
+		'<span class="boxed-subsection"><span class="boxed-section-number">$1</span> <span class="boxed-section-title">$2</span></span>'
+	);
+
+	// Highlight warning keywords
+	formatted = formatted.replace(
+		/\b(DO NOT|MUST NOT|SHOULD NOT|WARNING|CAUTION|CONTRAINDICATED|DISCONTINUE|IMMEDIATELY|FATAL|DEATH|LIFE-THREATENING|BLACK BOX|SERIOUS|SEVERE|PERMANENT|IRREVERSIBLE)\b/gi,
+		'<span class="boxed-keyword">$1</span>'
+	);
+
+	// Highlight action verbs
+	formatted = formatted.replace(
+		/\b(Monitor|Avoid|Consider|Obtain|Discontinue|Withhold|Administer|Evaluate|Assess|Check|Measure|Test|Perform|Initiate|Resume|Delay|Suspend|Reduce|Increase|Adjust|Recommend)\b/g,
+		'<span class="boxed-action">$1</span>'
+	);
+
+	// Section references like (5.1)
+	formatted = formatted.replace(
+		/\(\s*(\d+(?:\.\d+)?(?:\s*,\s*\d+(?:\.\d+)?)*)\s*\)/g,
+		'<span class="boxed-ref">($1)</span>'
+	);
+
+	// "see" references
+	formatted = formatted.replace(
+		/\[see\s+([^\]]+)\]/gi,
+		'<span class="boxed-see-ref">[see $1]</span>'
+	);
+
+	// Clinical values
+	formatted = formatted.replace(
+		/(<|>|≤|≥|±)?\s*\d+(?:\.\d+)?(?:\s*-\s*\d+(?:\.\d+)?)?\s*(?:x\s*10\s*\d*\s*\/L|mg(?:\/(?:day|kg|mL))?|mL|%|mcg|IU|kg|g\/dL|cells\/mm3|mmol\/L|msec|months|weeks|days|hours|years|fold)/gi,
+		'<span class="boxed-value">$&</span>'
+	);
+
+	// Convert numbered items
+	formatted = formatted.replace(
+		/(?:^|\n)\s*(\d+)\.\s+(.+?)(?=\n|$)/g,
+		'\n<div class="boxed-list-item"><span class="boxed-list-number">$1.</span> $2</div>'
+	);
+
+	// Convert bullet/dash items
+	formatted = formatted.replace(
+		/(?:^|\n)\s*[•·-–—]\s*(.+?)(?=\n|$)/g,
+		'\n<div class="boxed-bullet-item">• $1</div>'
+	);
+
+	// Paragraph breaks
+	formatted = formatted.replace(/\n\n+/g, '</p><p class="boxed-paragraph">');
+	formatted = formatted.replace(/\n/g, '<br/>');
+
+	// Wrap in paragraph if not starting with a div
+	if (!formatted.trim().startsWith('<div') && !formatted.trim().startsWith('<p')) {
+		formatted = `<p class="boxed-paragraph">${formatted}</p>`;
+	}
+
+	return formatted;
 }

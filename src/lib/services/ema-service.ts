@@ -550,6 +550,67 @@ class EmaService {
   }
 
   /**
+   * Direct search by English INN or medicine name (for manual search)
+   * Does NOT try to translate - user is entering English terms directly
+   */
+  async searchDirectByInn(searchTerm: string): Promise<EmaMatchResult> {
+    if (!this.initialized) {
+      await this.initialize();
+    }
+
+    const normalized = searchTerm.toLowerCase().trim();
+    let medicine: EmaMedicine | undefined;
+    let method: 'inn' | 'name' | 'activeSubstance' | undefined;
+
+    // 1. Try exact INN match
+    const byInn = this.medicinesByInn.get(normalized);
+    if (byInn && byInn.length > 0) {
+      // Prefer authorised medicines
+      medicine = byInn.find(m => m.status === 'Authorised') || byInn[0];
+      method = 'inn';
+      console.log(`[EMA Direct] Found by INN: "${searchTerm}" → ${medicine.name}`);
+    }
+
+    // 2. Try medicine name search (partial match)
+    if (!medicine) {
+      for (const med of this.medicines) {
+        const medName = med.name?.toLowerCase() || '';
+        const medInn = med.inn?.toLowerCase() || '';
+        const medActiveSubstance = med.activeSubstance?.toLowerCase() || '';
+
+        if (medName.includes(normalized) || medInn.includes(normalized) || medActiveSubstance.includes(normalized)) {
+          medicine = med;
+          method = medName.includes(normalized) ? 'name' :
+                   medInn.includes(normalized) ? 'inn' : 'activeSubstance';
+          console.log(`[EMA Direct] Found by ${method}: "${searchTerm}" → ${medicine.name}`);
+          break;
+        }
+      }
+    }
+
+    if (!medicine) {
+      console.log(`[EMA Direct] No match for: "${searchTerm}"`);
+      return { matched: false };
+    }
+
+    // Get shortages and DHPCs
+    const innNormalized = medicine.inn?.toLowerCase() || '';
+    const shortages = this.shortagesByInn.get(innNormalized) || [];
+    const dhpcs = this.dhpcs.filter(d =>
+      d.activeSubstances?.toLowerCase().includes(innNormalized) ||
+      medicine?.name?.toLowerCase().includes(d.activeSubstances?.toLowerCase() || '')
+    );
+
+    return {
+      matched: true,
+      medicine: medicine,
+      shortages: shortages.length > 0 ? shortages : undefined,
+      dhpcs: dhpcs.length > 0 ? dhpcs : undefined,
+      method: method
+    };
+  }
+
+  /**
    * Find EMA data for multi-ingredient drugs
    * Parses the ingredient string and searches for each ingredient separately
    * Returns per-ingredient results for tabbed display
