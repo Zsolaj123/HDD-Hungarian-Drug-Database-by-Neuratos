@@ -557,6 +557,116 @@
 		font-style: italic;
 	}
 
+	/* Adverse Reactions Tables */
+	.fda-formatted-content :global(.fda-adverse-table) {
+		width: 100%;
+		border-collapse: collapse;
+		font-size: 0.875rem;
+	}
+
+	.fda-formatted-content :global(.fda-adverse-table th) {
+		background: rgba(239, 68, 68, 0.15); /* red tint for adverse */
+		color: rgb(252, 165, 165); /* red-300 */
+		padding: 0.625rem;
+		text-align: center;
+		font-weight: 600;
+		font-size: 0.8rem;
+		border-bottom: 1px solid rgba(239, 68, 68, 0.3);
+	}
+
+	.fda-formatted-content :global(.fda-adverse-table th:first-child) {
+		text-align: left;
+	}
+
+	.fda-formatted-content :global(.fda-adverse-table td) {
+		padding: 0.5rem 0.625rem;
+		border-bottom: 1px solid rgba(71, 85, 105, 0.3);
+		color: rgb(203, 213, 225);
+		text-align: center;
+	}
+
+	.fda-formatted-content :global(.fda-condition-cell) {
+		text-align: left !important;
+		color: rgb(253, 186, 116); /* amber-300 */
+		font-weight: 500;
+	}
+
+	.fda-formatted-content :global(.fda-value-cell) {
+		font-family: ui-monospace, monospace;
+		font-size: 0.8rem;
+	}
+
+	.fda-formatted-content :global(.fda-adverse-table tr:hover td) {
+		background: rgba(239, 68, 68, 0.08);
+	}
+
+	/* Pharmacokinetic Tables */
+	.fda-formatted-content :global(.fda-pk-table) {
+		width: 100%;
+		border-collapse: collapse;
+		font-size: 0.875rem;
+	}
+
+	.fda-formatted-content :global(.fda-pk-table th) {
+		background: rgba(34, 197, 94, 0.15); /* green tint for PK */
+		color: rgb(134, 239, 172); /* green-300 */
+		padding: 0.625rem;
+		text-align: center;
+		font-weight: 600;
+		font-size: 0.8rem;
+		border-bottom: 1px solid rgba(34, 197, 94, 0.3);
+	}
+
+	.fda-formatted-content :global(.fda-pk-table th:first-child),
+	.fda-formatted-content :global(.fda-pk-table th:nth-child(2)) {
+		text-align: left;
+	}
+
+	.fda-formatted-content :global(.fda-pk-table td) {
+		padding: 0.5rem 0.625rem;
+		border-bottom: 1px solid rgba(71, 85, 105, 0.3);
+		color: rgb(203, 213, 225);
+		text-align: center;
+	}
+
+	.fda-formatted-content :global(.fda-pk-table td:first-child),
+	.fda-formatted-content :global(.fda-pk-table td:nth-child(2)) {
+		text-align: left;
+	}
+
+	.fda-formatted-content :global(.fda-pk-table .fda-significant) {
+		color: rgb(251, 191, 36); /* amber-400 */
+		font-weight: 600;
+		background: rgba(251, 191, 36, 0.1);
+	}
+
+	.fda-formatted-content :global(.fda-pk-table tr:hover td) {
+		background: rgba(34, 197, 94, 0.08);
+	}
+
+	/* Clinical Studies Summary */
+	.fda-formatted-content :global(.fda-clinical-summary) {
+		padding: 1rem;
+		background: rgba(30, 41, 59, 0.5);
+	}
+
+	.fda-formatted-content :global(.fda-clinical-note) {
+		color: rgb(148, 163, 184); /* slate-400 */
+		font-style: italic;
+		margin-bottom: 0.75rem;
+		padding-bottom: 0.75rem;
+		border-bottom: 1px solid rgba(71, 85, 105, 0.3);
+	}
+
+	.fda-formatted-content :global(.fda-clinical-summary p) {
+		margin: 0.5rem 0;
+		color: rgb(203, 213, 225);
+	}
+
+	.fda-formatted-content :global(.fda-clinical-summary strong) {
+		color: rgb(96, 165, 250); /* blue-400 */
+	}
+
 	/* Subsection headers with section numbers */
 	.fda-formatted-content :global(.fda-subsection-header) {
 		display: block;

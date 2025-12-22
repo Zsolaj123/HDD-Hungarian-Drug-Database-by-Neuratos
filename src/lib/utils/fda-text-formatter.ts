@@ -280,6 +280,240 @@ function extractKeyValuePairs(text: string): KeyValuePair[] {
 }
 
 /**
+ * Format adverse reactions tables into HTML tables
+ * Pattern: Table N: Title... N = XXX headers... ConditionName X (X.X) X (X.X)...
+ */
+function formatAdverseReactionsTables(text: string): string {
+	// Check for adverse reactions table pattern (has "N = XXX" and percentage data)
+	if (!text.match(/N\s*=\s*\d+/) || !text.match(/\d+\s*\(\d+\.?\d*\)/)) {
+		return text;
+	}
+
+	let result = text;
+
+	// Find all table sections
+	const tablePattern = /Table\s+(\d+):\s*([^]*?)(?=Table\s+\d+:|6\.\d|$)/gi;
+	let match;
+
+	while ((match = tablePattern.exec(text)) !== null) {
+		const tableNum = match[1];
+		const tableContent = match[2];
+
+		// Extract title (before "Intent-to-treat" or "Number of Patients")
+		const titleMatch = tableContent.match(/^([^]*?)(?=Intent-to-treat|Number of Patients|\sN\s*=)/i);
+		if (!titleMatch) continue;
+		const title = titleMatch[1].trim().replace(/\s+/g, ' ');
+
+		// Find treatment group headers (N = XXX patterns)
+		const headerPattern = /N\s*=\s*(\d+)/g;
+		const headers: string[] = [];
+		let headerMatch;
+		while ((headerMatch = headerPattern.exec(tableContent)) !== null) {
+			headers.push(`N=${headerMatch[1]}`);
+		}
+
+		if (headers.length < 2) continue;
+
+		// Find data rows: ConditionName followed by multiple "X (X.X)" patterns
+		const dataRowPattern = /([A-Z][A-Za-z\s]+?)\s+((?:\d+\s*\([^)]+\)\s*)+)/g;
+		const rows: Array<{condition: string, values: string[]}> = [];
+
+		let rowMatch;
+		while ((rowMatch = dataRowPattern.exec(tableContent)) !== null) {
+			const condition = rowMatch[1].trim();
+			const valuesStr = rowMatch[2];
+			// Extract individual values like "7 (4)" or "5 (2.8)"
+			const values = valuesStr.match(/\d+\s*\([^)]+\)/g) || [];
+
+			if (values.length >= 2 && condition.length > 2 && condition.length < 50) {
+				rows.push({ condition, values });
+			}
+		}
+
+		if (rows.length === 0) continue;
+
+		// Build HTML table
+		let tableHtml = `<div class="fda-table-container">
+			<div class="fda-table-header">Table ${tableNum}: ${title}</div>
+			<table class="fda-adverse-table">
+				<thead>
+					<tr>
+						<th>Mellékhatás</th>
+						${headers.slice(0, rows[0].values.length).map(h => `<th>${h}</th>`).join('')}
+					</tr>
+				</thead>
+				<tbody>`;
+
+		for (const row of rows) {
+			tableHtml += `<tr>
+				<td class="fda-condition-cell">${row.condition}</td>
+				${row.values.map(v => `<td class="fda-value-cell">${v}</td>`).join('')}
+			</tr>`;
+		}
+
+		tableHtml += `</tbody></table></div>`;
+
+		// Replace the table section in result
+		const fullMatch = `Table ${tableNum}:${tableContent}`;
+		const originalStart = result.indexOf(fullMatch);
+		if (originalStart !== -1) {
+			// Find where next table or section starts
+			const nextTableMatch = result.substring(originalStart + 10).match(/Table\s+\d+:|6\.\d/);
+			const endIndex = nextTableMatch
+				? originalStart + 10 + (nextTableMatch.index || 0)
+				: originalStart + fullMatch.length;
+
+			result = result.substring(0, originalStart) + tableHtml + result.substring(endIndex);
+		}
+	}
+
+	return result;
+}
+
+/**
+ * Format pharmacokinetic tables into HTML tables
+ * Pattern: Table N: Effect of X on Y... DrugName Dose AUC Cmax values
+ */
+function formatPharmacokineticTables(text: string): string {
+	// Check for PK table patterns (has AUC, Cmax, geometric mean ratio)
+	if (!text.match(/AUC|C\s*max|Geometric Mean/i)) {
+		return text;
+	}
+
+	let result = text;
+
+	// Find tables with PK data pattern
+	const tablePattern = /Table\s+(\d+):\s*Effect of ([^]*?)(?=Table\s+\d+:|12\.\d|Effects of|$)/gi;
+	let match;
+
+	while ((match = tablePattern.exec(text)) !== null) {
+		const tableNum = match[1];
+		const tableContent = match[2];
+
+		// Extract title
+		const titleMatch = tableContent.match(/^([^]*?)(?=Coadministered Drug|All doses)/i);
+		if (!titleMatch) continue;
+		const title = `Effect of ${titleMatch[1].trim().replace(/\s+/g, ' ')}`;
+
+		// Find drug rows: DrugName followed by dose info and ratio values
+		const drugPattern = /([A-Z][a-z]+(?:\s+[A-Za-z]+)?)\s+(\d+(?:\.\d+)?\s*(?:mg|µg)[^]*?)\s+(\d+\.\d+)\s+(\d+\.\d+)/g;
+		const rows: Array<{drug: string, dose: string, auc: string, cmax: string}> = [];
+
+		let rowMatch;
+		while ((rowMatch = drugPattern.exec(tableContent)) !== null) {
+			rows.push({
+				drug: rowMatch[1].trim(),
+				dose: rowMatch[2].trim().substring(0, 50),
+				auc: rowMatch[3],
+				cmax: rowMatch[4]
+			});
+		}
+
+		if (rows.length === 0) continue;
+
+		// Build HTML table
+		let tableHtml = `<div class="fda-table-container">
+			<div class="fda-table-header">Table ${tableNum}: ${title}</div>
+			<table class="fda-pk-table">
+				<thead>
+					<tr>
+						<th>Gyógyszer</th>
+						<th>Adag</th>
+						<th>AUC arány</th>
+						<th>C<sub>max</sub> arány</th>
+					</tr>
+				</thead>
+				<tbody>`;
+
+		for (const row of rows) {
+			// Highlight if ratio significantly different from 1.0
+			const aucVal = parseFloat(row.auc);
+			const cmaxVal = parseFloat(row.cmax);
+			const aucClass = (aucVal < 0.8 || aucVal > 1.25) ? 'fda-significant' : '';
+			const cmaxClass = (cmaxVal < 0.8 || cmaxVal > 1.25) ? 'fda-significant' : '';
+
+			tableHtml += `<tr>
+				<td class="fda-drug-cell">${row.drug}</td>
+				<td>${row.dose}</td>
+				<td class="${aucClass}">${row.auc}</td>
+				<td class="${cmaxClass}">${row.cmax}</td>
+			</tr>`;
+		}
+
+		tableHtml += `</tbody></table></div>`;
+
+		// Replace in result (simplified - just append after finding pattern)
+		const fullMatch = `Table ${tableNum}:${tableContent}`;
+		const originalStart = result.indexOf(fullMatch);
+		if (originalStart !== -1) {
+			const nextMatch = result.substring(originalStart + 10).match(/Table\s+\d+:|12\.\d|Effects of/);
+			const endIndex = nextMatch
+				? originalStart + 10 + (nextMatch.index || 0)
+				: originalStart + fullMatch.length;
+
+			result = result.substring(0, originalStart) + tableHtml + result.substring(endIndex);
+		}
+	}
+
+	return result;
+}
+
+/**
+ * Format clinical studies tables into HTML tables
+ * Pattern: Table N: Glycemic Parameters... with HbA1c, FPG values
+ */
+function formatClinicalStudiesTables(text: string): string {
+	// Check for clinical studies table patterns
+	if (!text.match(/Glycemic Parameters|HbA1c|FPG|Fasting Plasma Glucose/i)) {
+		return text;
+	}
+
+	let result = text;
+
+	// Find glycemic parameter tables
+	const tablePattern = /Table\s+(\d+):\s*Glycemic Parameters[^]*?(?=Table\s+\d+:|14\.\d|$)/gi;
+	let match;
+
+	while ((match = tablePattern.exec(text)) !== null) {
+		const tableNum = match[1];
+		const tableContent = match[0];
+
+		// Extract key data points
+		const hba1cMatch = tableContent.match(/HbA1c\s*\(%\)[^]*?(?:baseline|change)[^]*?(-?\d+\.?\d*)/i);
+		const fpgMatch = tableContent.match(/FPG[^]*?(?:baseline|change)[^]*?(-?\d+\.?\d*)/i);
+
+		// Create a summary card instead of trying to parse complex table
+		let tableHtml = `<div class="fda-table-container">
+			<div class="fda-table-header">Table ${tableNum}: Glycemic Parameters</div>
+			<div class="fda-clinical-summary">
+				<p class="fda-clinical-note">📊 Klinikai vizsgálati eredmények - részletes táblázat az eredeti FDA címkében</p>`;
+
+		if (hba1cMatch) {
+			tableHtml += `<p><strong>HbA1c változás:</strong> ${hba1cMatch[1]}%</p>`;
+		}
+		if (fpgMatch) {
+			tableHtml += `<p><strong>Éhomi vércukor változás:</strong> ${fpgMatch[1]} mg/dL</p>`;
+		}
+
+		tableHtml += `</div></div>`;
+
+		// Find where this table section ends
+		const startIdx = result.indexOf(`Table ${tableNum}:`);
+		if (startIdx !== -1) {
+			const nextTable = result.substring(startIdx + 10).match(/Table\s+\d+:|14\.\d/);
+			const endIdx = nextTable ? startIdx + 10 + (nextTable.index || 0) : startIdx + 200;
+
+			// Only replace if we found meaningful data
+			if (hba1cMatch || fpgMatch) {
+				result = result.substring(0, startIdx) + tableHtml + result.substring(endIdx);
+			}
+		}
+	}
+
+	return result;
+}
+
+/**
  * Format drug interaction tables into HTML tables
  * Pattern: Drug Class → Clinical Impact → Intervention → Examples (repeating)
  */
@@ -457,8 +691,11 @@ export function formatFdaContent(text: string | null): FormattedFdaContent | nul
 export function formatSectionContent(content: string): string {
 	let formatted = content;
 
-	// Pre-process: format drug interaction tables into HTML tables
+	// Pre-process: format all types of tables into HTML tables
 	formatted = formatDrugInteractionTables(formatted);
+	formatted = formatAdverseReactionsTables(formatted);
+	formatted = formatPharmacokineticTables(formatted);
+	formatted = formatClinicalStudiesTables(formatted);
 
 	// Pre-process: Add line breaks before section numbers like "5.1 Title" or "5.2 Risk"
 	// Pattern: number.number followed by space and capitalized word (subsection header)
