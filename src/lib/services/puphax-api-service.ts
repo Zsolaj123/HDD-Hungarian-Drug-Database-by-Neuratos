@@ -18,7 +18,9 @@ import { db } from '$lib/db';
 // Configuration
 // ============================================================================
 
-const PUPHAX_BASE_URL = 'http://localhost:7000';
+// PUPHAX is a local microservice for NEAK data - only enable if configured
+const PUPHAX_BASE_URL = import.meta.env.PUBLIC_PUPHAX_URL || '';
+const PUPHAX_ENABLED = !!PUPHAX_BASE_URL;
 const CACHE_TTL_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
 const SEARCH_DEBOUNCE_MS = 150;
 const REQUEST_TIMEOUT_MS = 10000;
@@ -227,6 +229,12 @@ class PuphaxApiService {
 	 * Caches result for 1 minute to avoid excessive checks
 	 */
 	async checkHealth(): Promise<boolean> {
+		// Skip if PUPHAX is not configured
+		if (!PUPHAX_ENABLED) {
+			this.isOnline = false;
+			return false;
+		}
+
 		const now = Date.now();
 
 		// Use cached result if recent

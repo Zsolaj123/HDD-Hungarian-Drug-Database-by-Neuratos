@@ -165,13 +165,15 @@ interface DrugServiceConfig {
 	cacheTimeMs: number;
 }
 
-// Default Supabase configuration for Neuratos Workstation
-const SUPABASE_URL = 'https://meyvbkhdlhclgprncobt.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1leXZia2hkbGhjbGdwcm5jb2J0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ1OTQwNzAsImV4cCI6MjA4MDE3MDA3MH0.3uqsdoTpYnA-LumTy5b569-sUSGYtN9hT-KiNsTRVjs';
+// Supabase configuration from environment variables (optional)
+// If not configured, the app works offline with local JSON data
+const SUPABASE_URL = import.meta.env.PUBLIC_SUPABASE_URL || '';
+const SUPABASE_ANON_KEY = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || '';
+const SUPABASE_ENABLED = !!(SUPABASE_URL && SUPABASE_ANON_KEY);
 
 const DEFAULT_CONFIG: DrugServiceConfig = {
-	supabaseUrl: SUPABASE_URL,
-	supabaseAnonKey: SUPABASE_ANON_KEY,
+	supabaseUrl: SUPABASE_ENABLED ? SUPABASE_URL : undefined,
+	supabaseAnonKey: SUPABASE_ENABLED ? SUPABASE_ANON_KEY : undefined,
 	useLocalFirst: true,
 	cacheTimeMs: 30 * 60 * 1000 // 30 minutes
 };
