@@ -125,6 +125,19 @@
 	let fdaPairingPending = $state(false);
 	let emaPairingPending = $state(false);
 
+	// Per-ingredient manual search state (for multi-ingredient drugs)
+	let perIngredientFdaSearch = $state<Map<number, string>>(new Map());
+	let perIngredientFdaLoading = $state<Map<number, boolean>>(new Map());
+	let perIngredientFdaResults = $state<Map<number, OpenFdaSearchResult | null>>(new Map());
+	let perIngredientFdaSuggestions = $state<Map<number, string[]>>(new Map());
+	let showPerIngredientFdaSuggestions = $state<Map<number, boolean>>(new Map());
+
+	let perIngredientEmaSearch = $state<Map<number, string>>(new Map());
+	let perIngredientEmaLoading = $state<Map<number, boolean>>(new Map());
+	let perIngredientEmaResults = $state<Map<number, EmaMatchResult | null>>(new Map());
+	let perIngredientEmaSuggestions = $state<Map<number, Array<{inn: string, name: string, status: string}>>>(new Map());
+	let showPerIngredientEmaSuggestions = $state<Map<number, boolean>>(new Map());
+
 	// Filters
 	let filterAtc = $state('');
 	let filterPrescription = $state<'all' | 'rx' | 'otc'>('all');
@@ -468,6 +481,139 @@
 		handleManualFdaSearch();
 	}
 
+	// ============================================================================
+	// Per-Ingredient Manual Search Functions (for multi-ingredient drugs)
+	// ============================================================================
+
+	/**
+	 * Update FDA autocomplete suggestions for a specific ingredient index
+	 */
+	async function updatePerIngredientFdaSuggestions(idx: number, query: string) {
+		if (query.length < 2) {
+			perIngredientFdaSuggestions = new Map(perIngredientFdaSuggestions.set(idx, []));
+			showPerIngredientFdaSuggestions = new Map(showPerIngredientFdaSuggestions.set(idx, false));
+			return;
+		}
+
+		const queryLower = query.toLowerCase();
+		const allTranslations = await ingredientTranslationService.getAllTranslations();
+		const matchingTerms = new Set<string>();
+
+		// Prioritize terms starting with query
+		for (const [hungarian, englishArray] of allTranslations) {
+			for (const english of englishArray) {
+				if (english.toLowerCase().startsWith(queryLower)) {
+					matchingTerms.add(english);
+				}
+			}
+		}
+
+		// Then add terms containing query
+		for (const [hungarian, englishArray] of allTranslations) {
+			for (const english of englishArray) {
+				if (english.toLowerCase().includes(queryLower)) {
+					matchingTerms.add(english);
+				}
+			}
+		}
+
+		const suggestions = [...matchingTerms].slice(0, 10);
+		perIngredientFdaSuggestions = new Map(perIngredientFdaSuggestions.set(idx, suggestions));
+		showPerIngredientFdaSuggestions = new Map(showPerIngredientFdaSuggestions.set(idx, suggestions.length > 0));
+	}
+
+	/**
+	 * Handle manual FDA search for a specific ingredient index
+	 */
+	async function handlePerIngredientFdaSearch(idx: number) {
+		const searchTerm = perIngredientFdaSearch.get(idx)?.trim();
+		if (!searchTerm || !selectedDrug) return;
+
+		perIngredientFdaLoading = new Map(perIngredientFdaLoading.set(idx, true));
+		perIngredientFdaResults = new Map(perIngredientFdaResults.set(idx, null));
+
+		try {
+			const result = await openFdaService.searchByGenericName(searchTerm.toUpperCase());
+			perIngredientFdaResults = new Map(perIngredientFdaResults.set(idx, result?.found ? result : { found: false, label: null, error: null, searchedBy: 'generic_name' }));
+		} catch (error) {
+			console.error('[FDA Per-Ingredient] Search error:', error);
+			perIngredientFdaResults = new Map(perIngredientFdaResults.set(idx, { found: false, label: null, error: String(error), searchedBy: 'generic_name' }));
+		}
+
+		perIngredientFdaLoading = new Map(perIngredientFdaLoading.set(idx, false));
+	}
+
+	/**
+	 * Select FDA suggestion for a specific ingredient
+	 */
+	function selectPerIngredientFdaSuggestion(idx: number, suggestion: string) {
+		perIngredientFdaSearch = new Map(perIngredientFdaSearch.set(idx, suggestion));
+		showPerIngredientFdaSuggestions = new Map(showPerIngredientFdaSuggestions.set(idx, false));
+		handlePerIngredientFdaSearch(idx);
+	}
+
+	/**
+	 * Update EMA autocomplete suggestions for a specific ingredient index
+	 */
+	function updatePerIngredientEmaSuggestions(idx: number, query: string) {
+		if (query.length < 2) {
+			perIngredientEmaSuggestions = new Map(perIngredientEmaSuggestions.set(idx, []));
+			showPerIngredientEmaSuggestions = new Map(showPerIngredientEmaSuggestions.set(idx, false));
+			return;
+		}
+
+		const queryLower = query.toLowerCase();
+		const medicines = emaService.getMedicines();
+
+		const matches = medicines
+			.filter(m => {
+				const nameMatch = m.name?.toLowerCase().includes(queryLower);
+				const innMatch = m.inn?.toLowerCase().includes(queryLower);
+				const substanceMatch = m.activeSubstance?.toLowerCase().includes(queryLower);
+				return nameMatch || innMatch || substanceMatch;
+			})
+			.filter(m => m.status === 'Authorised')
+			.slice(0, 10)
+			.map(m => ({
+				inn: m.inn || '',
+				name: m.name || '',
+				status: m.status || ''
+			}));
+
+		perIngredientEmaSuggestions = new Map(perIngredientEmaSuggestions.set(idx, matches));
+		showPerIngredientEmaSuggestions = new Map(showPerIngredientEmaSuggestions.set(idx, matches.length > 0));
+	}
+
+	/**
+	 * Handle manual EMA search for a specific ingredient index
+	 */
+	async function handlePerIngredientEmaSearch(idx: number) {
+		const searchTerm = perIngredientEmaSearch.get(idx)?.trim();
+		if (!searchTerm || !selectedDrug) return;
+
+		perIngredientEmaLoading = new Map(perIngredientEmaLoading.set(idx, true));
+		perIngredientEmaResults = new Map(perIngredientEmaResults.set(idx, null));
+
+		try {
+			const result = await emaService.searchDirectByInn(searchTerm);
+			perIngredientEmaResults = new Map(perIngredientEmaResults.set(idx, result?.matched ? result : null));
+		} catch (error) {
+			console.error('[EMA Per-Ingredient] Search error:', error);
+			perIngredientEmaResults = new Map(perIngredientEmaResults.set(idx, null));
+		}
+
+		perIngredientEmaLoading = new Map(perIngredientEmaLoading.set(idx, false));
+	}
+
+	/**
+	 * Select EMA suggestion for a specific ingredient
+	 */
+	function selectPerIngredientEmaSuggestion(idx: number, suggestion: {inn: string, name: string}) {
+		perIngredientEmaSearch = new Map(perIngredientEmaSearch.set(idx, suggestion.inn.split(';')[0].trim()));
+		showPerIngredientEmaSuggestions = new Map(showPerIngredientEmaSuggestions.set(idx, false));
+		handlePerIngredientEmaSearch(idx);
+	}
+
 	/**
 	 * Reset manual search state when drug changes
 	 */
@@ -487,6 +633,19 @@
 		emaPairingPending = false;
 		emaSuggestions = [];
 		showEmaSuggestions = false;
+
+		// Reset per-ingredient search state
+		perIngredientFdaSearch = new Map();
+		perIngredientFdaLoading = new Map();
+		perIngredientFdaResults = new Map();
+		perIngredientFdaSuggestions = new Map();
+		showPerIngredientFdaSuggestions = new Map();
+
+		perIngredientEmaSearch = new Map();
+		perIngredientEmaLoading = new Map();
+		perIngredientEmaResults = new Map();
+		perIngredientEmaSuggestions = new Map();
+		showPerIngredientEmaSuggestions = new Map();
 	}
 
 	async function handleDrugSelect(drug: Drug | SimplifiedDrug | DrugSummaryLight) {
@@ -1373,10 +1532,101 @@
 										/>
 									{/if}
 								{:else}
-									<div class="text-center py-8 bg-slate-800/30 rounded-lg">
-										<ShieldAlert class="h-8 w-8 text-slate-500 mx-auto mb-2" />
-										<p class="text-slate-400">Nem található FDA adat: <span class="text-white font-medium">{currentIngredient?.englishName || currentIngredient?.ingredient}</span></p>
-										<p class="text-xs text-slate-500 mt-2">A hatóanyag nem szerepel az FDA adatbázisban, vagy más néven van regisztrálva.</p>
+									<!-- Ingredient Not Found - Show Manual Search -->
+									<div class="py-6 bg-slate-800/30 rounded-lg">
+										<div class="text-center mb-4">
+											<ShieldAlert class="h-8 w-8 text-slate-500 mx-auto mb-2" />
+											<p class="text-slate-400">Nem található FDA adat: <span class="text-white font-medium">{currentIngredient?.englishName || currentIngredient?.ingredient}</span></p>
+											<p class="text-xs text-slate-500 mt-1">A hatóanyag nem szerepel az FDA adatbázisban, vagy más néven van regisztrálva.</p>
+										</div>
+
+										<!-- Manual Search for this Ingredient -->
+										<div class="max-w-md mx-auto px-4">
+											<p class="text-sm text-slate-400 mb-3 text-center">Próbáljon angol névvel keresni:</p>
+											<div class="flex gap-2">
+												<div class="relative flex-1">
+													<input
+														type="text"
+														value={perIngredientFdaSearch.get(activeFdaIngredientTab) || ''}
+														oninput={(e) => {
+															perIngredientFdaSearch = new Map(perIngredientFdaSearch.set(activeFdaIngredientTab, e.currentTarget.value));
+															updatePerIngredientFdaSuggestions(activeFdaIngredientTab, e.currentTarget.value);
+														}}
+														placeholder="pl. {currentIngredient?.englishName || 'aspirin'}..."
+														class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder:text-slate-500 focus:outline-none focus:border-red-500/50"
+														onfocus={() => {
+															const val = perIngredientFdaSearch.get(activeFdaIngredientTab) || '';
+															if (val.length >= 2) updatePerIngredientFdaSuggestions(activeFdaIngredientTab, val);
+														}}
+														onblur={() => setTimeout(() => showPerIngredientFdaSuggestions = new Map(showPerIngredientFdaSuggestions.set(activeFdaIngredientTab, false)), 200)}
+														onkeydown={(e) => e.key === 'Enter' && handlePerIngredientFdaSearch(activeFdaIngredientTab)}
+													/>
+													<!-- Autocomplete Dropdown -->
+													{#if showPerIngredientFdaSuggestions.get(activeFdaIngredientTab) && (perIngredientFdaSuggestions.get(activeFdaIngredientTab) || []).length > 0}
+														<div class="absolute top-full left-0 right-0 mt-1 bg-slate-800 border border-slate-700 rounded-lg shadow-xl z-50 max-h-60 overflow-y-auto">
+															{#each perIngredientFdaSuggestions.get(activeFdaIngredientTab) || [] as suggestion}
+																<button
+																	type="button"
+																	class="w-full px-3 py-2 text-left text-sm text-white hover:bg-slate-700 transition-colors first:rounded-t-lg last:rounded-b-lg"
+																	onmousedown={() => selectPerIngredientFdaSuggestion(activeFdaIngredientTab, suggestion)}
+																>
+																	{suggestion}
+																</button>
+															{/each}
+														</div>
+													{/if}
+												</div>
+												<button
+													type="button"
+													onclick={() => handlePerIngredientFdaSearch(activeFdaIngredientTab)}
+													disabled={!(perIngredientFdaSearch.get(activeFdaIngredientTab)?.trim()) || perIngredientFdaLoading.get(activeFdaIngredientTab)}
+													class="px-4 py-2 bg-red-500/20 hover:bg-red-500/30 text-red-400 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+												>
+													{#if perIngredientFdaLoading.get(activeFdaIngredientTab)}
+														<Loader2 class="h-4 w-4 animate-spin" />
+													{:else}
+														<Search class="h-4 w-4" />
+													{/if}
+													Keresés
+												</button>
+											</div>
+
+											<!-- Search Results for this Ingredient -->
+											{#if perIngredientFdaResults.get(activeFdaIngredientTab)?.found}
+												{@const result = perIngredientFdaResults.get(activeFdaIngredientTab)}
+												<div class="mt-4 p-4 bg-emerald-500/10 border border-emerald-500/30 rounded-lg">
+													<div class="flex items-center gap-2 text-emerald-400 mb-3">
+														<CheckCircle2 class="h-5 w-5" />
+														<span class="font-medium">Találat: {perIngredientFdaSearch.get(activeFdaIngredientTab)}</span>
+													</div>
+													{#if result?.label}
+														<div class="space-y-2 text-sm">
+															{#if result.label.brandName || result.label.genericName}
+																<p class="text-slate-300">
+																	<span class="font-medium">{result.label.brandName}</span>
+																	{#if result.label.genericName}
+																		<span class="text-slate-400"> ({result.label.genericName})</span>
+																	{/if}
+																</p>
+															{/if}
+															{#if result.label.contraindications}
+																<FdaContentDisplay
+																	content={result.label.contraindications}
+																	title="Ellenjavallatok"
+																	variant="contraindication"
+																	compact
+																	maxHeight="150px"
+																/>
+															{/if}
+														</div>
+													{/if}
+												</div>
+											{:else if perIngredientFdaResults.get(activeFdaIngredientTab) && !perIngredientFdaResults.get(activeFdaIngredientTab)?.found}
+												<div class="mt-3 text-center text-sm text-slate-500">
+													Nincs találat. Próbáljon más kifejezést.
+												</div>
+											{/if}
+										</div>
 									</div>
 								{/if}
 
@@ -1628,6 +1878,218 @@
 												showStats={false}
 												maxHeight="400px"
 											/>
+										</div>
+									</details>
+								{/if}
+
+								<!-- Section 2: Dosage and Administration (clinically important - auto-expanded) -->
+								{#if fdaData.label.dosageAndAdministration}
+									<FdaContentDisplay
+										content={fdaData.label.dosageAndAdministration}
+										title="Adagolás és alkalmazás (Section 2)"
+										variant="info"
+										maxHeight="400px"
+									/>
+								{/if}
+
+								<!-- Section 9: Drug Abuse and Dependence (important for controlled substances) -->
+								{#if fdaData.label.drugAbuseAndDependence || fdaData.label.abuse || fdaData.label.dependence}
+									<details open class="border border-amber-600/50 rounded-lg overflow-hidden">
+										<summary class="px-4 py-2 bg-amber-900/20 border-b border-amber-600/50 flex items-center gap-2 cursor-pointer hover:bg-amber-900/30">
+											<AlertTriangle class="h-4 w-4 text-amber-400" />
+											<span class="font-medium text-amber-300">Visszaélés és függőség (9. szakasz)</span>
+											<span class="ml-auto text-xs text-amber-500/70">kattintson az összezáráshoz</span>
+										</summary>
+										<div class="p-4 bg-slate-800/30 space-y-4 max-h-[400px] overflow-y-auto">
+											{#if fdaData.label.drugAbuseAndDependence}
+												<FdaContentDisplay
+													content={fdaData.label.drugAbuseAndDependence}
+													title="9. Visszaélés és függőség"
+													variant="warning"
+													compact
+													showStats={false}
+													maxHeight="200px"
+												/>
+											{/if}
+											{#if fdaData.label.abuse}
+												<FdaContentDisplay
+													content={fdaData.label.abuse}
+													title="9.1 Visszaélés"
+													variant="warning"
+													compact
+													showStats={false}
+													maxHeight="200px"
+												/>
+											{/if}
+											{#if fdaData.label.dependence}
+												<FdaContentDisplay
+													content={fdaData.label.dependence}
+													title="9.2 Függőség"
+													variant="warning"
+													compact
+													showStats={false}
+													maxHeight="200px"
+												/>
+											{/if}
+										</div>
+									</details>
+								{/if}
+
+								<!-- Section 11: Description (collapsed) -->
+								{#if fdaData.label.description}
+									<details class="border border-slate-600 rounded-lg overflow-hidden">
+										<summary class="px-4 py-2 bg-slate-700/50 border-b border-slate-600 flex items-center gap-2 cursor-pointer hover:bg-slate-700/70">
+											<FileText class="h-4 w-4 text-slate-400" />
+											<span class="font-medium text-slate-300">Leírás (11. szakasz)</span>
+											<span class="ml-auto text-xs text-slate-500">kattintson a kibontáshoz</span>
+										</summary>
+										<div class="p-4 bg-slate-800/30">
+											<FdaContentDisplay
+												content={fdaData.label.description}
+												title="Gyógyszer leírása"
+												variant="info"
+												compact
+												showStats={false}
+												maxHeight="300px"
+											/>
+										</div>
+									</details>
+								{/if}
+
+								<!-- Section 13: Nonclinical Toxicology (collapsed) -->
+								{#if fdaData.label.nonclinicalToxicology || fdaData.label.carcinogenesis || fdaData.label.teratogenicEffects}
+									<details class="border border-slate-600 rounded-lg overflow-hidden">
+										<summary class="px-4 py-2 bg-slate-700/50 border-b border-slate-600 flex items-center gap-2 cursor-pointer hover:bg-slate-700/70">
+											<FlaskConical class="h-4 w-4 text-purple-400" />
+											<span class="font-medium text-slate-300">Nem-klinikai toxikológia (13. szakasz)</span>
+											<span class="ml-auto text-xs text-slate-500">kattintson a kibontáshoz</span>
+										</summary>
+										<div class="p-4 bg-slate-800/30 space-y-4 max-h-[400px] overflow-y-auto">
+											{#if fdaData.label.nonclinicalToxicology}
+												<FdaContentDisplay
+													content={fdaData.label.nonclinicalToxicology}
+													title="13. Nem-klinikai toxikológia"
+													variant="info"
+													compact
+													showStats={false}
+													maxHeight="200px"
+												/>
+											{/if}
+											{#if fdaData.label.carcinogenesis}
+												<FdaContentDisplay
+													content={fdaData.label.carcinogenesis}
+													title="13.1 Karcinogenezis, mutagenezis"
+													variant="info"
+													compact
+													showStats={false}
+													maxHeight="200px"
+												/>
+											{/if}
+											{#if fdaData.label.teratogenicEffects}
+												<FdaContentDisplay
+													content={fdaData.label.teratogenicEffects}
+													title="Teratogén hatások"
+													variant="info"
+													compact
+													showStats={false}
+													maxHeight="200px"
+												/>
+											{/if}
+										</div>
+									</details>
+								{/if}
+
+								<!-- Section 16: How Supplied/Storage (collapsed) -->
+								{#if fdaData.label.howSupplied || fdaData.label.storageAndHandling}
+									<details class="border border-slate-600 rounded-lg overflow-hidden">
+										<summary class="px-4 py-2 bg-slate-700/50 border-b border-slate-600 flex items-center gap-2 cursor-pointer hover:bg-slate-700/70">
+											<Package class="h-4 w-4 text-cyan-400" />
+											<span class="font-medium text-slate-300">Kiszerelés és tárolás (16. szakasz)</span>
+											<span class="ml-auto text-xs text-slate-500">kattintson a kibontáshoz</span>
+										</summary>
+										<div class="p-4 bg-slate-800/30 space-y-4">
+											{#if fdaData.label.howSupplied}
+												<FdaContentDisplay
+													content={fdaData.label.howSupplied}
+													title="16.1 Kiszerelés"
+													variant="info"
+													compact
+													showStats={false}
+													maxHeight="200px"
+												/>
+											{/if}
+											{#if fdaData.label.storageAndHandling}
+												<FdaContentDisplay
+													content={fdaData.label.storageAndHandling}
+													title="16.2 Tárolás és kezelés"
+													variant="info"
+													compact
+													showStats={false}
+													maxHeight="200px"
+												/>
+											{/if}
+										</div>
+									</details>
+								{/if}
+
+								<!-- Section 17: Patient Counseling Information (collapsed) -->
+								{#if fdaData.label.patientMedicationInformation || fdaData.label.informationForPatients}
+									<details class="border border-slate-600 rounded-lg overflow-hidden">
+										<summary class="px-4 py-2 bg-slate-700/50 border-b border-slate-600 flex items-center gap-2 cursor-pointer hover:bg-slate-700/70">
+											<Info class="h-4 w-4 text-emerald-400" />
+											<span class="font-medium text-slate-300">Beteg tájékoztatás (17. szakasz)</span>
+											<span class="ml-auto text-xs text-slate-500">kattintson a kibontáshoz</span>
+										</summary>
+										<div class="p-4 bg-slate-800/30 space-y-4">
+											{#if fdaData.label.patientMedicationInformation}
+												<FdaContentDisplay
+													content={fdaData.label.patientMedicationInformation}
+													title="Gyógyszer információk betegeknek"
+													variant="info"
+													compact
+													showStats={false}
+													maxHeight="300px"
+												/>
+											{/if}
+											{#if fdaData.label.informationForPatients}
+												<FdaContentDisplay
+													content={fdaData.label.informationForPatients}
+													title="Tájékoztató betegek számára"
+													variant="info"
+													compact
+													showStats={false}
+													maxHeight="300px"
+												/>
+											{/if}
+										</div>
+									</details>
+								{/if}
+
+								<!-- Ingredients (important for allergies - auto-expanded) -->
+								{#if fdaData.label.activeIngredient || fdaData.label.inactiveIngredient}
+									<details open class="border border-emerald-600/50 rounded-lg overflow-hidden">
+										<summary class="px-4 py-2 bg-emerald-900/20 border-b border-emerald-600/50 flex items-center gap-2 cursor-pointer hover:bg-emerald-900/30">
+											<Pill class="h-4 w-4 text-emerald-400" />
+											<span class="font-medium text-emerald-300">Összetevők (allergia ellenőrzéshez)</span>
+											<span class="ml-auto text-xs text-emerald-500/70">kattintson az összezáráshoz</span>
+										</summary>
+										<div class="p-4 bg-slate-800/30 space-y-4">
+											{#if fdaData.label.activeIngredient}
+												<div>
+													<h4 class="text-sm font-medium text-emerald-400 mb-2">Hatóanyagok</h4>
+													<div class="text-sm text-slate-300 whitespace-pre-wrap bg-slate-800/50 p-3 rounded-lg">
+														{fdaData.label.activeIngredient}
+													</div>
+												</div>
+											{/if}
+											{#if fdaData.label.inactiveIngredient}
+												<div>
+													<h4 class="text-sm font-medium text-slate-400 mb-2">Segédanyagok (inaktív összetevők)</h4>
+													<div class="text-sm text-slate-400 whitespace-pre-wrap bg-slate-800/50 p-3 rounded-lg max-h-[200px] overflow-y-auto">
+														{fdaData.label.inactiveIngredient}
+													</div>
+												</div>
+											{/if}
 										</div>
 									</details>
 								{/if}
@@ -1925,10 +2387,113 @@
 										{/if}
 									</div>
 								{:else}
-									<div class="text-center py-8 bg-slate-800/30 rounded-lg">
-										<Globe class="h-8 w-8 text-slate-500 mx-auto mb-2" />
-										<p class="text-slate-400">Nincs EU adat: <span class="text-white font-medium">{currentEmaIngredient?.englishName || currentEmaIngredient?.ingredient}</span></p>
-										<p class="text-xs text-slate-500 mt-2">A hatóanyag nem szerepel az EMA központi engedélyezésű gyógyszerei között.</p>
+									<!-- Ingredient Not Found - Show Manual Search -->
+									<div class="py-6 bg-slate-800/30 rounded-lg">
+										<div class="text-center mb-4">
+											<Globe class="h-8 w-8 text-slate-500 mx-auto mb-2" />
+											<p class="text-slate-400">Nincs EU adat: <span class="text-white font-medium">{currentEmaIngredient?.englishName || currentEmaIngredient?.ingredient}</span></p>
+											<p class="text-xs text-slate-500 mt-1">A hatóanyag nem szerepel az EMA központi engedélyezésű gyógyszerei között.</p>
+										</div>
+
+										<!-- Manual Search for this Ingredient -->
+										<div class="max-w-md mx-auto px-4">
+											<p class="text-sm text-slate-400 mb-3 text-center">Próbáljon angol INN névvel keresni:</p>
+											<div class="flex gap-2">
+												<div class="relative flex-1">
+													<input
+														type="text"
+														value={perIngredientEmaSearch.get(activeEmaIngredientTab) || ''}
+														oninput={(e) => {
+															perIngredientEmaSearch = new Map(perIngredientEmaSearch.set(activeEmaIngredientTab, e.currentTarget.value));
+															updatePerIngredientEmaSuggestions(activeEmaIngredientTab, e.currentTarget.value);
+														}}
+														placeholder="pl. {currentEmaIngredient?.englishName || 'ibuprofen'}..."
+														class="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-lg text-white placeholder:text-slate-500 focus:outline-none focus:border-blue-500/50"
+														onfocus={() => {
+															const val = perIngredientEmaSearch.get(activeEmaIngredientTab) || '';
+															if (val.length >= 2) updatePerIngredientEmaSuggestions(activeEmaIngredientTab, val);
+														}}
+														onblur={() => setTimeout(() => showPerIngredientEmaSuggestions = new Map(showPerIngredientEmaSuggestions.set(activeEmaIngredientTab, false)), 200)}
+														onkeydown={(e) => e.key === 'Enter' && handlePerIngredientEmaSearch(activeEmaIngredientTab)}
+													/>
+													<!-- Autocomplete Dropdown -->
+													{#if showPerIngredientEmaSuggestions.get(activeEmaIngredientTab) && (perIngredientEmaSuggestions.get(activeEmaIngredientTab) || []).length > 0}
+														<div class="absolute z-50 w-full mt-1 bg-slate-800 border border-slate-700 rounded-lg shadow-xl max-h-64 overflow-y-auto">
+															{#each perIngredientEmaSuggestions.get(activeEmaIngredientTab) || [] as suggestion}
+																<button
+																	type="button"
+																	class="w-full px-3 py-2 text-left hover:bg-slate-700 transition-colors border-b border-slate-700/50 last:border-0"
+																	onmousedown={() => selectPerIngredientEmaSuggestion(activeEmaIngredientTab, suggestion)}
+																>
+																	<div class="text-sm text-white font-medium">{suggestion.name}</div>
+																	<div class="text-xs text-blue-400">{suggestion.inn}</div>
+																</button>
+															{/each}
+														</div>
+													{/if}
+												</div>
+												<button
+													type="button"
+													onclick={() => handlePerIngredientEmaSearch(activeEmaIngredientTab)}
+													disabled={!(perIngredientEmaSearch.get(activeEmaIngredientTab)?.trim()) || perIngredientEmaLoading.get(activeEmaIngredientTab)}
+													class="px-4 py-2 bg-blue-500/20 hover:bg-blue-500/30 text-blue-400 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+												>
+													{#if perIngredientEmaLoading.get(activeEmaIngredientTab)}
+														<Loader2 class="h-4 w-4 animate-spin" />
+													{:else}
+														<Search class="h-4 w-4" />
+													{/if}
+													Keresés
+												</button>
+											</div>
+
+											<!-- Search Results for this Ingredient -->
+											{#if perIngredientEmaResults.get(activeEmaIngredientTab)?.matched}
+												{@const result = perIngredientEmaResults.get(activeEmaIngredientTab)}
+												<div class="mt-4 p-4 bg-emerald-500/10 border border-emerald-500/30 rounded-lg">
+													<div class="flex items-center gap-2 text-emerald-400 mb-3">
+														<CheckCircle2 class="h-5 w-5" />
+														<span class="font-medium">Találat: {perIngredientEmaSearch.get(activeEmaIngredientTab)}</span>
+													</div>
+													{#if result?.medicine}
+														<div class="grid grid-cols-2 gap-3 text-sm">
+															<div>
+																<span class="text-xs text-slate-500">Gyógyszernév</span>
+																<p class="text-white">{result.medicine.name}</p>
+															</div>
+															<div>
+																<span class="text-xs text-slate-500">Státusz</span>
+																<p class="{result.medicine.status === 'Authorised' ? 'text-green-400' : 'text-amber-400'}">{result.medicine.status}</p>
+															</div>
+															{#if result.medicine.inn}
+																<div>
+																	<span class="text-xs text-slate-500">INN</span>
+																	<p class="text-blue-400">{result.medicine.inn}</p>
+																</div>
+															{/if}
+															{#if result.medicine.therapeuticIndication}
+																<div class="col-span-2">
+																	<span class="text-xs text-slate-500">Terápiás javallat</span>
+																	<p class="text-slate-300 text-sm line-clamp-3">{result.medicine.therapeuticIndication}</p>
+																</div>
+															{/if}
+														</div>
+														{#if result.medicine.productUrl}
+															<a href={result.medicine.productUrl} target="_blank" rel="noopener noreferrer"
+																class="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 text-sm mt-3">
+																<Globe class="h-4 w-4" />
+																EMA termékoldal
+																<ExternalLink class="h-3 w-3" />
+															</a>
+														{/if}
+													{/if}
+												</div>
+											{:else if perIngredientEmaResults.get(activeEmaIngredientTab) === null && perIngredientEmaSearch.get(activeEmaIngredientTab) && !perIngredientEmaLoading.get(activeEmaIngredientTab)}
+												<div class="mt-3 text-center text-sm text-slate-500">
+													Nincs találat. Próbáljon más kifejezést.
+												</div>
+											{/if}
+										</div>
 									</div>
 								{/if}
 

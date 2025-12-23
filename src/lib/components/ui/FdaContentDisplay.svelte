@@ -667,6 +667,100 @@
 		color: rgb(96, 165, 250); /* blue-400 */
 	}
 
+	/* Generic Data Tables (universal parser) */
+	.fda-formatted-content :global(.fda-data-table) {
+		width: 100%;
+		border-collapse: collapse;
+		font-size: 0.9375rem;
+	}
+
+	.fda-formatted-content :global(.fda-data-table th) {
+		background: rgba(71, 85, 105, 0.4);
+		color: rgb(226, 232, 240); /* slate-200 */
+		padding: 0.75rem;
+		text-align: left;
+		font-weight: 600;
+		font-size: 0.875rem;
+		border-bottom: 2px solid rgba(96, 165, 250, 0.3);
+	}
+
+	.fda-formatted-content :global(.fda-data-table td) {
+		padding: 0.625rem 0.75rem;
+		border-bottom: 1px solid rgba(71, 85, 105, 0.3);
+		color: rgb(203, 213, 225); /* slate-300 */
+		vertical-align: top;
+		line-height: 1.5;
+	}
+
+	.fda-formatted-content :global(.fda-data-table tr:last-child td) {
+		border-bottom: none;
+	}
+
+	.fda-formatted-content :global(.fda-data-table tr:hover td) {
+		background: rgba(71, 85, 105, 0.2);
+	}
+
+	.fda-formatted-content :global(.fda-label-cell) {
+		color: rgb(253, 186, 116); /* amber-300 */
+		font-weight: 500;
+		min-width: 120px;
+	}
+
+	.fda-formatted-content :global(.fda-data-cell) {
+		text-align: center;
+		font-family: ui-monospace, monospace;
+		font-size: 0.875rem;
+	}
+
+	/* Aligned Table variant (adverse reactions) */
+	.fda-formatted-content :global(.fda-aligned-table .fda-table-header) {
+		background: rgba(239, 68, 68, 0.15);
+		color: rgb(252, 165, 165);
+		border-bottom-color: rgba(239, 68, 68, 0.3);
+	}
+
+	.fda-formatted-content :global(.fda-aligned-table .fda-data-table th) {
+		background: rgba(239, 68, 68, 0.1);
+		text-align: center;
+	}
+
+	.fda-formatted-content :global(.fda-aligned-table .fda-data-table th:first-child) {
+		text-align: left;
+	}
+
+	.fda-formatted-content :global(.fda-aligned-table .fda-data-table tr:hover td) {
+		background: rgba(239, 68, 68, 0.08);
+	}
+
+	/* Figure References */
+	.fda-formatted-content :global(.fda-figure-ref) {
+		margin: 1.25rem 0;
+		padding: 1rem;
+		background: rgba(168, 85, 247, 0.1);
+		border: 1px solid rgba(168, 85, 247, 0.3);
+		border-radius: 0.5rem;
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+	}
+
+	.fda-formatted-content :global(.fda-figure-label) {
+		color: rgb(192, 132, 252); /* purple-400 */
+		font-weight: 600;
+		font-size: 1rem;
+	}
+
+	.fda-formatted-content :global(.fda-figure-caption) {
+		color: rgb(226, 232, 240); /* slate-200 */
+		font-size: 0.9375rem;
+	}
+
+	.fda-formatted-content :global(.fda-figure-note) {
+		color: rgb(148, 163, 184); /* slate-400 */
+		font-size: 0.8125rem;
+		font-style: italic;
+	}
+
 	/* Subsection headers with section numbers */
 	.fda-formatted-content :global(.fda-subsection-header) {
 		display: block;

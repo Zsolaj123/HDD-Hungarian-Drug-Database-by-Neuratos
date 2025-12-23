@@ -45,6 +45,28 @@ export interface OpenFdaDrugLabel {
 	pharmacokinetics: string | null;
 	// Section 14: Clinical Studies
 	clinicalStudies: string | null;
+	// Additional FDA fields for comprehensive display
+	description: string | null;                    // Section 11: Drug description
+	howSupplied: string | null;                    // Section 16: How supplied/storage
+	storageAndHandling: string | null;             // Storage instructions
+	patientMedicationInformation: string | null;   // Section 17: Patient counseling
+	informationForPatients: string | null;         // Patient information
+	precautions: string | null;                    // General precautions
+	activeIngredient: string | null;               // Active ingredients
+	inactiveIngredient: string | null;             // Inactive ingredients
+	abuse: string | null;                          // Section 9.1: Abuse
+	dependence: string | null;                     // Section 9.2: Dependence
+	drugAbuseAndDependence: string | null;         // Section 9: Combined
+	recentMajorChanges: string | null;             // Recent label changes
+	nonclinicalToxicology: string | null;          // Section 13: Nonclinical toxicology
+	carcinogenesis: string | null;                 // Section 13.1: Carcinogenesis
+	teratogenicEffects: string | null;             // Teratogenic effects
+	reproductionStudies: string | null;            // Reproductive studies
+	// OpenFDA metadata
+	rxcui: string[];                               // RxNorm Concept Unique Identifier
+	pharmClassMoa: string[];                       // Mechanism of action classes
+	pharmClassEpc: string[];                       // Established pharmacologic class
+	pharmClassCs: string[];                        // Chemical structure class
 	// Metadata
 	setId: string;
 	effectiveTime: string;
@@ -165,6 +187,31 @@ function parseLabel(result: Record<string, unknown>): OpenFdaDrugLabel {
 		pharmacokinetics: cleanLabelText(result.pharmacokinetics as string[]),
 		// Section 14: Clinical Studies
 		clinicalStudies: cleanLabelText(result.clinical_studies as string[]),
+		// Additional comprehensive fields
+		description: cleanLabelText(result.description as string[]),
+		howSupplied: cleanLabelText(result.how_supplied as string[]) ||
+			cleanLabelText(result.how_supplied_storage_and_handling as string[]),
+		storageAndHandling: cleanLabelText(result.storage_and_handling as string[]),
+		patientMedicationInformation: cleanLabelText(result.patient_medication_information as string[]),
+		informationForPatients: cleanLabelText(result.information_for_patients as string[]) ||
+			cleanLabelText(result.patient_package_insert as string[]),
+		precautions: cleanLabelText(result.precautions as string[]) ||
+			cleanLabelText(result.general_precautions as string[]),
+		activeIngredient: cleanLabelText(result.active_ingredient as string[]),
+		inactiveIngredient: cleanLabelText(result.inactive_ingredient as string[]),
+		abuse: cleanLabelText(result.abuse as string[]),
+		dependence: cleanLabelText(result.dependence as string[]),
+		drugAbuseAndDependence: cleanLabelText(result.drug_abuse_and_dependence as string[]),
+		recentMajorChanges: cleanLabelText(result.recent_major_changes as string[]),
+		nonclinicalToxicology: cleanLabelText(result.nonclinical_toxicology as string[]),
+		carcinogenesis: cleanLabelText(result.carcinogenesis_and_mutagenesis_and_impairment_of_fertility as string[]),
+		teratogenicEffects: cleanLabelText(result.teratogenic_effects as string[]),
+		reproductionStudies: cleanLabelText(result.animal_pharmacology_and_or_toxicology as string[]),
+		// OpenFDA metadata
+		rxcui: openfda.rxcui || [],
+		pharmClassMoa: openfda.pharm_class_moa || [],
+		pharmClassEpc: openfda.pharm_class_epc || [],
+		pharmClassCs: openfda.pharm_class_cs || [],
 		// Metadata
 		setId: (result.set_id as string) || '',
 		effectiveTime: (result.effective_time as string) || ''
