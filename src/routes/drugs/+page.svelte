@@ -908,9 +908,9 @@
 				</div>
 
 				<!-- Tabs - Mobile optimized with scroll indicator -->
-				<div class="border-b border-slate-800 relative">
+				<div class="border-b border-slate-800 relative overflow-hidden">
 					<nav
-						class="flex overflow-x-auto scrollbar-hide"
+						class="tabs-scroll-container scrollbar-hide"
 						onscroll={() => tabsScrolled = true}
 					>
 						<button
@@ -2919,9 +2919,23 @@
 	.scrollbar-hide {
 		-ms-overflow-style: none;
 		scrollbar-width: none;
+		-webkit-overflow-scrolling: touch;
 	}
 	.scrollbar-hide::-webkit-scrollbar {
 		display: none;
+	}
+
+	/* Ensure tabs can scroll on mobile */
+	.tabs-scroll-container {
+		display: flex;
+		overflow-x: auto;
+		overflow-y: hidden;
+		-webkit-overflow-scrolling: touch;
+		scroll-behavior: smooth;
+		touch-action: pan-x;
+	}
+	.tabs-scroll-container > * {
+		flex-shrink: 0;
 	}
 
 	/* Galaxy Brutalist BNO Code Cards */
