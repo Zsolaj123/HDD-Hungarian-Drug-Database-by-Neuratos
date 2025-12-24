@@ -65,7 +65,8 @@
 		Shield,
 		Globe,
 		ChevronDown,
-		ChevronUp
+		ChevronUp,
+		ChevronRight
 	} from 'lucide-svelte';
 	import { fade, slide } from 'svelte/transition';
 
@@ -75,6 +76,7 @@
 
 	let selectedDrug = $state<Drug | null>(null);
 	let activeTab = $state<'basic' | 'indications' | 'fda' | 'ema'>('basic');
+	let tabsScrolled = $state(false);
 
 	// Collapsible sections in Alapadatok
 	let showDosageSection = $state(true);
@@ -905,12 +907,15 @@
 					</div>
 				</div>
 
-				<!-- Tabs - Mobile optimized: 4 main tabs only -->
-				<div class="border-b border-slate-800">
-					<nav class="flex overflow-x-auto">
+				<!-- Tabs - Mobile optimized with scroll indicator -->
+				<div class="border-b border-slate-800 relative">
+					<nav
+						class="flex overflow-x-auto scrollbar-hide"
+						onscroll={() => tabsScrolled = true}
+					>
 						<button
 							type="button"
-							class="flex items-center gap-2 px-4 py-3 text-sm font-medium border-b-2 transition-colors whitespace-nowrap
+							class="flex items-center gap-2 px-3 sm:px-4 py-3 text-sm font-medium border-b-2 transition-colors whitespace-nowrap
 								{activeTab === 'basic'
 									? 'text-blue-400 border-blue-500 bg-blue-500/5'
 									: 'text-slate-400 border-transparent hover:text-white hover:bg-slate-800/50'}"
@@ -922,7 +927,7 @@
 						</button>
 						<button
 							type="button"
-							class="flex items-center gap-2 px-4 py-3 text-sm font-medium border-b-2 transition-colors whitespace-nowrap
+							class="flex items-center gap-2 px-3 sm:px-4 py-3 text-sm font-medium border-b-2 transition-colors whitespace-nowrap
 								{activeTab === 'indications'
 									? 'text-emerald-400 border-emerald-500 bg-emerald-500/5'
 									: 'text-slate-400 border-transparent hover:text-white hover:bg-slate-800/50'}"
@@ -939,7 +944,7 @@
 						</button>
 						<button
 							type="button"
-							class="flex items-center gap-2 px-4 py-3 text-sm font-medium border-b-2 transition-colors whitespace-nowrap
+							class="flex items-center gap-2 px-3 sm:px-4 py-3 text-sm font-medium border-b-2 transition-colors whitespace-nowrap
 								{activeTab === 'fda'
 									? 'text-red-400 border-red-500 bg-red-500/5'
 									: 'text-slate-400 border-transparent hover:text-white hover:bg-slate-800/50'}"
@@ -961,7 +966,7 @@
 						</button>
 						<button
 							type="button"
-							class="flex items-center gap-2 px-4 py-3 text-sm font-medium border-b-2 transition-colors whitespace-nowrap
+							class="flex items-center gap-2 px-3 sm:px-4 py-3 text-sm font-medium border-b-2 transition-colors whitespace-nowrap
 								{activeTab === 'ema'
 									? 'text-blue-400 border-blue-500 bg-blue-500/5'
 									: 'text-slate-400 border-transparent hover:text-white hover:bg-slate-800/50'}"
@@ -975,13 +980,25 @@
 							href="https://www.pharmindex-online.hu/kereses?q={encodeURIComponent(selectedDrug?.name || '')}"
 							target="_blank"
 							rel="noopener noreferrer"
-							class="hidden sm:flex items-center gap-2 px-4 py-3 text-sm font-medium border-b-2 transition-colors whitespace-nowrap
+							class="flex items-center gap-2 px-3 sm:px-4 py-3 text-sm font-medium border-b-2 transition-colors whitespace-nowrap
 								text-slate-400 border-transparent hover:text-emerald-400 hover:bg-emerald-500/5"
 						>
 							<ExternalLink class="h-4 w-4" />
-							Pharmindex
+							<span class="hidden sm:inline">Pharmindex</span>
+							<span class="sm:hidden">PhIdx</span>
 						</a>
 					</nav>
+					<!-- Scroll indicator for mobile -->
+					{#if !tabsScrolled}
+						<div class="sm:hidden absolute right-0 top-0 bottom-0 flex items-center pointer-events-none">
+							<div class="bg-gradient-to-l from-slate-900 via-slate-900/90 to-transparent pl-6 pr-2 h-full flex items-center">
+								<div class="flex items-center gap-0.5 text-emerald-400 animate-pulse">
+									<ChevronRight class="h-4 w-4" />
+									<span class="text-xs font-medium">+1</span>
+								</div>
+							</div>
+						</div>
+					{/if}
 				</div>
 
 				<!-- Tab Content -->
@@ -2898,6 +2915,15 @@
 />
 
 <style>
+	/* Hide scrollbar but allow scrolling */
+	.scrollbar-hide {
+		-ms-overflow-style: none;
+		scrollbar-width: none;
+	}
+	.scrollbar-hide::-webkit-scrollbar {
+		display: none;
+	}
+
 	/* Galaxy Brutalist BNO Code Cards */
 	:global(.bno-code-card) {
 		transition: all 0.15s ease;
