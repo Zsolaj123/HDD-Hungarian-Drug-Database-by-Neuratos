@@ -63,7 +63,9 @@
 		Brain,
 		Heart,
 		Shield,
-		Globe
+		Globe,
+		ChevronDown,
+		ChevronUp
 	} from 'lucide-svelte';
 	import { fade, slide } from 'svelte/transition';
 
@@ -72,7 +74,12 @@
 	// ============================================================================
 
 	let selectedDrug = $state<Drug | null>(null);
-	let activeTab = $state<'basic' | 'dosage' | 'packaging' | 'regulatory' | 'indications' | 'fda' | 'ema'>('basic');
+	let activeTab = $state<'basic' | 'indications' | 'fda' | 'ema'>('basic');
+
+	// Collapsible sections in Alapadatok
+	let showDosageSection = $state(true);
+	let showPackagingSection = $state(true);
+	let showRegulatorySection = $state(true);
 	let isLoading = $state(false);
 	let showFilters = $state(false);
 
@@ -898,63 +905,32 @@
 					</div>
 				</div>
 
-				<!-- Tabs -->
+				<!-- Tabs - Mobile optimized: 4 main tabs only -->
 				<div class="border-b border-slate-800">
 					<nav class="flex overflow-x-auto">
 						<button
 							type="button"
-							class="flex items-center gap-2 px-5 py-3 text-sm font-medium border-b-2 transition-colors whitespace-nowrap
+							class="flex items-center gap-2 px-4 py-3 text-sm font-medium border-b-2 transition-colors whitespace-nowrap
 								{activeTab === 'basic'
 									? 'text-blue-400 border-blue-500 bg-blue-500/5'
 									: 'text-slate-400 border-transparent hover:text-white hover:bg-slate-800/50'}"
 							onclick={() => activeTab = 'basic'}
 						>
 							<Info class="h-4 w-4" />
-							Alapadatok
+							<span class="hidden sm:inline">Alapadatok</span>
+							<span class="sm:hidden">Alap</span>
 						</button>
 						<button
 							type="button"
-							class="flex items-center gap-2 px-5 py-3 text-sm font-medium border-b-2 transition-colors whitespace-nowrap
-								{activeTab === 'dosage'
-									? 'text-blue-400 border-blue-500 bg-blue-500/5'
-									: 'text-slate-400 border-transparent hover:text-white hover:bg-slate-800/50'}"
-							onclick={() => activeTab = 'dosage'}
-						>
-							<Pill class="h-4 w-4" />
-							Adagolás
-						</button>
-						<button
-							type="button"
-							class="flex items-center gap-2 px-5 py-3 text-sm font-medium border-b-2 transition-colors whitespace-nowrap
-								{activeTab === 'packaging'
-									? 'text-blue-400 border-blue-500 bg-blue-500/5'
-									: 'text-slate-400 border-transparent hover:text-white hover:bg-slate-800/50'}"
-							onclick={() => activeTab = 'packaging'}
-						>
-							<Package class="h-4 w-4" />
-							Kiszerelés
-						</button>
-						<button
-							type="button"
-							class="flex items-center gap-2 px-5 py-3 text-sm font-medium border-b-2 transition-colors whitespace-nowrap
-								{activeTab === 'regulatory'
-									? 'text-blue-400 border-blue-500 bg-blue-500/5'
-									: 'text-slate-400 border-transparent hover:text-white hover:bg-slate-800/50'}"
-							onclick={() => activeTab = 'regulatory'}
-						>
-							<FileText class="h-4 w-4" />
-							Szabályozás
-						</button>
-						<button
-							type="button"
-							class="flex items-center gap-2 px-5 py-3 text-sm font-medium border-b-2 transition-colors whitespace-nowrap
+							class="flex items-center gap-2 px-4 py-3 text-sm font-medium border-b-2 transition-colors whitespace-nowrap
 								{activeTab === 'indications'
 									? 'text-emerald-400 border-emerald-500 bg-emerald-500/5'
 									: 'text-slate-400 border-transparent hover:text-white hover:bg-slate-800/50'}"
 							onclick={() => activeTab = 'indications'}
 						>
 							<Stethoscope class="h-4 w-4" />
-							Indikációk
+							<span class="hidden sm:inline">Indikációk</span>
+							<span class="sm:hidden">BNO</span>
 							{#if drugIndications?.bnoCodes && drugIndications.bnoCodes.length > 0}
 								<span class="px-1.5 py-0.5 text-xs bg-emerald-500/20 text-emerald-400 rounded">
 									{drugIndications.bnoCodes.length}
@@ -963,7 +939,7 @@
 						</button>
 						<button
 							type="button"
-							class="flex items-center gap-2 px-5 py-3 text-sm font-medium border-b-2 transition-colors whitespace-nowrap
+							class="flex items-center gap-2 px-4 py-3 text-sm font-medium border-b-2 transition-colors whitespace-nowrap
 								{activeTab === 'fda'
 									? 'text-red-400 border-red-500 bg-red-500/5'
 									: 'text-slate-400 border-transparent hover:text-white hover:bg-slate-800/50'}"
@@ -975,29 +951,31 @@
 							}}
 						>
 							<ShieldAlert class="h-4 w-4" />
-							FDA Klinikai
+							<span class="hidden sm:inline">FDA Klinikai</span>
+							<span class="sm:hidden">FDA</span>
 							{#if fdaData?.found}
 								<span class="px-1.5 py-0.5 text-xs bg-red-500/20 text-red-400 rounded">
-									FDA
+									✓
 								</span>
 							{/if}
 						</button>
 						<button
 							type="button"
-							class="flex items-center gap-2 px-5 py-3 text-sm font-medium border-b-2 transition-colors whitespace-nowrap
+							class="flex items-center gap-2 px-4 py-3 text-sm font-medium border-b-2 transition-colors whitespace-nowrap
 								{activeTab === 'ema'
 									? 'text-blue-400 border-blue-500 bg-blue-500/5'
 									: 'text-slate-400 border-transparent hover:text-white hover:bg-slate-800/50'}"
 							onclick={() => activeTab = 'ema'}
 						>
 							<Globe class="h-4 w-4" />
-							EMA (EU)
+							<span class="hidden sm:inline">EMA (EU)</span>
+							<span class="sm:hidden">EMA</span>
 						</button>
 						<a
 							href="https://www.pharmindex-online.hu/kereses?q={encodeURIComponent(selectedDrug?.name || '')}"
 							target="_blank"
 							rel="noopener noreferrer"
-							class="flex items-center gap-2 px-5 py-3 text-sm font-medium border-b-2 transition-colors whitespace-nowrap
+							class="hidden sm:flex items-center gap-2 px-4 py-3 text-sm font-medium border-b-2 transition-colors whitespace-nowrap
 								text-slate-400 border-transparent hover:text-emerald-400 hover:bg-emerald-500/5"
 						>
 							<ExternalLink class="h-4 w-4" />
@@ -1007,197 +985,213 @@
 				</div>
 
 				<!-- Tab Content -->
-				<div class="p-6 relative overflow-hidden min-h-[200px]">
+				<div class="p-4 sm:p-6 relative overflow-hidden min-h-[200px]">
 					{#key activeTab}
 						<div in:fade={{ duration: 200, delay: 80 }} out:fade={{ duration: 80 }}>
 					{#if activeTab === 'basic'}
-						<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-							<!-- Hatóanyag -->
-							<div>
-								<div class="flex items-center gap-2 text-xs text-slate-500 mb-1">
-									<FlaskConical class="h-3.5 w-3.5" />
-									<span>Hatóanyag</span>
+						<div class="space-y-4">
+							<!-- Basic Info Grid - Always visible -->
+							<div class="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
+								<!-- Hatóanyag -->
+								<div class="col-span-2 sm:col-span-1">
+									<div class="flex items-center gap-1.5 text-xs text-slate-500 mb-0.5">
+										<FlaskConical class="h-3 w-3" />
+										<span>Hatóanyag</span>
+									</div>
+									<p class="text-sm sm:text-base text-blue-400 font-semibold">{selectedDrug.activeIngredient || '-'}</p>
 								</div>
-								<p class="text-base text-blue-400 font-semibold">{selectedDrug.activeIngredient || '-'}</p>
-							</div>
-							<!-- ATC kód -->
-							<div>
-								<div class="flex items-center gap-2 text-xs text-slate-500 mb-1">
-									<Tag class="h-3.5 w-3.5" />
-									<span>ATC kód</span>
-								</div>
-								<p class="text-base text-white font-mono">{selectedDrug.atcCode || '-'}</p>
-							</div>
-							<!-- Beviteli mód -->
-							<div>
-								<div class="flex items-center gap-2 text-xs text-slate-500 mb-1">
-									<Info class="h-3.5 w-3.5" />
-									<span>Beviteli mód</span>
-								</div>
-								<p class="text-base text-white">{getRouteLabel(selectedDrug.route)}</p>
-							</div>
-							<!-- Gyógyszerforma -->
-							<div>
-								<div class="flex items-center gap-2 text-xs text-slate-500 mb-1">
-									<Package class="h-3.5 w-3.5" />
-									<span>Gyógyszerforma</span>
-								</div>
-								<p class="text-base text-white">{selectedDrug.form || '-'}</p>
-							</div>
-							<!-- Gyártó -->
-							<div>
-								<div class="flex items-center gap-2 text-xs text-slate-500 mb-1">
-									<Building2 class="h-3.5 w-3.5" />
-									<span>Gyártó</span>
-								</div>
-								<p class="text-base text-white">{selectedDrug.manufacturer || '-'}</p>
-							</div>
-							<!-- Alap név -->
-							{#if selectedDrug.baseName}
+								<!-- ATC kód -->
 								<div>
-									<div class="flex items-center gap-2 text-xs text-slate-500 mb-1">
-										<Pill class="h-3.5 w-3.5" />
-										<span>Alap név</span>
+									<div class="flex items-center gap-1.5 text-xs text-slate-500 mb-0.5">
+										<Tag class="h-3 w-3" />
+										<span>ATC</span>
 									</div>
-									<p class="text-base text-white">{selectedDrug.baseName}</p>
+									<p class="text-sm sm:text-base text-white font-mono">{selectedDrug.atcCode || '-'}</p>
 								</div>
-							{/if}
-						</div>
-					{:else if activeTab === 'dosage'}
-						<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-							<!-- Dózis -->
-							<div>
-								<div class="flex items-center gap-2 text-xs text-slate-500 mb-1">
-									<Pill class="h-3.5 w-3.5" />
-									<span>Dózis</span>
+								<!-- Gyártó -->
+								<div>
+									<div class="flex items-center gap-1.5 text-xs text-slate-500 mb-0.5">
+										<Building2 class="h-3 w-3" />
+										<span>Gyártó</span>
+									</div>
+									<p class="text-sm sm:text-base text-white truncate">{selectedDrug.manufacturer || '-'}</p>
 								</div>
-								<p class="text-xl text-blue-400 font-semibold">{selectedDrug.dosage || '-'}</p>
+								<!-- Beviteli mód -->
+								<div>
+									<div class="flex items-center gap-1.5 text-xs text-slate-500 mb-0.5">
+										<Info class="h-3 w-3" />
+										<span>Bevitel</span>
+									</div>
+									<p class="text-sm sm:text-base text-white">{getRouteLabel(selectedDrug.route)}</p>
+								</div>
+								<!-- Gyógyszerforma -->
+								<div>
+									<div class="flex items-center gap-1.5 text-xs text-slate-500 mb-0.5">
+										<Package class="h-3 w-3" />
+										<span>Forma</span>
+									</div>
+									<p class="text-sm sm:text-base text-white">{selectedDrug.form || '-'}</p>
+								</div>
+								<!-- Dózis - moved from Adagolás -->
+								<div>
+									<div class="flex items-center gap-1.5 text-xs text-slate-500 mb-0.5">
+										<Pill class="h-3 w-3" />
+										<span>Dózis</span>
+									</div>
+									<p class="text-sm sm:text-base text-blue-400 font-semibold">{selectedDrug.dosage || '-'}</p>
+								</div>
 							</div>
-							<!-- DDD -->
-							<div>
-								<div class="flex items-center gap-2 text-xs text-slate-500 mb-1">
-									<Calendar class="h-3.5 w-3.5" />
-									<span>DDD (Napi dózis)</span>
-								</div>
-								<p class="text-base text-white">{formatDDD(selectedDrug.ddd)}</p>
+
+							<!-- Collapsible: Adagolás & DDD -->
+							<div class="border border-slate-800 rounded-lg overflow-hidden">
+								<button
+									type="button"
+									class="w-full flex items-center justify-between p-3 bg-slate-800/30 hover:bg-slate-800/50 transition-colors"
+									onclick={() => showDosageSection = !showDosageSection}
+								>
+									<span class="flex items-center gap-2 text-sm font-medium text-slate-300">
+										<Pill class="h-4 w-4 text-blue-400" />
+										Adagolás részletek
+									</span>
+									{#if showDosageSection}
+										<ChevronUp class="h-4 w-4 text-slate-400" />
+									{:else}
+										<ChevronDown class="h-4 w-4 text-slate-400" />
+									{/if}
+								</button>
+								{#if showDosageSection}
+									<div class="p-3 grid grid-cols-2 gap-3 border-t border-slate-800" transition:slide={{ duration: 150 }}>
+										<div>
+											<div class="text-xs text-slate-500 mb-0.5">DDD (Napi dózis)</div>
+											<p class="text-sm text-white">{formatDDD(selectedDrug.ddd)}</p>
+										</div>
+										{#if selectedDrug.baseName}
+											<div>
+												<div class="text-xs text-slate-500 mb-0.5">Alap név</div>
+												<p class="text-sm text-white">{selectedDrug.baseName}</p>
+											</div>
+										{/if}
+									</div>
+								{/if}
 							</div>
-							<!-- Beviteli mód -->
-							<div>
-								<div class="flex items-center gap-2 text-xs text-slate-500 mb-1">
-									<Info class="h-3.5 w-3.5" />
-									<span>Beviteli mód</span>
-								</div>
-								<p class="text-base text-white">{getRouteLabel(selectedDrug.route)}</p>
+
+							<!-- Collapsible: Kiszerelés -->
+							<div class="border border-slate-800 rounded-lg overflow-hidden">
+								<button
+									type="button"
+									class="w-full flex items-center justify-between p-3 bg-slate-800/30 hover:bg-slate-800/50 transition-colors"
+									onclick={() => showPackagingSection = !showPackagingSection}
+								>
+									<span class="flex items-center gap-2 text-sm font-medium text-slate-300">
+										<Package class="h-4 w-4 text-emerald-400" />
+										Kiszerelés
+										{#if selectedDrug.packSizes && selectedDrug.packSizes.length > 0}
+											<span class="text-xs text-slate-500">({selectedDrug.packSizes.length})</span>
+										{/if}
+									</span>
+									{#if showPackagingSection}
+										<ChevronUp class="h-4 w-4 text-slate-400" />
+									{:else}
+										<ChevronDown class="h-4 w-4 text-slate-400" />
+									{/if}
+								</button>
+								{#if showPackagingSection}
+									<div class="p-3 space-y-3 border-t border-slate-800" transition:slide={{ duration: 150 }}>
+										{#if selectedDrug.packSizes && selectedDrug.packSizes.length > 0}
+											<div class="flex flex-wrap gap-1.5">
+												{#each selectedDrug.packSizes as packSize}
+													<span class="px-2 py-1 bg-slate-800 border border-slate-700 rounded text-xs text-slate-300">
+														{packSize}
+													</span>
+												{/each}
+											</div>
+										{:else if selectedDrug.packSize}
+											<p class="text-sm text-white">{selectedDrug.packSize}</p>
+										{/if}
+										{#if selectedDrug.eanCode || selectedDrug.productCode}
+											<div class="grid grid-cols-2 gap-3 pt-2 border-t border-slate-800/50">
+												{#if selectedDrug.eanCode}
+													<div>
+														<div class="text-xs text-slate-500 mb-0.5">EAN</div>
+														<p class="text-xs text-white font-mono">{selectedDrug.eanCode}</p>
+													</div>
+												{/if}
+												{#if selectedDrug.productCode}
+													<div>
+														<div class="text-xs text-slate-500 mb-0.5">Termékkód</div>
+														<p class="text-xs text-white font-mono">{selectedDrug.productCode}</p>
+													</div>
+												{/if}
+											</div>
+										{/if}
+									</div>
+								{/if}
 							</div>
-							<!-- Gyógyszerforma -->
-							{#if selectedDrug.form}
-								<div>
-									<div class="flex items-center gap-2 text-xs text-slate-500 mb-1">
-										<Package class="h-3.5 w-3.5" />
-										<span>Gyógyszerforma</span>
+
+							<!-- Collapsible: Szabályozás -->
+							<div class="border border-slate-800 rounded-lg overflow-hidden">
+								<button
+									type="button"
+									class="w-full flex items-center justify-between p-3 bg-slate-800/30 hover:bg-slate-800/50 transition-colors"
+									onclick={() => showRegulatorySection = !showRegulatorySection}
+								>
+									<span class="flex items-center gap-2 text-sm font-medium text-slate-300">
+										<FileText class="h-4 w-4 text-amber-400" />
+										Szabályozás
+									</span>
+									{#if showRegulatorySection}
+										<ChevronUp class="h-4 w-4 text-slate-400" />
+									{:else}
+										<ChevronDown class="h-4 w-4 text-slate-400" />
+									{/if}
+								</button>
+								{#if showRegulatorySection}
+									<div class="p-3 space-y-3 border-t border-slate-800" transition:slide={{ duration: 150 }}>
+										<div class="grid grid-cols-2 gap-3">
+											<div>
+												<div class="text-xs text-slate-500 mb-0.5">Vénykötelesség</div>
+												<p class="text-sm text-white">{getPrescriptionLabel(selectedDrug.prescriptionRequired)}</p>
+											</div>
+											<div>
+												<div class="text-xs text-slate-500 mb-0.5">Forgalmazás</div>
+												<p class="text-sm text-white">{getMarketLabel(selectedDrug.inMarket)}</p>
+											</div>
+										</div>
+										{#if selectedDrug.tttCode || (selectedDrug.tttCodes && selectedDrug.tttCodes.length > 0)}
+											<div class="pt-2 border-t border-slate-800/50">
+												<div class="text-xs text-slate-500 mb-1">TTT kód{selectedDrug.tttCodes && selectedDrug.tttCodes.length > 1 ? 'ok' : ''}</div>
+												<div class="flex flex-wrap gap-1">
+													{#if selectedDrug.tttCodes && selectedDrug.tttCodes.length > 1}
+														{#each selectedDrug.tttCodes as code}
+															<span class="px-1.5 py-0.5 bg-slate-800 border border-slate-700 rounded text-xs font-mono text-slate-300">
+																{code}
+															</span>
+														{/each}
+													{:else if selectedDrug.tttCode}
+														<span class="text-xs font-mono text-white">{selectedDrug.tttCode}</span>
+													{/if}
+												</div>
+											</div>
+										{/if}
+										{#if selectedDrug.validFrom || selectedDrug.validUntil}
+											<div class="grid grid-cols-2 gap-3 pt-2 border-t border-slate-800/50">
+												{#if selectedDrug.validFrom}
+													<div>
+														<div class="text-xs text-slate-500 mb-0.5">Érvényes</div>
+														<p class="text-xs text-white">{selectedDrug.validFrom}</p>
+													</div>
+												{/if}
+												{#if selectedDrug.validUntil}
+													<div>
+														<div class="text-xs text-slate-500 mb-0.5">Lejár</div>
+														<p class="text-xs text-white">{selectedDrug.validUntil}</p>
+													</div>
+												{/if}
+											</div>
+										{/if}
 									</div>
-									<p class="text-base text-white">{selectedDrug.form}</p>
-								</div>
-							{/if}
-						</div>
-					{:else if activeTab === 'packaging'}
-						<div class="space-y-6">
-							{#if selectedDrug.packSizes && selectedDrug.packSizes.length > 0}
-								<div>
-									<h3 class="text-sm font-medium text-slate-400 mb-3">Elérhető kiszerelések ({selectedDrug.packSizes.length})</h3>
-									<div class="flex flex-wrap gap-2">
-										{#each selectedDrug.packSizes as packSize}
-											<span class="px-3 py-1.5 bg-slate-800 border border-slate-700 rounded-lg text-sm text-slate-300">
-												{packSize}
-											</span>
-										{/each}
-									</div>
-								</div>
-							{:else if selectedDrug.packSize}
-								<div>
-									<div class="flex items-center gap-2 text-xs text-slate-500 mb-1">
-										<Package class="h-3.5 w-3.5" />
-										<span>Kiszerelés</span>
-									</div>
-									<p class="text-base text-white">{selectedDrug.packSize}</p>
-								</div>
-							{/if}
-							{#if selectedDrug.eanCode}
-								<div>
-									<div class="flex items-center gap-2 text-xs text-slate-500 mb-1">
-										<Tag class="h-3.5 w-3.5" />
-										<span>EAN kód</span>
-									</div>
-									<p class="text-base text-white font-mono">{selectedDrug.eanCode}</p>
-								</div>
-							{/if}
-							{#if selectedDrug.productCode}
-								<div>
-									<div class="flex items-center gap-2 text-xs text-slate-500 mb-1">
-										<Tag class="h-3.5 w-3.5" />
-										<span>Termékkód</span>
-									</div>
-									<p class="text-base text-white font-mono">{selectedDrug.productCode}</p>
-								</div>
-							{/if}
-						</div>
-					{:else if activeTab === 'regulatory'}
-						<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-							{#if selectedDrug.tttCode}
-								<div>
-									<div class="flex items-center gap-2 text-xs text-slate-500 mb-1">
-										<Tag class="h-3.5 w-3.5" />
-										<span>TTT kód</span>
-									</div>
-									<p class="text-base text-white font-mono">{selectedDrug.tttCode}</p>
-								</div>
-							{/if}
-							{#if selectedDrug.tttCodes && selectedDrug.tttCodes.length > 1}
-								<div class="md:col-span-2">
-									<h3 class="text-sm font-medium text-slate-400 mb-2">Összes TTT kód ({selectedDrug.tttCodes.length})</h3>
-									<div class="flex flex-wrap gap-2">
-										{#each selectedDrug.tttCodes as code}
-											<span class="px-2 py-1 bg-slate-800 border border-slate-700 rounded text-xs font-mono text-slate-300">
-												{code}
-											</span>
-										{/each}
-									</div>
-								</div>
-							{/if}
-							<!-- Vénykötelesség -->
-							<div>
-								<div class="flex items-center gap-2 text-xs text-slate-500 mb-1">
-									<FileText class="h-3.5 w-3.5" />
-									<span>Vénykötelesség</span>
-								</div>
-								<p class="text-base text-white">{getPrescriptionLabel(selectedDrug.prescriptionRequired)}</p>
+								{/if}
 							</div>
-							<!-- Forgalmazási státusz -->
-							<div>
-								<div class="flex items-center gap-2 text-xs text-slate-500 mb-1">
-									<CheckCircle2 class="h-3.5 w-3.5" />
-									<span>Forgalmazási státusz</span>
-								</div>
-								<p class="text-base text-white">{getMarketLabel(selectedDrug.inMarket)}</p>
-							</div>
-							{#if selectedDrug.validFrom}
-								<div>
-									<div class="flex items-center gap-2 text-xs text-slate-500 mb-1">
-										<Calendar class="h-3.5 w-3.5" />
-										<span>Érvényesség kezdete</span>
-									</div>
-									<p class="text-base text-white">{selectedDrug.validFrom}</p>
-								</div>
-							{/if}
-							{#if selectedDrug.validUntil}
-								<div>
-									<div class="flex items-center gap-2 text-xs text-slate-500 mb-1">
-										<Calendar class="h-3.5 w-3.5" />
-										<span>Érvényesség vége</span>
-									</div>
-									<p class="text-base text-white">{selectedDrug.validUntil}</p>
-								</div>
-							{/if}
 						</div>
 					{:else if activeTab === 'indications'}
 						<div class="space-y-6">

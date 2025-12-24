@@ -31,7 +31,10 @@
 		Pill,
 		ExternalLink,
 		AlertCircle,
-		Activity
+		Activity,
+		ChevronDown,
+		ChevronUp,
+		ArrowDownCircle
 	} from 'lucide-svelte';
 	import { goto } from '$app/navigation';
 	import { fade, slide } from 'svelte/transition';
@@ -55,6 +58,7 @@
 	let activeSystemFilter = $state<{ systemId: string; subgroupId?: string } | null>(null);
 	let systemFilteredResults = $state<BnoCode[]>([]);
 	let systemFilterLoading = $state(false);
+	let showSzervrendszerFilter = $state(false); // Collapsed by default for mobile
 
 	// Debounce timer
 	let debounceTimer: ReturnType<typeof setTimeout> | null = null;
@@ -493,19 +497,49 @@
 		<!-- Empty State -->
 		{#if !selectedCode && results.length === 0 && searchQuery.length < 2}
 			<div class="space-y-8">
-				<!-- Szervrendszer Browser -->
-				<div class="bg-slate-900/50 rounded-xl border border-slate-800 p-6">
-					<h3 class="text-sm font-medium text-slate-400 flex items-center gap-2 mb-4">
-						<Activity class="h-4 w-4 text-violet-400" />
-						Szervrendszer szerinti szűrés
-					</h3>
-					<SzervrendszerBrowser
-						onSystemFilter={handleSystemFilter}
-						onClearFilter={clearSystemFilter}
-						selectedSystemId={activeSystemFilter?.systemId ?? null}
-						showDrugCounts={true}
-					/>
+				<!-- Szervrendszer Browser - Collapsible -->
+				<div class="bg-slate-900/50 rounded-xl border border-slate-800 overflow-hidden">
+					<button
+						type="button"
+						class="w-full flex items-center justify-between p-4 hover:bg-slate-800/30 transition-colors"
+						onclick={() => showSzervrendszerFilter = !showSzervrendszerFilter}
+					>
+						<h3 class="text-sm font-medium text-slate-400 flex items-center gap-2">
+							<Activity class="h-4 w-4 text-violet-400" />
+							Szervrendszer szerinti szűrés
+							{#if activeSystemFilter}
+								<span class="px-2 py-0.5 text-xs bg-violet-500/20 text-violet-400 rounded-full">
+									Aktív
+								</span>
+							{/if}
+						</h3>
+						{#if showSzervrendszerFilter}
+							<ChevronUp class="h-5 w-5 text-slate-400" />
+						{:else}
+							<ChevronDown class="h-5 w-5 text-slate-400" />
+						{/if}
+					</button>
+					{#if showSzervrendszerFilter}
+						<div class="p-4 pt-0 border-t border-slate-800" transition:slide={{ duration: 200 }}>
+							<SzervrendszerBrowser
+								onSystemFilter={handleSystemFilter}
+								onClearFilter={clearSystemFilter}
+								selectedSystemId={activeSystemFilter?.systemId ?? null}
+								showDrugCounts={true}
+							/>
+						</div>
+					{/if}
 				</div>
+
+				<!-- Visual cue pointing to results -->
+				{#if activeSystemFilter && systemFilteredResults.length > 0}
+					<div class="flex justify-center -my-2 relative z-10" transition:fade={{ duration: 150 }}>
+						<div class="flex flex-col items-center text-violet-400 animate-bounce">
+							<span class="text-xs font-medium mb-1">Találatok lent</span>
+							<ArrowDownCircle class="h-6 w-6" />
+						</div>
+					</div>
+				{/if}
 
 				<!-- System Filtered Results -->
 				{#if activeSystemFilter}
