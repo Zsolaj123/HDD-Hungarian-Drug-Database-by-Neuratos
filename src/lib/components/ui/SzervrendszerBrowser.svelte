@@ -29,8 +29,10 @@
 		ChevronDown,
 		ChevronUp,
 		X,
-		Pill
+		Pill,
+		ArrowDown
 	} from 'lucide-svelte';
+	import { fade } from 'svelte/transition';
 
 	// Props
 	interface Props {
@@ -57,6 +59,24 @@
 	let expandedSystemIds = $state<string[]>([]);
 	let isLoading = $state(true);
 	let statsLoading = $state(false);
+	let subgroupsVisible = $state(false);
+
+	// Action to observe subgroups visibility
+	function observeVisibility(node: HTMLElement) {
+		const observer = new IntersectionObserver(
+			(entries) => {
+				subgroupsVisible = entries[0]?.isIntersecting ?? false;
+			},
+			{ threshold: 0.2 }
+		);
+		observer.observe(node);
+
+		return {
+			destroy() {
+				observer.disconnect();
+			}
+		};
+	}
 
 	// Icon mapping
 	const iconMap: Record<string, typeof Brain> = {
@@ -200,7 +220,7 @@
 
 		<!-- Expanded subgroups -->
 		{#if expandedSystemIds.length > 0}
-			<div class="subgroups-container" transition:slide={{ duration: 200 }}>
+			<div class="subgroups-container" use:observeVisibility transition:slide={{ duration: 200 }}>
 				{#each expandedSystemIds as systemId}
 					{@const system = organSystems.find((s) => s.id === systemId)}
 					{#if system?.subgroups.length}
@@ -237,6 +257,17 @@
 			</div>
 		{/if}
 	</div>
+
+	<!-- Floating cue when subgroups are expanded but not yet visible -->
+	{#if expandedSystemIds.length > 0 && !subgroupsVisible}
+		<div class="floating-cue" transition:fade={{ duration: 150 }}>
+			<div class="floating-cue-content">
+				<ArrowDown class="h-4 w-4" />
+				<span>Válassza ki az alcsoportot lent</span>
+				<ArrowDown class="h-4 w-4" />
+			</div>
+		</div>
+	{/if}
 {/if}
 
 <style>
@@ -433,9 +464,43 @@
 		right: 0.5rem;
 	}
 
+	/* Floating cue for subgroups */
+	.floating-cue {
+		position: fixed;
+		bottom: 1.5rem;
+		left: 50%;
+		transform: translateX(-50%);
+		z-index: 50;
+		pointer-events: none;
+	}
+
+	.floating-cue-content {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 0.625rem 1rem;
+		background: linear-gradient(135deg, rgba(139, 92, 246, 0.95), rgba(109, 40, 217, 0.95));
+		border: 1px solid rgba(167, 139, 250, 0.5);
+		border-radius: 9999px;
+		color: white;
+		font-size: 0.8125rem;
+		font-weight: 500;
+		box-shadow: 0 4px 20px rgba(139, 92, 246, 0.4), 0 0 0 1px rgba(0, 0, 0, 0.1);
+		animation: float-bounce 2s ease-in-out infinite;
+	}
+
+	@keyframes float-bounce {
+		0%, 100% {
+			transform: translateY(0);
+		}
+		50% {
+			transform: translateY(-6px);
+		}
+	}
+
 	/* Subgroups */
 	.subgroups-container {
-		margin-top: 1rem;
+		margin-top: 0.5rem;
 		display: flex;
 		flex-direction: column;
 		gap: 0.75rem;
