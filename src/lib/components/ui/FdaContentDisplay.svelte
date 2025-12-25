@@ -20,13 +20,16 @@
 	import {
 		ChevronDown,
 		ChevronRight,
+		ChevronUp,
 		Clock,
 		AlertTriangle,
 		AlertCircle,
 		Ban,
 		Info,
 		FileText,
-		List
+		List,
+		Search,
+		X
 	} from 'lucide-svelte';
 	import { slide } from 'svelte/transition';
 	import { SvelteSet } from 'svelte/reactivity';
@@ -61,15 +64,48 @@
 
 	let formatted = $derived(formatFdaContent(content));
 	let stats = $derived(getFdaContentStats(content));
-	let viewMode = $state<'summary' | 'sections' | 'full'>(compact ? 'summary' : 'sections');
-	let expandedSections = $state(new SvelteSet<string>());
+	// User override for view mode (null means use default from compact prop)
+	let userViewMode = $state<'summary' | 'sections' | 'full' | null>(null);
+	let viewMode = $derived(userViewMode ?? (compact ? 'summary' : 'sections'));
+	let expandedSections = new SvelteSet<string>();
 
-	// Initialize expanded sections based on defaultExpanded
+	// Search state
+	let searchOpen = $state(false);
+	let searchQuery = $state('');
+	let currentMatchIndex = $state(0);
+	let totalMatches = $state(0);
+	let searchInputRef = $state<HTMLInputElement | null>(null);
+	let contentContainerRef = $state<HTMLDivElement | null>(null);
+
+	// Clinically important sections to expand by default
+	const importantSections = [
+		'boxed warning',
+		'contraindications',
+		'warnings',
+		'precautions',
+		'dosage',
+		'drug interactions',
+		'adverse reactions'
+	];
+
+	// Initialize expanded sections based on defaultExpanded OR smart defaults
 	$effect(() => {
-		if (defaultExpanded && formatted) {
-			expandedSections.clear();
-			for (const section of formatted.sections) {
-				expandedSections.add(section.id);
+		if (formatted) {
+			if (defaultExpanded) {
+				// Expand all if defaultExpanded is true
+				expandedSections.clear();
+				for (const section of formatted.sections) {
+					expandedSections.add(section.id);
+				}
+			} else {
+				// Smart default: expand clinically important sections
+				for (const section of formatted.sections) {
+					const titleLower = section.title?.toLowerCase() || '';
+					const isImportant = importantSections.some(s => titleLower.includes(s));
+					if (isImportant) {
+						expandedSections.add(section.id);
+					}
+				}
 			}
 		}
 	});
@@ -134,10 +170,121 @@
 	function collapseAll() {
 		expandedSections.clear();
 	}
+
+	// ============================================================================
+	// Search Functions
+	// ============================================================================
+
+	function escapeRegex(str: string): string {
+		return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+	}
+
+	function toggleSearch() {
+		searchOpen = !searchOpen;
+		if (searchOpen) {
+			// Focus input after it renders
+			setTimeout(() => searchInputRef?.focus(), 50);
+		} else {
+			clearSearch();
+		}
+	}
+
+	function clearSearch() {
+		searchQuery = '';
+		currentMatchIndex = 0;
+		totalMatches = 0;
+	}
+
+	function handleSearchKeydown(e: KeyboardEvent) {
+		if (e.key === 'Escape') {
+			if (searchQuery) {
+				clearSearch();
+			} else {
+				searchOpen = false;
+			}
+		} else if (e.key === 'Enter') {
+			if (e.shiftKey) {
+				navigateMatch(-1);
+			} else {
+				navigateMatch(1);
+			}
+		}
+	}
+
+	// Find all matches and expand sections containing them
+	$effect(() => {
+		if (!searchQuery || !formatted || !contentContainerRef) {
+			totalMatches = 0;
+			currentMatchIndex = 0;
+			return;
+		}
+
+		// Count matches and expand sections that contain them
+		let count = 0;
+		const query = searchQuery.toLowerCase();
+
+		for (const section of formatted.sections) {
+			const contentLower = section.content?.toLowerCase() || '';
+			const titleLower = section.title?.toLowerCase() || '';
+
+			if (contentLower.includes(query) || titleLower.includes(query)) {
+				// Expand section if it has matches
+				expandedSections.add(section.id);
+
+				// Count matches in this section
+				const regex = new RegExp(escapeRegex(searchQuery), 'gi');
+				const contentMatches = section.content?.match(regex) || [];
+				const titleMatches = section.title?.match(regex) || [];
+				count += contentMatches.length + titleMatches.length;
+			}
+		}
+
+		totalMatches = count;
+		if (currentMatchIndex >= count) {
+			currentMatchIndex = count > 0 ? 0 : 0;
+		}
+
+		// Scroll to first match after a brief delay for DOM update
+		if (count > 0) {
+			setTimeout(() => scrollToCurrentMatch(), 100);
+		}
+	});
+
+	function navigateMatch(direction: 1 | -1) {
+		if (totalMatches === 0) return;
+
+		currentMatchIndex = (currentMatchIndex + direction + totalMatches) % totalMatches;
+		scrollToCurrentMatch();
+	}
+
+	function scrollToCurrentMatch() {
+		if (!contentContainerRef) return;
+
+		const highlights = contentContainerRef.querySelectorAll('.search-highlight');
+		if (highlights.length === 0) return;
+
+		// Remove current class from all
+		highlights.forEach(el => el.classList.remove('search-highlight-current'));
+
+		// Add current class to the current match
+		const currentEl = highlights[currentMatchIndex];
+		if (currentEl) {
+			currentEl.classList.add('search-highlight-current');
+			currentEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+		}
+	}
+
+	// Function to highlight search matches in text
+	function highlightSearchMatches(text: string): string {
+		if (!searchQuery || !text) return text;
+
+		const regex = new RegExp(`(${escapeRegex(searchQuery)})`, 'gi');
+		return text.replace(regex, '<mark class="search-highlight">$1</mark>');
+	}
 </script>
 
 {#if content && formatted}
-	<div class="fda-content-display border {style.border} rounded-lg overflow-hidden">
+	<div class="fda-content-display border {style.border} rounded-lg overflow-hidden" data-fda-content>
 		<!-- Header with stats -->
 		{#if showStats || title}
 			<div class="px-4 py-3 {style.headerBg} border-b {style.border}">
@@ -152,20 +299,35 @@
 						{/if}
 					</div>
 
-					{#if showStats}
-						<div class="flex items-center gap-3 text-xs text-slate-500">
-							{#if stats.sectionCount > 1}
+					<div class="flex items-center gap-3">
+						{#if showStats}
+							<div class="flex items-center gap-3 text-xs text-slate-500">
+								{#if stats.sectionCount > 1}
+									<span class="flex items-center gap-1">
+										<List class="h-3 w-3" />
+										{stats.sectionCount} szakasz
+									</span>
+								{/if}
 								<span class="flex items-center gap-1">
-									<List class="h-3 w-3" />
-									{stats.sectionCount} szakasz
+									<Clock class="h-3 w-3" />
+									{stats.readTime}
 								</span>
-							{/if}
-							<span class="flex items-center gap-1">
-								<Clock class="h-3 w-3" />
-								{stats.readTime}
-							</span>
-						</div>
-					{/if}
+							</div>
+						{/if}
+
+						<!-- Search Button -->
+						<button
+							type="button"
+							class="search-toggle-btn p-1.5 rounded-md transition-all duration-200 {searchOpen
+								? 'bg-cyan-500/20 text-cyan-400'
+								: 'text-slate-500 hover:text-cyan-400 hover:bg-slate-700/50'}"
+							onclick={toggleSearch}
+							aria-label="Keresés a tartalomban"
+							title="Keresés a tartalomban"
+						>
+							<Search class="h-4 w-4" />
+						</button>
+					</div>
 				</div>
 
 				<!-- View mode toggle for non-compact -->
@@ -176,7 +338,7 @@
 							class="px-2 py-1 text-xs rounded transition-colors {viewMode === 'summary'
 								? 'bg-slate-600 text-white'
 								: 'bg-slate-800 text-slate-400 hover:text-white'}"
-							onclick={() => (viewMode = 'summary')}
+							onclick={() => (userViewMode = 'summary')}
 						>
 							Összefoglaló
 						</button>
@@ -185,7 +347,7 @@
 							class="px-2 py-1 text-xs rounded transition-colors {viewMode === 'sections'
 								? 'bg-slate-600 text-white'
 								: 'bg-slate-800 text-slate-400 hover:text-white'}"
-							onclick={() => (viewMode = 'sections')}
+							onclick={() => (userViewMode = 'sections')}
 						>
 							Szakaszok
 						</button>
@@ -194,7 +356,7 @@
 							class="px-2 py-1 text-xs rounded transition-colors {viewMode === 'full'
 								? 'bg-slate-600 text-white'
 								: 'bg-slate-800 text-slate-400 hover:text-white'}"
-							onclick={() => (viewMode = 'full')}
+							onclick={() => (userViewMode = 'full')}
 						>
 							Teljes
 						</button>
@@ -220,11 +382,78 @@
 						{/if}
 					</div>
 				{/if}
+
+				<!-- Expandable Search Bar -->
+				{#if searchOpen}
+					<div
+						class="search-bar-container px-4 py-3 bg-slate-800/80 border-t border-slate-700/50"
+						transition:slide={{ duration: 150 }}
+						role="search"
+					>
+						<div class="flex items-center gap-3">
+							<!-- Search Input -->
+							<div class="flex-1 relative">
+								<Search class="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500" />
+								<input
+									bind:this={searchInputRef}
+									type="text"
+									bind:value={searchQuery}
+									onkeydown={handleSearchKeydown}
+									placeholder="Keresés..."
+									class="w-full pl-10 pr-10 py-2 bg-slate-900/80 border border-slate-600/50 rounded-lg text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/30"
+								/>
+								{#if searchQuery}
+									<button
+										type="button"
+										class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300"
+										onclick={clearSearch}
+										aria-label="Keresés törlése"
+									>
+										<X class="h-4 w-4" />
+									</button>
+								{/if}
+							</div>
+
+							<!-- Match Counter & Navigation -->
+							{#if searchQuery}
+								<div class="flex items-center gap-2">
+									<span class="text-sm text-slate-400 tabular-nums min-w-[3.5rem] text-center">
+										{totalMatches > 0 ? `${currentMatchIndex + 1}/${totalMatches}` : '0/0'}
+									</span>
+
+									<div class="flex gap-1">
+										<button
+											type="button"
+											class="p-1.5 rounded text-slate-500 hover:text-cyan-400 hover:bg-slate-700/50 disabled:opacity-30 disabled:cursor-not-allowed"
+											onclick={() => navigateMatch(-1)}
+											disabled={totalMatches === 0}
+											aria-label="Előző találat"
+											title="Előző találat (Shift+Enter)"
+										>
+											<ChevronUp class="h-4 w-4" />
+										</button>
+										<button
+											type="button"
+											class="p-1.5 rounded text-slate-500 hover:text-cyan-400 hover:bg-slate-700/50 disabled:opacity-30 disabled:cursor-not-allowed"
+											onclick={() => navigateMatch(1)}
+											disabled={totalMatches === 0}
+											aria-label="Következő találat"
+											title="Következő találat (Enter)"
+										>
+											<ChevronDown class="h-4 w-4" />
+										</button>
+									</div>
+								</div>
+							{/if}
+						</div>
+					</div>
+				{/if}
 			</div>
 		{/if}
 
 		<!-- Content -->
 		<div
+			bind:this={contentContainerRef}
 			class="overflow-y-auto {style.bg}"
 			style="max-height: {maxHeight};"
 		>
@@ -271,7 +500,7 @@
 						<button
 							type="button"
 							class="text-base {style.accent} hover:underline font-medium mt-2"
-							onclick={() => (viewMode = 'sections')}
+							onclick={() => (userViewMode = 'sections')}
 						>
 							{formatted.sections.length} szakasz megtekintése →
 						</button>
@@ -300,7 +529,11 @@
 											</span>
 										{/if}
 										<span class="text-lg font-medium text-slate-200">
-											{section.title}
+											{#if searchQuery}
+												{@html highlightSearchMatches(section.title)}
+											{:else}
+												{section.title}
+											{/if}
 										</span>
 									</button>
 								{/if}
@@ -313,7 +546,11 @@
 										<div
 											class="fda-formatted-content text-lg text-slate-300 leading-8"
 										>
-											{@html formatSectionContent(section.content)}
+											{#if searchQuery}
+												{@html highlightSearchMatches(formatSectionContent(section.content))}
+											{:else}
+												{@html formatSectionContent(section.content)}
+											{/if}
 										</div>
 									</div>
 								{/if}
@@ -325,7 +562,11 @@
 				<!-- Full View -->
 				<div class="p-5">
 					<div class="fda-formatted-content text-lg text-slate-300 leading-8">
-						{@html formatSectionContent(content || '')}
+						{#if searchQuery}
+							{@html highlightSearchMatches(formatSectionContent(content || ''))}
+						{:else}
+							{@html formatSectionContent(content || '')}
+						{/if}
 					</div>
 				</div>
 			{/if}
@@ -803,5 +1044,68 @@
 
 	.fda-content-display ::-webkit-scrollbar-thumb:hover {
 		background: rgb(100, 116, 139);
+	}
+
+	/* ============================================
+	   Search Highlight Styles (Neon Theme)
+	   ============================================ */
+
+	/* Search toggle button glow effect */
+	.search-toggle-btn:hover {
+		box-shadow: 0 0 8px rgba(34, 211, 238, 0.3);
+	}
+
+	.search-toggle-btn:focus {
+		outline: none;
+		box-shadow: 0 0 0 2px rgba(34, 211, 238, 0.4);
+	}
+
+	/* Search bar container */
+	.search-bar-container {
+		backdrop-filter: blur(8px);
+	}
+
+	/* Search highlight - base style */
+	:global(.search-highlight) {
+		background: rgba(34, 211, 238, 0.25); /* cyan-400/25 */
+		color: inherit;
+		padding: 0.0625rem 0.1875rem;
+		border-radius: 0.1875rem;
+		box-shadow: 0 0 6px rgba(34, 211, 238, 0.3);
+		transition: all 0.15s ease;
+	}
+
+	/* Search highlight - current/active match */
+	:global(.search-highlight-current) {
+		background: rgba(34, 211, 238, 0.5); /* cyan-400/50 */
+		box-shadow: 0 0 12px rgba(34, 211, 238, 0.6), 0 0 20px rgba(34, 211, 238, 0.3);
+		outline: 1px solid rgba(34, 211, 238, 0.6);
+	}
+
+	/* Ensure highlights are visible in tables */
+	.fda-formatted-content :global(td .search-highlight),
+	.fda-formatted-content :global(th .search-highlight) {
+		display: inline;
+	}
+
+	/* Animation for current highlight */
+	@keyframes highlight-pulse {
+		0%, 100% {
+			box-shadow: 0 0 12px rgba(34, 211, 238, 0.6), 0 0 20px rgba(34, 211, 238, 0.3);
+		}
+		50% {
+			box-shadow: 0 0 16px rgba(34, 211, 238, 0.8), 0 0 28px rgba(34, 211, 238, 0.4);
+		}
+	}
+
+	:global(.search-highlight-current) {
+		animation: highlight-pulse 1.5s ease-in-out infinite;
+	}
+
+	/* Reduce motion for accessibility */
+	@media (prefers-reduced-motion: reduce) {
+		:global(.search-highlight-current) {
+			animation: none;
+		}
 	}
 </style>

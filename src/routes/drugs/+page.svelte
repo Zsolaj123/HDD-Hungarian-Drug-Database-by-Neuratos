@@ -33,6 +33,7 @@
 	import DrugAutocomplete from '$lib/components/ui/DrugAutocomplete.svelte';
 	import DrugInfoModal from '$lib/components/ui/DrugInfoModal.svelte';
 	import FdaContentDisplay from '$lib/components/ui/FdaContentDisplay.svelte';
+	import FdaGlobalSearch from '$lib/components/ui/FdaGlobalSearch.svelte';
 	import IndicationSkeleton from '$lib/components/ui/IndicationSkeleton.svelte';
 	import {
 		Search,
@@ -1445,7 +1446,7 @@
 							{/if}
 						</div>
 					{:else if activeTab === 'fda'}
-						<div class="space-y-6">
+						<div class="space-y-6" data-fda-content>
 							{#if fdaLoading}
 								<div class="flex items-center justify-center py-8">
 									<Loader2 class="h-6 w-6 animate-spin text-red-500" />
@@ -2258,7 +2259,7 @@
 
 					{:else if activeTab === 'ema'}
 						<!-- EMA Tab - EU Drug Data -->
-						<div class="space-y-6">
+						<div class="space-y-6" data-ema-content>
 							{#if emaLoading}
 								<div class="flex items-center justify-center py-8">
 									<Loader2 class="h-6 w-6 animate-spin text-blue-500" />
@@ -2912,6 +2913,12 @@
 	drug={modalDrug}
 	open={showInfoModal}
 	onClose={closeInfoModal}
+/>
+
+<!-- Floating FDA/EMA Content Search - Only visible on FDA or EMA tabs -->
+<FdaGlobalSearch
+	visible={activeTab === 'fda' || activeTab === 'ema'}
+	contentType={activeTab === 'fda' ? 'fda' : activeTab === 'ema' ? 'ema' : 'both'}
 />
 
 <style>
